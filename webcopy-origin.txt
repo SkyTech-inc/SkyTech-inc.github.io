@@ -1,0 +1,128 @@
+Uri: https://demo.w3layouts.com/assests/css/font-awesome.min.css
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\assests\css\font-awesome.min.css
+Content Type: text/css
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/css/bootstrap.min.css
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\css\bootstrap.min.css
+Content Type: text/css
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/css/font-awesome.min.css
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\css\font-awesome.min.css
+Content Type: text/css
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/css/style.css
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\css\style.css
+Content Type: text/css
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/fonts/fontawesome-webfont.eot?
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\fonts\fontawesome-webfont-1.eot
+Content Type: application/vnd.ms-fontobject
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/fonts/fontawesome-webfont.eot?v=4.7.0
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\fonts\fontawesome-webfont.eot
+Content Type: application/vnd.ms-fontobject
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/fonts/fontawesome-webfont.svg?v=4.7.0
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\fonts\fontawesome-webfont.svg
+Content Type: image/svg+xml
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/fonts/fontawesome-webfont.ttf?v=4.7.0
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\fonts\fontawesome-webfont.ttf
+Content Type: font/ttf
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/fonts/fontawesome-webfont.woff2?v=4.7.0
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\fonts\fontawesome-webfont.woff2
+Content Type: font/woff2
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/fonts/fontawesome-webfont.woff?v=4.7.0
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\fonts\fontawesome-webfont.woff
+Content Type: font/woff
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/images/ab1.jpg
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\images\ab1.jpg
+Content Type: image/jpeg
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/images/ab2.jpg
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\images\ab2.jpg
+Content Type: image/jpeg
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/images/ab3.jpg
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\images\ab3.jpg
+Content Type: image/jpeg
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/images/b1.jpg
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\images\b1.jpg
+Content Type: image/jpeg
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/images/blog1.jpg
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\images\blog1.jpg
+Content Type: image/jpeg
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/images/blog2.jpg
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\images\blog2.jpg
+Content Type: image/jpeg
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/images/g1.jpg
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\images\g1.jpg
+Content Type: image/jpeg
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/images/g2.jpg
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\images\g2.jpg
+Content Type: image/jpeg
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/images/g3.jpg
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\images\g3.jpg
+Content Type: image/jpeg
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/images/g4.jpg
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\images\g4.jpg
+Content Type: image/jpeg
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/images/g5.jpg
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\images\g5.jpg
+Content Type: image/jpeg
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/images/g6.jpg
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\images\g6.jpg
+Content Type: image/jpeg
+
+Uri: https://demo.w3layouts.com/demos_new/template_demo/05-02-2019/apex-demo_Free/301928972/web/index.html
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\demos_new\template_demo\05-02-2019\apex-demo_Free\301928972\web\index.html
+Content Type: text/html
+
+Uri: https://demo.w3layouts.com/js/autotrack.js
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\js\autotrack.js
+Content Type: application/javascript
+
+Uri: https://fonts.googleapis.com/css?family=Muli:300,400,600
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\css-1
+Content Type: text/css
+
+Uri: https://fonts.googleapis.com/css?family=ZCOOL+XiaoWei
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\css
+Content Type: text/css
+
+Uri: https://fonts.gstatic.com/s/muli/v27/7Aulp_0qiz-aVz7u3PJLcUMYOFkQl0k30e0.ttf
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\s\muli\v27\7Aulp_0qiz-aVz7u3PJLcUMYOFkQl0k30e0.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/muli/v27/7Aulp_0qiz-aVz7u3PJLcUMYOFmQkEk30e0.ttf
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\s\muli\v27\7Aulp_0qiz-aVz7u3PJLcUMYOFmQkEk30e0.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/muli/v27/7Aulp_0qiz-aVz7u3PJLcUMYOFnOkEk30e0.ttf
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\s\muli\v27\7Aulp_0qiz-aVz7u3PJLcUMYOFnOkEk30e0.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/zcoolxiaowei/v10/i7dMIFFrTRywPpUVX9_RJyM1UFWaGw.ttf
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\s\zcoolxiaowei\v10\i7dMIFFrTRywPpUVX9_RJyM1UFWaGw.ttf
+Content Type: font/ttf
+
+Uri: https://m.servedby-buysellads.com/monetization.js
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\monetization.js
+Content Type: application/javascript
+
+Uri: https://www.googletagmanager.com/gtag/js?id=UA-149859901-1
+File Name: C:\Downloaded Web Sites\demo.w3layouts.com\gtag\js
+Content Type: application/javascript
+
