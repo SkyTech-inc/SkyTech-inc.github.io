@@ -5,9 +5,9 @@ Purchase Receipt
 Date: June 21, 2023
 Time: 14:45
 
-Merchant: FutureTech Emporium
-Address: 123 Innovation Avenue, Silicon City
-Contact: info@futuretechemporium.com | (555) 123-4567
+Developer: SkyTech PLC (Vincent Omondi)
+Address: PP3X+3RM, Wanyee Rd, Nairobi, Kenya
+Contact: skytechplc@protonmail.com | (254) 115-003-454
 
 Customer: Michael Stanley 
 Address: 456 Tech Enclave, Circuit Street
