@@ -1,12 +1,14 @@
-Hi Team,
 
-I hope this message finds you well.
+Hi Vin,
 
-I wanted to update you all on the current status of the Kittyproject. At this time, the project is on hold. We will be resuming our work as soon as the initial code is signed off and approved by our Senior Developer.
+I hope this message finds you well. We’ve been closely following your work and are genuinely impressed by your skills and contributions. As a result, there’s been some discussion at the top about possibly relocating you to Australia to help us drive the company forward. Nothing is set in stone yet, but we wanted to give you a heads-up as we explore this exciting opportunity.
 
-I understand that this might cause some delays, but it’s important to ensure everything is up to standard before we move forward. Rest assured, I’ll keep you informed about any progress and provide updates as soon as we have more information.
+In the meantime, I need you to log in all developers currently working on the Kitty project. Your organizational skills are crucial for this phase, and I trust you’ll handle it smoothly.
 
-Thank you all for your patience and understanding.
+Also, I wanted to let you know that we’ll start rolling out bonuses for you from time to time as a token of our appreciation for your hard work and dedication.
 
-Best regards,  
+Let me know if you have any questions or if there’s anything you need from my end.
+
+Cheers,
+
 Patricia 
