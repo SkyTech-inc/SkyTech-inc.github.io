@@ -1,1 +1,1 @@
-long distance boyfriend allowance loading 😜. Enjoy, and thanks 
+Sent 3k, confirm.
