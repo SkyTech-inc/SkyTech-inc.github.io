@@ -1,1 +1,1 @@
-Don't ask twice. Sent
+KFC how's that
