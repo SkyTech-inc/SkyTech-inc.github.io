@@ -1,1 +1,1 @@
-KFC how's that
+Please place an order for KFC using your other account. I believe the previous account caused my card to be put on hold. Thanks!
