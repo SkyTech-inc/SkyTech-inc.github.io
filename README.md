@@ -1,1 +1,3 @@
-Please place an order for KFC using your other account. I believe the previous account caused my card to be put on hold. Thanks!
+Hi Vin, 😂😂
+
+What are you now craving for today with your girl 😂?
