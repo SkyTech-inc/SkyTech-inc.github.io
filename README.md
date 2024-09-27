@@ -1,3 +1,3 @@
-Hi Vin, 😂😂
+Hi Vin,
 
-What are you now craving for today with your girl 😂?
+You can make your order 
