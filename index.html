@@ -53,19 +53,20 @@
             font-size: 10px;
         }
         .free {
-            background-image: url('https://www.shutterstock.com/image-photo/black-empty-plastic-chairs-stand-260nw-2197772861.jpg');
+            background-image: url('https://media.gettyimages.com/id/173573801/photo/theater-seats-in-an-empty-auditorium.jpg?s=612x612&w=gi&k=20&c=CX0gvsmWsVIV5-pdfKhAV8rgZ9yTHZMAWlVRoiU20ts=');
             cursor: pointer;
         }
         .free:hover {
             opacity: 0.8;
         }
         .vip {
-            background-image: url('https://sc04.alicdn.com/kf/Hd16632dd0727494f85edc5c9c06da8b5l.jpg');
+            background-image: url('https://buflusevents.com/wp-content/uploads/2021/11/Gold-VIP-seats.jpg');
             color: #000;
             cursor: not-allowed;
         }
         .booked {
             background-image: url('https://media.gettyimages.com/id/200127563-001/photo/red-theater-seats-with-reserved-signs.jpg?s=612x612&w=gi&k=20&c=5qkb9-rnw6VubxnFrFanOrUEn9u_eruYTL4QJl3fKV0=');
+            filter: grayscale(100%);
         }
         #status {
             margin-top: 20px;
@@ -87,7 +88,7 @@
         label {
             text-align: left;
         }
-        input, select {
+        input, select, textarea {
             padding: 5px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -103,6 +104,11 @@
         button:hover {
             background: #45a049;
         }
+        #blocked-message {
+            color: red;
+            font-size: 20px;
+            margin: 20px;
+        }
     </style>
 </head>
 <body>
@@ -110,8 +116,23 @@
     <p>Total Seats: 78 | Free Seats: <span id="free-count">77</span></p>
     <p>Bookings must be completed before October 20, 2025.</p>
     <div id="timer"></div>
+    <div id="blocked-message" style="display: none;"></div>
     <div class="seat-container" id="seat-container"></div>
     <div id="status"></div>
+
+    <dialog id="triviaModal">
+        <h2>Trivia Quiz</h2>
+        <p>Answer correctly to proceed with booking.</p>
+        <form id="triviaForm">
+            <label for="ceo">Who is the CEO?</label>
+            <input type="text" id="ceo" required>
+
+            <label for="iphone">What's the toughest slimmest iPhone?</label>
+            <input type="text" id="iphone" required>
+
+            <button type="submit">Submit Answers</button>
+        </form>
+    </dialog>
 
     <dialog id="bookingModal">
         <h2>Book Seat <span id="selected-seat"></span></h2>
@@ -131,14 +152,17 @@
             <label for="phoneModel">Preferred Phone Model:</label>
             <select id="phoneModel" required>
                 <option value="">Select...</option>
-                <option value="iPhone Pro 256GB">iPhone Pro 256GB</option>
-                <option value="iPhone Pro Max 256GB">iPhone Pro Max 256GB</option>
-                <option value="iPhone Plain 256GB">iPhone Plain 256GB</option>
+                <option value="iPhone 14 Pro 256GB">iPhone 14 Pro 256GB</option>
+                <option value="iPhone 14 Pro Max 256GB">iPhone 14 Pro Max 256GB</option>
+                <option value="iPhone 14 Plain 256GB">iPhone 14 Plain 256GB</option>
                 <option value="Samsung S25 Ultra">Samsung S25 Ultra</option>
             </select>
 
             <label for="shoeSize">Shoe Size (for free shoes):</label>
             <input type="number" id="shoeSize" min="1" max="50" required>
+
+            <label for="howKnow">How do you know VinceVision?</label>
+            <textarea id="howKnow" required></textarea>
 
             <button type="submit">Submit</button>
         </form>
@@ -150,18 +174,35 @@
         const whatsappNumber = '+254742850266';
         const deadline = new Date('2025-10-20T00:00:00');
         const container = document.getElementById('seat-container');
-        const modal = document.getElementById('bookingModal');
+        const triviaModal = document.getElementById('triviaModal');
+        const triviaForm = document.getElementById('triviaForm');
+        const bookingModal = document.getElementById('bookingModal');
         const form = document.getElementById('bookingForm');
         const selectedSeatSpan = document.getElementById('selected-seat');
         const timerDiv = document.getElementById('timer');
         const freeCountSpan = document.getElementById('free-count');
         const statusDiv = document.getElementById('status');
+        const blockedMessage = document.getElementById('blocked-message');
 
         let bookedSeats = JSON.parse(localStorage.getItem('bookedSeats')) || {};
+        let isBlocked = localStorage.getItem('blocked') === 'true';
+        let triviaInProgress = localStorage.getItem('triviaInProgress');
         let freeCount = totalSeats - 1 - Object.keys(bookedSeats).length; // All except VIP
         freeCountSpan.textContent = freeCount;
 
         let currentSeat = null;
+
+        if (triviaInProgress && !isBlocked) {
+            isBlocked = true;
+            localStorage.setItem('blocked', 'true');
+            localStorage.removeItem('triviaInProgress');
+        }
+
+        if (isBlocked) {
+            blockedMessage.textContent = 'You are blocked because you exited during the trivia quiz. Reason: Attempted to evade trivia questions.';
+            blockedMessage.style.display = 'block';
+            statusDiv.textContent = 'Bookings are disabled for you.';
+        }
 
         function updateTimer() {
             const now = new Date();
@@ -186,15 +227,17 @@
             freeSeatsElems.forEach(seat => {
                 seat.classList.remove('free');
                 seat.classList.add('booked');
-                seat.removeEventListener('click', openModal);
+                seat.removeEventListener('click', startTrivia);
             });
             statusDiv.textContent = 'Bookings are closed.';
         }
 
-        function openModal() {
+        function startTrivia() {
+            if (isBlocked) return;
             currentSeat = this.dataset.seat;
-            selectedSeatSpan.textContent = currentSeat;
-            modal.showModal();
+            localStorage.setItem('triviaInProgress', currentSeat);
+            window.onbeforeunload = () => 'Leaving will reject your booking and block you.';
+            triviaModal.showModal();
         }
 
         function initSeats() {
@@ -213,7 +256,9 @@
                     seat.title = 'Reserved for CEO Mr. Vincent Omondi';
                 } else if (!bookedSeats[i]) {
                     seat.classList.add('free');
-                    seat.addEventListener('click', openModal);
+                    if (!isBlocked) {
+                        seat.addEventListener('click', startTrivia);
+                    }
                     seat.title = 'Available Seat';
                 } else {
                     seat.classList.add('booked');
@@ -224,6 +269,26 @@
             }
         }
 
+        triviaForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const ceo = document.getElementById('ceo').value.toLowerCase().trim();
+            const iphone = document.getElementById('iphone').value.toLowerCase().trim();
+
+            if (ceo === 'vincent' && iphone === 'iphone 17 air') {
+                localStorage.removeItem('triviaInProgress');
+                window.onbeforeunload = null;
+                triviaModal.close();
+                selectedSeatSpan.textContent = currentSeat;
+                bookingModal.showModal();
+            } else {
+                alert('Incorrect answers. Booking denied.');
+                localStorage.removeItem('triviaInProgress');
+                window.onbeforeunload = null;
+                triviaModal.close();
+            }
+            triviaForm.reset();
+        });
+
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             const name = document.getElementById('name').value;
@@ -232,33 +297,34 @@
             const age = parseInt(document.getElementById('age').value);
             const phoneModel = document.getElementById('phoneModel').value;
             const shoeSize = document.getElementById('shoeSize').value;
+            const howKnow = document.getElementById('howKnow').value;
 
             if (age < 18) {
                 alert('You must be at least 18 years old to book.');
                 return;
             }
 
-            const info = `Seat: ${currentSeat}\nName: ${name}\nPhone: ${phone}\nID: ${idNum}\nAge: ${age}\nPhone Model: ${phoneModel}\nShoe Size: ${shoeSize}`;
+            const info = `Seat: ${currentSeat}\nName: ${name}\nPhone: ${phone}\nID: ${idNum}\nAge: ${age}\nPhone Model: ${phoneModel}\nShoe Size: ${shoeSize}\nHow I know VinceVision: ${howKnow}`;
 
             if (confirm(`Confirm booking:\n${info}`)) {
-                bookedSeats[currentSeat] = { name, phone, idNum, age, phoneModel, shoeSize };
+                bookedSeats[currentSeat] = { name, phone, idNum, age, phoneModel, shoeSize, howKnow };
                 localStorage.setItem('bookedSeats', JSON.stringify(bookedSeats));
 
                 const seatElem = document.querySelector(`.seat[data-seat="${currentSeat}"]`);
                 seatElem.classList.remove('free');
                 seatElem.classList.add('booked');
-                seatElem.removeEventListener('click', openModal);
+                seatElem.removeEventListener('click', startTrivia);
                 seatElem.title = `Booked by ${name}`;
 
                 freeCount--;
                 freeCountSpan.textContent = freeCount;
                 statusDiv.textContent = `Seat ${currentSeat} booked by ${name}!`;
 
-                const message = encodeURIComponent(`I have booked seat ${currentSeat}. Details:\nName: ${name}\nPhone: ${phone}\nID: ${idNum}\nAge: ${age}\nPhone Model: ${phoneModel}\nShoe Size: ${shoeSize}`);
+                const message = encodeURIComponent(`I have booked seat ${currentSeat}. Details:\nName: ${name}\nPhone: ${phone}\nID: ${idNum}\nAge: ${age}\nPhone Model: ${phoneModel}\nShoe Size: ${shoeSize}\nHow I know VinceVision: ${howKnow}`);
                 window.location.href = `https://wa.me/${whatsappNumber}?text=${message}`;
             }
 
-            modal.close();
+            bookingModal.close();
             form.reset();
         });
 
