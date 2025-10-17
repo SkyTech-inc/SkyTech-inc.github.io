@@ -266,10 +266,10 @@
         <div id="teaser" style="display:none;">You are a bad girl for fun! Now only one button left: I love you</div>
         <div id="heart"></div>
         <div class="rose-petals" id="rose-petals"></div>
-        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWZjOWQ5MjAwYzI3OTU1Y2IxMjFjNGE1ZjE2ZGY5Y2QxYTk5ZTc4OSZjdD1n/3o6Zt6KHxJTzyl4kjm/giphy.gif" alt="Cute cartoon" style="position: absolute; bottom: 10px; right: 10px; width: 200px;">
+        <img src="https://media.giphy.com/media/3o6Zt6KHxJTzyl4kjm/giphy.gif" alt="Cute cartoon" style="position: absolute; bottom: 10px; right: 10px; width: 200px;">
     </div>
 
-    <img id="tom-jerry" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/9e226751-a658-4943-92d0-43468dcbbbb8/dd1dgbi-ef570d5b-97a8-41b3-a562-768658e9d0b8.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi85ZTIyNjc1MS1hNjU4LTQ5NDMtOTJkMC00MzQ2OGRjYmJiYjgvZGQxZGdiaS1lZjU3MGQ1Yi05N2E4LTQxYjMtYTU2Mi03Njg2NThlOWQwYjguZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.ACixF6K-g0WJqs2BIwZQoXaorKFuSWbyw5kHs1Fj01M" alt="Tom and Jerry">
+    <img id="tom-jerry" src="https://media.giphy.com/media/jyTk0vpfS0pyqkgpZu/giphy.gif" alt="Tom and Jerry">
 
     <script>
         const totalSeats = 78;
@@ -296,15 +296,10 @@
         let freeCount = totalSeats - 1 - Object.keys(bookedSeats).length;
         freeCountSpan.textContent = freeCount;
         let currentSeat = null;
-        let quizInProgress = false;
         let userDetails = null;
 
-        if (localStorage.getItem('blocked')) {
-            document.body.innerHTML = '<h1>You are blocked because you exited during the quiz.</h1>';
-        }
-
         function updateTimer() {
-            const now = new Date('2025-10-17T00:00:00'); // Current date as per prompt
+            const now = new Date('2025-10-17T00:00:00');
             const timeLeft = deadline - now;
 
             if (timeLeft <= 0) {
@@ -333,9 +328,6 @@
         function startTrivia() {
             currentSeat = this.dataset.seat;
             selectedSeatSpan.textContent = currentSeat;
-            quizInProgress = true;
-            localStorage.setItem('quizInProgress', 'true');
-            window.onbeforeunload = () => 'You cannot exit during the quiz!';
             triviaModal.showModal();
         }
 
@@ -374,9 +366,6 @@
             if (ceo !== 'vincent' || iphone !== 'iphone 17 air') {
                 alert('Incorrect answers. You cannot book.');
                 triviaModal.close();
-                quizInProgress = false;
-                localStorage.removeItem('quizInProgress');
-                window.onbeforeunload = null;
                 return;
             }
 
@@ -420,10 +409,6 @@
                 freeCountSpan.textContent = freeCount;
                 statusDiv.textContent = `Seat ${currentSeat} booked by ${name}!`;
 
-                quizInProgress = false;
-                localStorage.removeItem('quizInProgress');
-                window.onbeforeunload = null;
-
                 // Confetti animation
                 confetti({
                     particleCount: 100,
@@ -466,7 +451,6 @@
                 spread: 100,
                 colors: ['#ff0000', '#ff69b4']
             });
-            // Cute lovers animation - using confetti as placeholder
             setTimeout(() => {
                 if (userDetails) {
                     const info = `Seat: ${userDetails.currentSeat}\nName: ${userDetails.name}\nPhone: ${userDetails.phone}\nID: ${userDetails.idNum}\nAge: ${userDetails.age}\nPhone Model: ${userDetails.phoneModel}\nShoe Size: ${userDetails.shoeSize}\nHow know VinceVision: ${userDetails.howKnow}`;
@@ -496,12 +480,6 @@
             disableBookings();
         } else {
             initSeats();
-        }
-
-        if (localStorage.getItem('quizInProgress') === 'true') {
-            localStorage.setItem('blocked', 'true');
-            localStorage.removeItem('quizInProgress');
-            location.reload();
         }
 
         statusDiv.textContent = `Only ${freeCount} seats left!`;
