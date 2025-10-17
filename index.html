@@ -11,6 +11,7 @@
             background-color: #f4f4f4;
             margin: 0;
             padding: 20px;
+            position: relative;
         }
         h1 {
             color: #333;
@@ -53,14 +54,14 @@
             font-size: 10px;
         }
         .free {
-            background-image: url('https://media.gettyimages.com/id/173573801/photo/theater-seats-in-an-empty-auditorium.jpg?s=612x612&w=gi&k=20&c=CX0gvsmWsVIV5-pdfKhAV8rgZ9yTHZMAWlVRoiU20ts=');
+            background-image: url('https://www.shutterstock.com/image-photo/black-empty-plastic-chairs-stand-260nw-2197772861.jpg');
             cursor: pointer;
         }
         .free:hover {
             opacity: 0.8;
         }
         .vip {
-            background-image: url('https://buflusevents.com/wp-content/uploads/2021/11/Gold-VIP-seats.jpg');
+            background-image: url('https://sc04.alicdn.com/kf/Hd16632dd0727494f85edc5c9c06da8b5l.jpg');
             color: #000;
             cursor: not-allowed;
         }
@@ -104,25 +105,109 @@
         button:hover {
             background: #45a049;
         }
-        #blocked-message {
-            color: red;
-            font-size: 20px;
-            margin: 20px;
+        #tom-jerry {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 200px;
+            height: auto;
+            animation: chase 20s linear infinite;
+        }
+        @keyframes chase {
+            0% { left: -200px; }
+            100% { left: 100%; }
+        }
+        #special-page {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: pink;
+            z-index: 1000;
+            text-align: center;
+            padding: 50px;
+        }
+        #letter {
+            background: white;
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            animation: unfold 2s;
+        }
+        @keyframes unfold {
+            0% { height: 0; overflow: hidden; }
+            100% { height: auto; }
+        }
+        #heart {
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: relative;
+            margin: 20px auto;
+            display: none;
+        }
+        #heart:before, #heart:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 52px;
+            height: 80px;
+            background: red;
+            border-radius: 50px 50px 0 0;
+            transform: rotate(-45deg);
+            left: 25px;
+        }
+        #heart:after {
+            left: -25px;
+            transform: rotate(45deg);
+        }
+        .burn {
+            animation: burn 2s forwards;
+        }
+        @keyframes burn {
+            100% { background: black; transform: scale(0); }
+        }
+        .break {
+            animation: break 1s forwards;
+        }
+        @keyframes break {
+            100% { opacity: 0; transform: translateY(100px); }
+        }
+        .rose-petals {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .petal {
+            position: absolute;
+            background: red;
+            width: 10px;
+            height: 20px;
+            border-radius: 50%;
+            animation: fall 5s linear infinite;
+        }
+        @keyframes fall {
+            0% { top: -20px; }
+            100% { top: 100%; }
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
 <body>
     <h1>VinceVision Kicks Launch Seat Booking</h1>
     <p>Total Seats: 78 | Free Seats: <span id="free-count">77</span></p>
     <p>Bookings must be completed before October 20, 2025.</p>
     <div id="timer"></div>
-    <div id="blocked-message" style="display: none;"></div>
     <div class="seat-container" id="seat-container"></div>
     <div id="status"></div>
 
     <dialog id="triviaModal">
         <h2>Trivia Quiz</h2>
-        <p>Answer correctly to proceed with booking.</p>
         <form id="triviaForm">
             <label for="ceo">Who is the CEO?</label>
             <input type="text" id="ceo" required>
@@ -168,6 +253,24 @@
         </form>
     </dialog>
 
+    <div id="special-page">
+        <iframe id="music" src="https://www.youtube.com/embed/Pvhpfoi7PEY?autoplay=1&loop=1" style="display:none;" allow="autoplay"></iframe>
+        <img id="sharon-image" src="https://media.licdn.com/dms/image/v2/D4D03AQEU229gGJBWkw/profile-displayphoto-shrink_800_800/0/1692633316167?e=2147483647&v=beta&t=FaQPTeXs01bomKy3VbiRLEiOYapv3mL6DZP6NtRr3s0" alt="Sharon" style="max-width: 300px;">
+        <div id="letter">
+            <p>Dear Sharon,</p>
+            <p>I, Vincent, love you so much. You are the light of my life, and I will always be there for you, through thick and thin. Your smile brightens my day, and your love fills my heart.</p>
+            <p>Forever yours, Vincent</p>
+        </div>
+        <button id="love-yes">I love you too</button>
+        <button id="love-no">I don't love you</button>
+        <div id="teaser" style="display:none;">You are a bad girl for fun! Now only one button left: I love you</div>
+        <div id="heart"></div>
+        <div class="rose-petals" id="rose-petals"></div>
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWZjOWQ5MjAwYzI3OTU1Y2IxMjFjNGE1ZjE2ZGY5Y2QxYTk5ZTc4OSZjdD1n/3o6Zt6KHxJTzyl4kjm/giphy.gif" alt="Cute cartoon" style="position: absolute; bottom: 10px; right: 10px; width: 200px;">
+    </div>
+
+    <img id="tom-jerry" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/9e226751-a658-4943-92d0-43468dcbbbb8/dd1dgbi-ef570d5b-97a8-41b3-a562-768658e9d0b8.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi85ZTIyNjc1MS1hNjU4LTQ5NDMtOTJkMC00MzQ2OGRjYmJiYjgvZGQxZGdiaS1lZjU3MGQ1Yi05N2E4LTQxYjMtYTU2Mi03Njg2NThlOWQwYjguZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.ACixF6K-g0WJqs2BIwZQoXaorKFuSWbyw5kHs1Fj01M" alt="Tom and Jerry">
+
     <script>
         const totalSeats = 78;
         const vipSeat = 1;
@@ -182,30 +285,26 @@
         const timerDiv = document.getElementById('timer');
         const freeCountSpan = document.getElementById('free-count');
         const statusDiv = document.getElementById('status');
-        const blockedMessage = document.getElementById('blocked-message');
+        const specialPage = document.getElementById('special-page');
+        const loveYes = document.getElementById('love-yes');
+        const loveNo = document.getElementById('love-no');
+        const teaser = document.getElementById('teaser');
+        const heart = document.getElementById('heart');
+        const rosePetals = document.getElementById('rose-petals');
 
         let bookedSeats = JSON.parse(localStorage.getItem('bookedSeats')) || {};
-        let isBlocked = localStorage.getItem('blocked') === 'true';
-        let triviaInProgress = localStorage.getItem('triviaInProgress');
-        let freeCount = totalSeats - 1 - Object.keys(bookedSeats).length; // All except VIP
+        let freeCount = totalSeats - 1 - Object.keys(bookedSeats).length;
         freeCountSpan.textContent = freeCount;
-
         let currentSeat = null;
+        let quizInProgress = false;
+        let userDetails = null;
 
-        if (triviaInProgress && !isBlocked) {
-            isBlocked = true;
-            localStorage.setItem('blocked', 'true');
-            localStorage.removeItem('triviaInProgress');
-        }
-
-        if (isBlocked) {
-            blockedMessage.textContent = 'You are blocked because you exited during the trivia quiz. Reason: Attempted to evade trivia questions.';
-            blockedMessage.style.display = 'block';
-            statusDiv.textContent = 'Bookings are disabled for you.';
+        if (localStorage.getItem('blocked')) {
+            document.body.innerHTML = '<h1>You are blocked because you exited during the quiz.</h1>';
         }
 
         function updateTimer() {
-            const now = new Date();
+            const now = new Date('2025-10-17T00:00:00'); // Current date as per prompt
             const timeLeft = deadline - now;
 
             if (timeLeft <= 0) {
@@ -223,8 +322,7 @@
         }
 
         function disableBookings() {
-            const freeSeatsElems = document.querySelectorAll('.free');
-            freeSeatsElems.forEach(seat => {
+            document.querySelectorAll('.free').forEach(seat => {
                 seat.classList.remove('free');
                 seat.classList.add('booked');
                 seat.removeEventListener('click', startTrivia);
@@ -233,10 +331,11 @@
         }
 
         function startTrivia() {
-            if (isBlocked) return;
             currentSeat = this.dataset.seat;
-            localStorage.setItem('triviaInProgress', currentSeat);
-            window.onbeforeunload = () => 'Leaving will reject your booking and block you.';
+            selectedSeatSpan.textContent = currentSeat;
+            quizInProgress = true;
+            localStorage.setItem('quizInProgress', 'true');
+            window.onbeforeunload = () => 'You cannot exit during the quiz!';
             triviaModal.showModal();
         }
 
@@ -256,9 +355,7 @@
                     seat.title = 'Reserved for CEO Mr. Vincent Omondi';
                 } else if (!bookedSeats[i]) {
                     seat.classList.add('free');
-                    if (!isBlocked) {
-                        seat.addEventListener('click', startTrivia);
-                    }
+                    seat.addEventListener('click', startTrivia);
                     seat.title = 'Available Seat';
                 } else {
                     seat.classList.add('booked');
@@ -271,40 +368,43 @@
 
         triviaForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const ceo = document.getElementById('ceo').value.toLowerCase().trim();
-            const iphone = document.getElementById('iphone').value.toLowerCase().trim();
+            const ceo = document.getElementById('ceo').value.trim().toLowerCase();
+            const iphone = document.getElementById('iphone').value.trim().toLowerCase();
 
-            if (ceo === 'vincent' && iphone === 'iphone 17 air') {
-                localStorage.removeItem('triviaInProgress');
-                window.onbeforeunload = null;
+            if (ceo !== 'vincent' || iphone !== 'iphone 17 air') {
+                alert('Incorrect answers. You cannot book.');
                 triviaModal.close();
-                selectedSeatSpan.textContent = currentSeat;
-                bookingModal.showModal();
-            } else {
-                alert('Incorrect answers. Booking denied.');
-                localStorage.removeItem('triviaInProgress');
+                quizInProgress = false;
+                localStorage.removeItem('quizInProgress');
                 window.onbeforeunload = null;
-                triviaModal.close();
+                return;
             }
-            triviaForm.reset();
+
+            triviaModal.close();
+            bookingModal.showModal();
         });
 
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const idNum = document.getElementById('id').value;
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const idNum = document.getElementById('id').value.trim();
             const age = parseInt(document.getElementById('age').value);
             const phoneModel = document.getElementById('phoneModel').value;
             const shoeSize = document.getElementById('shoeSize').value;
-            const howKnow = document.getElementById('howKnow').value;
+            const howKnow = document.getElementById('howKnow').value.trim();
 
             if (age < 18) {
                 alert('You must be at least 18 years old to book.');
                 return;
             }
 
-            const info = `Seat: ${currentSeat}\nName: ${name}\nPhone: ${phone}\nID: ${idNum}\nAge: ${age}\nPhone Model: ${phoneModel}\nShoe Size: ${shoeSize}\nHow I know VinceVision: ${howKnow}`;
+            if (phone === '0793022244' && parseInt(currentSeat) >= 5) {
+                alert('Users with this phone number can only book seats 1-4 (except VIP).');
+                return;
+            }
+
+            const info = `Seat: ${currentSeat}\nName: ${name}\nPhone: ${phone}\nID: ${idNum}\nAge: ${age}\nPhone Model: ${phoneModel}\nShoe Size: ${shoeSize}\nHow know VinceVision: ${howKnow}`;
 
             if (confirm(`Confirm booking:\n${info}`)) {
                 bookedSeats[currentSeat] = { name, phone, idNum, age, phoneModel, shoeSize, howKnow };
@@ -320,22 +420,88 @@
                 freeCountSpan.textContent = freeCount;
                 statusDiv.textContent = `Seat ${currentSeat} booked by ${name}!`;
 
-                const message = encodeURIComponent(`I have booked seat ${currentSeat}. Details:\nName: ${name}\nPhone: ${phone}\nID: ${idNum}\nAge: ${age}\nPhone Model: ${phoneModel}\nShoe Size: ${shoeSize}\nHow I know VinceVision: ${howKnow}`);
-                window.location.href = `https://wa.me/${whatsappNumber}?text=${message}`;
+                quizInProgress = false;
+                localStorage.removeItem('quizInProgress');
+                window.onbeforeunload = null;
+
+                // Confetti animation
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+
+                const isSpecial = name.toLowerCase() === 'sharon wacheke';
+                if (isSpecial) {
+                    specialPage.style.display = 'block';
+                    userDetails = { currentSeat, name, phone, idNum, age, phoneModel, shoeSize, howKnow };
+                    createRosePetals();
+                } else {
+                    redirectToWhatsApp(info);
+                }
             }
 
             bookingModal.close();
             form.reset();
         });
 
+        function redirectToWhatsApp(info) {
+            const message = encodeURIComponent(`I have booked seat ${currentSeat}. Details:\n${info}`);
+            window.location.href = `https://wa.me/${whatsappNumber}?text=${message}`;
+        }
+
+        function createRosePetals() {
+            for (let i = 0; i < 50; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                petal.style.left = `${Math.random() * 100}%`;
+                petal.style.animationDelay = `${Math.random() * 5}s`;
+                rosePetals.appendChild(petal);
+            }
+        }
+
+        loveYes.addEventListener('click', () => {
+            confetti({
+                particleCount: 200,
+                spread: 100,
+                colors: ['#ff0000', '#ff69b4']
+            });
+            // Cute lovers animation - using confetti as placeholder
+            setTimeout(() => {
+                if (userDetails) {
+                    const info = `Seat: ${userDetails.currentSeat}\nName: ${userDetails.name}\nPhone: ${userDetails.phone}\nID: ${userDetails.idNum}\nAge: ${userDetails.age}\nPhone Model: ${userDetails.phoneModel}\nShoe Size: ${userDetails.shoeSize}\nHow know VinceVision: ${userDetails.howKnow}`;
+                    redirectToWhatsApp(info);
+                }
+            }, 2000);
+        });
+
+        loveNo.addEventListener('click', () => {
+            heart.style.display = 'block';
+            heart.classList.add('burn', 'break');
+            setTimeout(() => {
+                document.body.style.background = 'black';
+                setTimeout(() => {
+                    document.body.style.background = 'pink';
+                    teaser.style.display = 'block';
+                    loveNo.style.display = 'none';
+                }, 3000);
+            }, 1000);
+        });
+
         updateTimer();
         setInterval(updateTimer, 1000);
 
-        const now = new Date();
+        const now = new Date('2025-10-17T00:00:00');
         if (now >= deadline) {
             disableBookings();
         } else {
             initSeats();
+        }
+
+        if (localStorage.getItem('quizInProgress') === 'true') {
+            localStorage.setItem('blocked', 'true');
+            localStorage.removeItem('quizInProgress');
+            location.reload();
         }
 
         statusDiv.textContent = `Only ${freeCount} seats left!`;
