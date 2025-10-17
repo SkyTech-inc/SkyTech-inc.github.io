@@ -3,327 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Romantic Adventure for Sharon ❤️</title>
+    <title>Seat Booking System</title>
     <style>
-        body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            background: linear-gradient(to bottom, #ffb6c1, #ff69b4, #ff1493);
-            color: #fff;
-            text-align: center;
-            padding: 20px;
-            overflow: hidden;
-            position: relative;
-        }
-        #login, #game {
-            max-width: 500px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 0 30px rgba(255, 105, 180, 0.5);
-            color: #333;
-        }
-        input, button {
-            padding: 15px;
-            margin: 15px 0;
-            width: 100%;
-            border-radius: 10px;
-            border: 2px solid #ff69b4;
-            font-size: 18px;
-        }
-        button {
-            background: #ff69b4;
-            color: white;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        button:hover {
-            background: #ff1493;
-            transform: scale(1.1);
-        }
-        .hidden {
-            display: none;
-        }
-        #message {
-            font-size: 24px;
-            margin: 20px 0;
-            animation: fadeIn 3s, pulse 2s infinite;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        .heart {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background: #ff0000;
-            transform: rotate(45deg);
-            animation: floatFancy 6s ease-in-out infinite;
-            box-shadow: 0 0 10px #ff0000;
-        }
-        .heart:before, .heart:after {
-            content: "";
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background: #ff0000;
-            border-radius: 50%;
-        }
-        .heart:before {
-            top: -15px;
-            left: 0;
-        }
-        .heart:after {
-            top: 0;
-            left: -15px;
-        }
-        @keyframes floatFancy {
-            0% { bottom: -50px; opacity: 0; transform: rotate(45deg) scale(0.5); }
-            20% { opacity: 1; transform: rotate(45deg) scale(1); }
-            80% { opacity: 1; transform: rotate(45deg) scale(1) translateX(20px); }
-            100% { bottom: 100%; opacity: 0; transform: rotate(45deg) scale(0.5) translateX(-20px); }
-        }
-        #timer {
-            font-size: 20px;
-            color: #ff0000;
-            margin: 10px 0;
-        }
-        .cute-btn {
-            background: linear-gradient(#ffd700, #ffa500);
-            color: #333;
-            margin: 10px;
-            width: auto;
-            display: inline-block;
-        }
-        #typing {
-            font-size: 26px;
-            white-space: pre-wrap;
-            color: #ff1493;
-            animation: glow 2s infinite;
-        }
-        @keyframes glow {
-            0% { text-shadow: 0 0 5px #ff69b4; }
-            50% { text-shadow: 0 0 20px #ff1493; }
-            100% { text-shadow: 0 0 5px #ff69b4; }
-        }
-        #music-player {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.7);
-            padding: 10px;
-            border-radius: 10px;
-        }
-        #challenge {
-            margin: 20px 0;
-        }
-        #challenge-btn {
-            background: #ff69b4;
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 20px;
-            cursor: pointer;
-        }
-        #challenge-btn:hover {
-            background: #ff1493;
-        }
+        body { font-family: Arial, sans-serif; }
+        .seat-container { display: flex; justify-content: center; }
+        .seat { margin: 10px; text-align: center; cursor: pointer; }
+        .seat img { width: 100px; height: auto; }
+        .grey { filter: grayscale(100%); opacity: 0.5; }
+        #timer { text-align: center; font-size: 20px; }
+        #tom-jerry { position: absolute; top: 0; left: 0; width: 200px; animation: chase 10s linear infinite; }
+        @keyframes chase { 0% { left: -200px; } 100% { left: 100%; } }
+        #special-page { display: none; text-align: center; }
+        #letter { display: none; background: pink; padding: 20px; animation: unfold 2s; }
+        @keyframes unfold { 0% { height: 0; } 100% { height: auto; } }
+        #heart { display: none; width: 100px; height: 100px; background: red; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); animation: break 2s; }
+        @keyframes break { 0% { transform: scale(1); } 50% { background: orange; } 100% { transform: scale(0); background: black; } }
     </style>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
 <body>
-    <div id="login">
-        <h1>Welcome to Your Romantic Adventure, Sharon! 💖</h1>
-        <p>Enter your special password (your phone number) to unlock the magic! 🌟</p>
-        <input type="password" id="password" placeholder="Enter password">
-        <button onclick="checkPassword()">Unlock Love ❤️</button>
+    <h1>Seat Booking</h1>
+    <div id="timer"></div>
+    <div class="seat-container" id="seats"></div>
+    <img id="tom-jerry" src="https://media1.giphy.com/media/jyTk0vpfS0pyqkgpZu/giphy.gif" alt="Tom and Jerry">
+    <div id="special-page">
+        <h2>I Love You</h2>
+        <img src="https://www.instagram.com/p/DO5QP1JCD_P/media/?size=l" alt="Sharon">
+        <audio autoplay loop>
+            <source src="https://www.youtube.com/embed/Pvhpfoi7PEY?autoplay=1" type="audio/mpeg">
+        </audio>
     </div>
-
-    <div id="game" class="hidden">
-        <h1>Sharon's Eternal Love Journey with Vincent 💑</h1>
-        <p>Level <span id="level-num">1</span>/28 🌹</p>
-        <div id="cute-buttons">
-            <button class="cute-btn" onclick="playFancyAnimation()">💕 Fancy Hearts</button>
-            <button class="cute-btn" onclick="playConfetti()">🎉 Sparkly Confetti!</button>
-        </div>
-        <div id="challenge">
-            <button id="challenge-btn" onclick="completeChallenge()">Accept Vincent's Cute Love Challenge 💌</button>
-        </div>
-        <div id="message" class="hidden"></div>
-        <div id="typing" class="hidden"></div>
-        <div id="timer">Time to next level: 60 seconds ⏳</div>
-        <button id="next-btn" class="hidden" onclick="nextLevel()">Unlock Next Level 💌</button>
-    </div>
-
-    <div id="music-player">
-        <iframe id="music-iframe" width="300" height="80" frameborder="0" allow="autoplay"></iframe>
-    </div>
+    <div id="letter"></div>
+    <div id="heart"></div>
 
     <script>
-        const correctPassword = '0793022244';
-        const levels = [
-            "Level 1: My dearest Sharon, your smile is the sunrise that brightens my every day. 🌅",
-            "Level 2: With you, every moment feels like a dream I never want to wake from. 💭",
-            "Level 3: Your laughter is the sweetest melody in my heart's symphony. 🎵",
-            "Level 4: Holding you close makes the world fade away, leaving only us. 🤗",
-            "Level 5: You are the missing piece that completes my soul's puzzle. 🧩",
-            "Level 6: Our love story is written in the stars, eternal and shining. ✨",
-            "Level 7: Every glance from you sets my heart ablaze with passion. 🔥",
-            "Level 8: In your eyes, I see our beautiful future together. 👀",
-            "Level 9: Your touch is the gentle breeze that calms my stormy days. 🌬️",
-            "Level 10: Loving you is the greatest adventure of my life. 🗺️",
-            "Level 11: You make ordinary days extraordinary with your presence. 🌟",
-            "Level 12: My heart beats only for you, Sharon, my one true love. 💓",
-            "Level 13: Together, we create memories that will last forever. 📸",
-            "Level 14: Your voice is the soothing lullaby that brings me peace. 🕊️",
-            "Level 15: I cherish every second spent in your loving embrace. ⏰",
-            "Level 16: You are my muse, inspiring endless love poems. 📝",
-            "Level 17: Our connection is deeper than the ocean, unbreakable. 🌊",
-            "Level 18: With you, I've found my happily ever after. 🏰",
-            "Level 19: Your kindness warms my heart like summer sunshine. ☀️",
-            "Level 20: I promise to love you through all of life's seasons. 🍂",
-            "Level 21: You are the rhythm that makes my heart dance. 💃",
-            "Level 22: In your arms, I've found my safe haven. 🏡",
-            "Level 23: Our love grows stronger with each passing day. 🌱",
-            "Level 24: You complete me in ways words can't describe. 🧡",
-            "Level 25: Forever and always, my love for you endures. ♾️",
-            "Level 26: You are my everything, Sharon, now and forever. 🌍",
-            "Level 27: Thank you for being the love of my life. 🙏",
-            "Level 28: To eternity and beyond, I love you endlessly. 🚀"
-        ];
-        const songs = [
-            'https://www.youtube.com/embed/kBSEbRtKue0?autoplay=1&loop=1&playlist=kBSEbRtKue0', // CeCile - Break Up
-            'https://www.youtube.com/embed/3HbKnQxd0_E?autoplay=1&loop=1&playlist=3HbKnQxd0_E', // Shayne Ward - Breathless
-            'https://www.youtube.com/embed/aq7W5AyS6ZE?autoplay=1&loop=1&playlist=aq7W5AyS6ZE', // Mbosso - Pawa
-            'https://www.youtube.com/embed/XODdht_bcLg?autoplay=1&loop=1&playlist=XODdht_bcLg', // Ruger - Luv Again
-            'https://www.youtube.com/embed/7M2Gps9xR8g?autoplay=1&loop=1&playlist=7M2Gps9xR8g', // Ruger - Girlfriend
-            'https://www.youtube.com/embed/yNaRT1AtS60?autoplay=1&loop=1&playlist=yNaRT1AtS60', // Ruger - Calculate Love
-            'https://www.youtube.com/embed/3cqssMaHaUA?autoplay=1&loop=1&playlist=3cqssMaHaUA', // Ruger - Kristy
-            'https://www.youtube.com/embed/xB2W9ge-Q-Y?autoplay=1&loop=1&playlist=xB2W9ge-Q-Y', // Ruger - Runaway
-            'https://www.youtube.com/embed/pabOIJRciug?autoplay=1&loop=1&playlist=pabOIJRciug', // Ruger - Make Way
-            'https://www.youtube.com/embed/WcrQu5mjpME?autoplay=1&loop=1&playlist=WcrQu5mjpME', // Rayvanny - I Love You
-            'https://www.youtube.com/embed/t6-fwyjBgyc?autoplay=1&loop=1&playlist=t6-fwyjBgyc', // Rayvanny - Forever
-            'https://www.youtube.com/embed/J8bo_M0u29o?autoplay=1&loop=1&playlist=J8bo_M0u29o', // Rayvanny - Marry Me
-            'https://www.youtube.com/embed/OmUvLpZQS3o?autoplay=1&loop=1&playlist=OmUvLpZQS3o', // Rayvanny - Mi Amor
-            'https://www.youtube.com/embed/8xg3vE8Ie_E?autoplay=1&loop=1&playlist=8xg3vE8Ie_E', // Taylor Swift - Love Story
-            'https://www.youtube.com/embed/mvxQYPR4lmU?autoplay=1&loop=1&playlist=mvxQYPR4lmU', // Taylor Swift - This Love
-            'https://www.youtube.com/embed/-BjZmE2gtdo?autoplay=1&loop=1&playlist=-BjZmE2gtdo', // Taylor Swift - Lover
-            'https://www.youtube.com/embed/M7ySK0keirY?autoplay=1&loop=1&playlist=M7ySK0keirY', // Taylor Swift - You Are In Love
-            'https://www.youtube.com/embed/VuNIsY6JdUw?autoplay=1&loop=1&playlist=VuNIsY6JdUw', // Taylor Swift - You Belong With Me
-            'https://www.youtube.com/embed/aXzVF3XeS8M?autoplay=1&loop=1&playlist=aXzVF3XeS8M' // Taylor Swift - Love Story (TV)
-        ];
-        let currentLevel = 0;
-        let timerInterval;
-        let typingInterval;
+        // Replace with your Firebase config
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const seatsRef = db.ref('seats');
 
-        function checkPassword() {
-            const pw = document.getElementById('password').value;
-            if (pw === correctPassword) {
-                document.getElementById('login').classList.add('hidden');
-                document.getElementById('game').classList.remove('hidden');
-                startLevel();
-            } else {
-                alert('Oops! Try again, my love. Hint: Your special number 💕');
+        const deadline = new Date(2025, 9, 20); // October 20, 2025
+        const whatsappNumber = '1234567890'; // Replace with the actual WhatsApp number
+
+        // Initialize seats if not exist
+        seatsRef.once('value').then(snapshot => {
+            if (!snapshot.exists()) {
+                const initialSeats = {};
+                for (let i = 1; i <= 5; i++) {
+                    initialSeats[i] = { booked: false, user: null };
+                }
+                seatsRef.set(initialSeats);
             }
-        }
+        });
 
-        function startLevel() {
-            document.getElementById('level-num').textContent = currentLevel + 1;
-            document.getElementById('message').classList.add('hidden');
-            document.getElementById('typing').classList.add('hidden');
-            document.getElementById('challenge-btn').textContent = `Accept Vincent's Cute Love Challenge 💌`;
-            document.getElementById('next-btn').classList.add('hidden');
-            playBackgroundMusic();
-            startTimer();
-            if (currentLevel === 14) { // Special romantic animation level
-                playFancyAnimation(); // Auto-play fancy animation on this level
+        // Timer
+        function updateTimer() {
+            const now = new Date();
+            const diff = deadline - now;
+            if (diff <= 0) {
+                document.getElementById('timer').innerText = 'Booking closed!';
+                return;
             }
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            document.getElementById('timer').innerText = `Time left: ${days}d ${hours}h ${minutes}m ${seconds}s`;
         }
+        setInterval(updateTimer, 1000);
 
-        function completeChallenge() {
-            // Simple cute challenge: confirm love
-            if (confirm('Do you accept my eternal love, Sharon? 💖')) {
-                document.getElementById('challenge').classList.add('hidden');
-                document.getElementById('message').classList.remove('hidden');
-                document.getElementById('typing').classList.remove('hidden');
-                typeMessage(levels[currentLevel]);
-            } else {
-                alert('Oh no! But I know you do deep down. Try again! 😘');
-            }
-        }
-
-        function typeMessage(message) {
-            const typingElem = document.getElementById('typing');
-            typingElem.textContent = '';
-            let i = 0;
-            typingInterval = setInterval(() => {
-                if (i < message.length) {
-                    typingElem.textContent += message.charAt(i);
-                    i++;
+        // Render seats
+        function renderSeats(seats) {
+            const container = document.getElementById('seats');
+            container.innerHTML = '';
+            for (let i = 1; i <= 5; i++) {
+                const seat = document.createElement('div');
+                seat.className = 'seat';
+                const img = document.createElement('img');
+                img.src = 'https://www.shutterstock.com/image-photo/empty-theater-auditorium-cinema-red-260nw-441531358.jpg';
+                seat.appendChild(img);
+                const label = document.createElement('p');
+                label.innerText = `Seat ${i}` + (i === 1 ? ' (CEO Vincent)' : '');
+                seat.appendChild(label);
+                if (seats[i].booked) {
+                    seat.classList.add('grey');
                 } else {
-                    clearInterval(typingInterval);
+                    seat.onclick = () => bookSeat(i);
                 }
-            }, 80);
-        }
-
-        function startTimer() {
-            let time = 60;
-            document.getElementById('timer').textContent = `Time to next level: ${time} seconds ⏳`;
-            timerInterval = setInterval(() => {
-                time--;
-                document.getElementById('timer').textContent = `Time to next level: ${time} seconds ⏳`;
-                if (time <= 0) {
-                    clearInterval(timerInterval);
-                    document.getElementById('next-btn').classList.remove('hidden');
-                }
-            }, 1000);
-        }
-
-        function nextLevel() {
-            currentLevel++;
-            if (currentLevel < levels.length) {
-                document.getElementById('challenge').classList.remove('hidden');
-                startLevel();
-            } else {
-                alert('Congratulations, my eternal love Sharon! You\'ve completed our romantic journey. Vincent loves you forever and always! 💖💍');
+                container.appendChild(seat);
             }
         }
 
-        function playFancyAnimation() {
-            for (let i = 0; i < 20; i++) {
-                const heart = document.createElement('div');
-                heart.classList.add('heart');
-                heart.style.left = `${Math.random() * 100}%`;
-                heart.style.animationDelay = `${Math.random() * 3}s`;
-                document.body.appendChild(heart);
-                setTimeout(() => heart.remove(), 6000);
+        // Listen for changes
+        seatsRef.on('value', snapshot => {
+            const seats = snapshot.val();
+            renderSeats(seats);
+        });
+
+        // Trivia
+        function passTrivia() {
+            const q1 = prompt('Who is the CEO?').toLowerCase();
+            if (q1 !== 'vincent') return false;
+            const q2 = prompt('What\'s the toughest slimmest iPhone?').toLowerCase();
+            if (q2 !== 'iphone 17 air') return false;
+            return true;
+        }
+
+        // Book seat
+        function bookSeat(seatId) {
+            const now = new Date();
+            if (now > deadline) {
+                alert('Booking closed!');
+                return;
+            }
+
+            if (!passTrivia()) {
+                alert('Trivia failed! Cannot book.');
+                return;
+            }
+
+            const name = prompt('Enter your name:');
+            if (!name) return;
+
+            const isSharon = name.toLowerCase() === 'sharon wacheke';
+
+            if (isSharon) {
+                document.getElementById('special-page').style.display = 'block';
+            }
+
+            const phone = prompt('Enter your phone number:');
+            if (!phone) return;
+            if (phone === '0793022244' && seatId >= 5) {
+                alert('You are only allowed seats 1-4.');
+                return;
+            }
+
+            const id = prompt('Enter your ID:');
+            if (!id) return;
+
+            const age = parseInt(prompt('Enter your age:'));
+            if (isNaN(age) || age < 18) {
+                alert('Must be at least 18 years old.');
+                return;
+            }
+
+            const howKnow = prompt('How do you know vincevision?');
+            if (!howKnow) {
+                alert('This is required.');
+                return;
+            }
+
+            const phoneModel = prompt('Choose phone model (iPhone 14 Pro, Pro Max, Plain - all 256GB, or Samsung S25 Ultra):');
+            if (!phoneModel) return;
+
+            const shoeSize = prompt('Enter your shoe size:');
+            if (!shoeSize) return;
+
+            const info = `Name: ${name}\nPhone: ${phone}\nID: ${id}\nAge: ${age}\nHow know vincevision: ${howKnow}\nPhone Model: ${phoneModel}\nShoe Size: ${shoeSize}\nSeat: ${seatId}`;
+            if (confirm(`Confirm booking:\n${info}`)) {
+                seatsRef.child(seatId).update({
+                    booked: true,
+                    user: { name, phone, id, age, howKnow, phoneModel, shoeSize }
+                });
+                alert(`Seat ${seatId} booked by ${name}!`);
+                confetti();
+                if (isSharon) {
+                    const letter = document.getElementById('letter');
+                    letter.innerHTML = `<p>Dear Sharon, I love you so much. Vincent will always be there for you. [Heartfelt message...]</p>
+                    <button onclick="loveYes()">I love you too</button>
+                    <button onclick="loveNo()">I don't love you</button>`;
+                    letter.style.display = 'block';
+
+                    // Cute cartoon - add a gif or something
+                    // For example, add another img similar to tom-jerry
+
+                    // Rose petals - use confetti with rose colors
+                    confetti({ particleCount: 100, spread: 70, colors: ['#ff0000', '#pink'] });
+                }
+                // Redirect to WhatsApp
+                setTimeout(() => {
+                    window.location.href = `https://wa.me/${whatsappNumber}?text=Booking confirmed: ${encodeURIComponent(info)}`;
+                }, 5000); // After 5 secs
             }
         }
 
-        function playConfetti() {
-            confetti({
-                particleCount: 200,
-                spread: 100,
-                origin: { y: 0.6 },
-                colors: ['#ff0000', '#ff69b4', '#ffd700', '#ff1493'],
-                shapes: ['heart', 'circle', 'square']
-            });
+        function loveYes() {
+            alert('Cute lovers animation!');
+            // Play animation
+            confetti();
         }
 
-        function playBackgroundMusic() {
-            const iframe = document.getElementById('music-iframe');
-            const player = document.getElementById('music-player');
-            const randomSong = songs[Math.floor(Math.random() * songs.length)];
-            iframe.src = randomSong;
-            player.style.display = 'block';
+        function loveNo() {
+            const heart = document.getElementById('heart');
+            heart.style.display = 'block';
+            setTimeout(() => {
+                heart.style.display = 'none';
+                alert('You are a bad girl for fun!');
+                // Crash simulation
+                document.body.innerHTML = '<h1>Site crashed!</h1>';
+                setTimeout(() => {
+                    location.reload();
+                }, 3000);
+            }, 2000);
+            // Then only I love you button
         }
     </script>
 </body>
