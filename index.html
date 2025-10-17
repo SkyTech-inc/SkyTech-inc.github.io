@@ -3,179 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Romantic Game for Sharon</title>
+    <title>Romantic Adventure for Sharon ❤️</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(to bottom, #ff69b4, #ffc0cb);
-            color: #333;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #ff9cc4, #ffb6c1, #ff69b4);
+            color: #fff;
             text-align: center;
             padding: 20px;
             overflow: hidden;
+            position: relative;
+        }
+        #particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255,255,255,0.8), transparent);
+            border-radius: 50%;
+            animation: sparkle 5s infinite ease-in-out;
+        }
+        @keyframes sparkle {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
         }
         #login, #game {
-            max-width: 400px;
+            max-width: 500px;
             margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.5);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
         input, button {
-            padding: 10px;
-            margin: 10px 0;
+            padding: 15px;
+            margin: 15px 0;
             width: 100%;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+            border-radius: 10px;
+            border: 2px solid #ff69b4;
+            font-size: 18px;
         }
         button {
-            background: #ff69b4;
+            background: linear-gradient(#ff69b4, #ff1493);
             color: white;
             cursor: pointer;
+            transition: all 0.3s;
         }
         button:hover {
-            background: #ff1493;
+            transform: scale(1.1);
+            box-shadow: 0 0 20px #ff69b4;
         }
         .hidden {
             display: none;
         }
         #message {
-            font-size: 18px;
+            font-size: 24px;
             margin: 20px 0;
-            animation: fadeIn 2s;
+            animation: fadeIn 3s, rainbow 5s infinite;
         }
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes rainbow {
+            0% { color: #ff0000; }
+            20% { color: #ff7f00; }
+            40% { color: #ffff00; }
+            60% { color: #00ff00; }
+            80% { color: #0000ff; }
+            100% { color: #4b0082; }
+        }
+        #typing {
+            font-size: 22px;
+            white-space: pre-wrap;
+            overflow: hidden;
+            border-right: 3px solid #ff69b4;
+            animation: blink 0.75s step-end infinite;
+        }
+        @keyframes blink {
+            50% { border-color: transparent; }
         }
         .heart {
             position: absolute;
-            width: 20px;
-            height: 20px;
-            background: red;
+            width: 30px;
+            height: 30px;
+            background: #ff1493;
             transform: rotate(45deg);
-            animation: float 5s infinite;
+            animation: floatHeart 10s infinite;
+            box-shadow: 0 0 10px #ff69b4;
         }
         .heart:before, .heart:after {
             content: "";
             position: absolute;
-            width: 20px;
-            height: 20px;
-            background: red;
+            width: 30px;
+            height: 30px;
+            background: #ff1493;
             border-radius: 50%;
         }
         .heart:before {
-            top: -10px;
+            top: -15px;
             left: 0;
         }
         .heart:after {
             top: 0;
-            left: -10px;
+            left: -15px;
         }
-        @keyframes float {
-            0% { bottom: -50px; opacity: 1; }
-            100% { bottom: 100%; opacity: 0; }
-        }
-        #timer {
-            font-size: 16px;
-            color: #ff0000;
+        @keyframes floatHeart {
+            0% { bottom: -50px; opacity: 0; transform: rotate(45deg) scale(0.5); }
+            50% { opacity: 1; transform: rotate(45deg) scale(1.2); }
+            100% { bottom: 100%; opacity: 0; transform: rotate(45deg) scale(0.5); }
         }
         .cute-btn {
-            background: #ffd700;
-            color: #333;
-            margin: 5px;
+            background: linear-gradient(#ffd700, #ffa500);
+            margin: 10px;
+            font-size: 16px;
         }
-        #typing {
-            font-size: 20px;
-            white-space: pre;
+        #music-player {
+            margin: 20px 0;
+        }
+        iframe {
+            border-radius: 10px;
+            box-shadow: 0 0 20px #ff69b4;
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
 <body>
+    <div id="particles"></div>
     <div id="login">
-        <h1>Welcome, Sharon!</h1>
-        <p>Enter your phone number as password to start the romantic game ❤️</p>
-        <input type="password" id="password" placeholder="Enter password">
-        <button onclick="checkPassword()">Enter</button>
+        <h1>❤️ Welcome to Your Romantic Adventure, Sharon! ❤️</h1>
+        <p>Enter your special password (your phone number) to begin our love journey 💕</p>
+        <input type="password" id="password" placeholder="Enter password...">
+        <button onclick="checkPassword()">Unlock the Magic ✨</button>
     </div>
 
     <div id="game" class="hidden">
-        <h1>Romantic Adventure with Vincent ❤️</h1>
-        <p>Level <span id="level-num">1</span>/28</p>
+        <h1>Our Eternal Love Story 💖 - Level <span id="level-num">1</span>/28</h1>
         <div id="cute-buttons">
-            <button class="cute-btn" onclick="playAnimation()">❤️ Play Hearts</button>
-            <button class="cute-btn" onclick="playConfetti()">🎉 Confetti!</button>
-            <button class="cute-btn" onclick="playMusic()">🎵 Romantic Music</button>
+            <button class="cute-btn" onclick="playHearts()">💕 Shower Hearts</button>
+            <button class="cute-btn" onclick="playConfetti()">🎉 Love Confetti</button>
+            <button class="cute-btn" onclick="toggleMusic()">🎶 Play Romantic Tune</button>
         </div>
         <div id="message"></div>
         <div id="typing"></div>
-        <div id="timer">Time to next level: 60 seconds</div>
-        <button id="next-btn" class="hidden" onclick="nextLevel()">Next Level</button>
+        <div id="music-player" class="hidden">
+            <iframe id="music-iframe" width="300" height="169" frameborder="0" allow="autoplay"></iframe>
+        </div>
+        <button id="next-btn" class="hidden" onclick="nextLevel()">Proceed to Next Level 💘</button>
     </div>
-
-    <audio id="music" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    </audio>
 
     <script>
         const correctPassword = '0793022244';
         const levels = [
-            "Level 1: You are the sparkle in my eyes, Sharon. Every moment with you feels like magic.",
-            "Level 2: Your smile lights up my world brighter than the stars.",
-            "Level 3: I cherish every laugh we share, my love.",
-            "Level 4: You make my heart beat faster with just a thought of you.",
-            "Level 5: In your arms, I find my home.",
-            "Level 6: Our love story is my favorite fairy tale.",
-            "Level 7: You are my sunshine on the cloudiest days.",
-            "Level 8: With you, every day is an adventure filled with love.",
-            "Level 9: Your touch sends shivers down my spine.",
-            "Level 10: I love you more than words can express.",
-            "Level 11: You complete me in ways I never knew possible.",
-            "Level 12: Our bond is unbreakable, my darling.",
-            "Level 13: Thinking of you makes my heart sing.",
-            "Level 14: You are my forever and always.",
-            "Level 15: Every kiss from you is pure bliss.",
-            "Level 16: I am grateful for your love every single day.",
-            "Level 17: You are the melody to my heart's song.",
-            "Level 18: Loving you is the best decision I've ever made.",
-            "Level 19: Your eyes hold the universe for me.",
-            "Level 20: We are meant to be, soulmates eternal.",
-            "Level 21: Your voice is my favorite sound.",
-            "Level 22: Holding your hand feels like holding the world.",
-            "Level 23: You make ordinary moments extraordinary.",
-            "Level 24: My love for you grows stronger each day.",
-            "Level 25: You are my dream come true.",
-            "Level 26: Together, we can conquer anything.",
-            "Level 27: Your love fills my life with joy.",
-            "Level 28: Forever yours, Vincent. I love you endlessly."
+            "My dearest Sharon, every beat of my heart whispers your name. You are my forever love. 💖",
+            "In your eyes, I see our beautiful future together. I love you more each day. 🌟",
+            "Your smile lights up my world like a thousand stars. You complete me. ✨",
+            "Holding you close is my favorite place to be. Our love is eternal. ❤️",
+            "With you, every moment is a cherished memory. You're my soulmate. 💕",
+            "Your touch sends shivers of joy through me. I adore you endlessly. 😘",
+            "Our love story is the most beautiful tale ever written. 📖💖",
+            "You make my dreams come true just by being you. Sweetheart forever. 🌹",
+            "In this vast universe, my heart chose you. Lucky me! 🌌❤️",
+            "Your laughter is music to my soul. I love you beyond words. 🎶",
+            "Together, we create magic. You're my enchanting love. 🪄💕",
+            "Every sunrise reminds me of your warmth. Good morning, my love. ☀️",
+            "Your kisses are sweeter than honey. Craving you always. 🍯😍",
+            "We're two hearts beating as one. Inseparable forever. 💑",
+            "Your beauty captivates me inside and out. My queen. 👑❤️",
+            "Dancing in the rain with you is pure bliss. 🌧️💃",
+            "Your love heals my soul. Thank you for being mine. 🙏💖",
+            "Stargazing with you, wishing on our future. ⭐💫",
+            "Your voice is my favorite melody. Sing to me always. 🎤",
+            "Cuddling with you is heaven on earth. 🛋️❤️",
+            "Our love grows stronger with each passing second. 🌱💕",
+            "You're the missing piece to my puzzle. Perfect fit. 🧩",
+            "Whispering sweet nothings in your ear forever. 👂💋",
+            "Your embrace is my safe haven. Home sweet home. 🏡❤️",
+            "Adventuring through life hand in hand with you. 🌍💑",
+            "Your love inspires me to be better every day. 📈💖",
+            "To the moon and back, my love for you knows no bounds. 🌕",
+            "Sharon, you're my everything. I love you infinitely. ♾️❤️"
+        ];
+        const songs = [
+            'https://www.youtube.com/embed/Na-Ce2oEAlM?autoplay=1', // CECILE - LOVE ME SO
+            'https://www.youtube.com/embed/ecldxJiJMRw?autoplay=1', // Ce'Cile - Money Love
+            'https://www.youtube.com/embed/VTbo8E8es9A?autoplay=1', // Mbosso - Pawa
+            'https://www.youtube.com/embed/IlNQ0L9wPsc?autoplay=1', // Mbosso - Kupenda
+            'https://www.youtube.com/embed/-2Wpm87d2nE?autoplay=1', // Mbosso Ft Liya - Your Love
+            'https://www.youtube.com/embed/XODdht_bcLg?autoplay=1', // Ruger - Luv Again
+            'https://www.youtube.com/embed/yNaRT1AtS60?autoplay=1', // Ruger, Bnxn - Calculate Love
+            'https://www.youtube.com/embed/7M2Gps9xR8g?autoplay=1', // Ruger - Girlfriend
+            'https://www.youtube.com/embed/WcrQu5mjpME?autoplay=1', // Rayvanny - I love you
+            'https://www.youtube.com/embed/J8bo_M0u29o?autoplay=1', // Rayvanny - Marry Me
+            'https://www.youtube.com/embed/t6-fwyjBgyc?autoplay=1', // Rayvanny - Forever
+            'https://www.youtube.com/embed/8xg3vE8Ie_E?autoplay=1', // Taylor Swift - Love Story
+            'https://www.youtube.com/embed/3HbKnQxd0_E?autoplay=1'  // Shayne Ward - Breathless
         ];
         let currentLevel = 0;
-        let timerInterval;
         let typingInterval;
+        let musicPlaying = false;
 
         function checkPassword() {
             const pw = document.getElementById('password').value;
             if (pw === correctPassword) {
                 document.getElementById('login').classList.add('hidden');
                 document.getElementById('game').classList.remove('hidden');
+                createParticles();
                 startLevel();
             } else {
-                alert('Incorrect password. Try again!');
+                alert('Oops! That\'s not the magic number. Try again, my love! 💕');
+            }
+        }
+
+        function createParticles() {
+            const particlesDiv = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.width = `${Math.random() * 10 + 5}px`;
+                particle.style.height = particle.style.width;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                particlesDiv.appendChild(particle);
             }
         }
 
         function startLevel() {
             document.getElementById('level-num').textContent = currentLevel + 1;
-            document.getElementById('message').textContent = levels[currentLevel];
+            document.getElementById('message').textContent = '';
             typeMessage(levels[currentLevel]);
             document.getElementById('next-btn').classList.add('hidden');
-            startTimer();
+            setTimeout(() => {
+                document.getElementById('next-btn').classList.remove('hidden');
+            }, 60000); // 1 minute
+            if (currentLevel === 14) { // Special romantic animation level
+                playHearts();
+            }
         }
 
         function typeMessage(message) {
             const typingElem = document.getElementById('typing');
             typingElem.textContent = '';
+            typingElem.style.width = `${message.length}ch`;
             let i = 0;
             typingInterval = setInterval(() => {
                 if (i < message.length) {
@@ -183,21 +265,9 @@
                     i++;
                 } else {
                     clearInterval(typingInterval);
+                    typingElem.style.borderRight = 'none';
                 }
-            }, 50);
-        }
-
-        function startTimer() {
-            let time = 60;
-            document.getElementById('timer').textContent = `Time to next level: ${time} seconds`;
-            timerInterval = setInterval(() => {
-                time--;
-                document.getElementById('timer').textContent = `Time to next level: ${time} seconds`;
-                if (time <= 0) {
-                    clearInterval(timerInterval);
-                    document.getElementById('next-btn').classList.remove('hidden');
-                }
-            }, 1000);
+            }, 100);
         }
 
         function nextLevel() {
@@ -205,37 +275,42 @@
             if (currentLevel < levels.length) {
                 startLevel();
             } else {
-                alert('Congratulations! You completed all levels. Vincent loves you forever! ❤️');
+                alert('My love, you\'ve completed our romantic journey! I love you more than words can say. Forever yours, Vincent 💖');
             }
         }
 
-        function playAnimation() {
-            for (let i = 0; i < 10; i++) {
+        function playHearts() {
+            for (let i = 0; i < 20; i++) {
                 const heart = document.createElement('div');
                 heart.classList.add('heart');
                 heart.style.left = `${Math.random() * 100}%`;
-                heart.style.bottom = '-50px';
-                heart.style.animationDelay = `${Math.random() * 2}s`;
+                heart.style.animationDelay = `${Math.random() * 3}s`;
                 document.body.appendChild(heart);
-                setTimeout(() => heart.remove(), 5000);
+                setTimeout(() => heart.remove(), 10000);
             }
         }
 
         function playConfetti() {
             confetti({
-                particleCount: 100,
-                spread: 70,
+                particleCount: 200,
+                spread: 100,
                 origin: { y: 0.6 },
-                colors: ['#ff0000', '#ff69b4', '#ffd700']
+                colors: ['#ff0000', '#ff69b4', '#ffd700', '#ff1493']
             });
         }
 
-        function playMusic() {
-            const music = document.getElementById('music');
-            if (music.paused) {
-                music.play();
+        function toggleMusic() {
+            const player = document.getElementById('music-player');
+            const iframe = document.getElementById('music-iframe');
+            if (musicPlaying) {
+                iframe.src = '';
+                player.classList.add('hidden');
+                musicPlaying = false;
             } else {
-                music.pause();
+                const randomSong = songs[Math.floor(Math.random() * songs.length)];
+                iframe.src = randomSong;
+                player.classList.remove('hidden');
+                musicPlaying = true;
             }
         }
     </script>
