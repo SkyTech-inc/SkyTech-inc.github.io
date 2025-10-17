@@ -3,155 +3,276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VinceVision Kicks Launch - SOLD OUT!</title>
+    <title>VinceVision Kicks Launch Seat Booking</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-color: #f4f4f4;
             margin: 0;
             padding: 20px;
-            color: white;
-            min-height: 100vh;
         }
         h1 {
-            color: #FFD700;
-            font-size: 2.5em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            margin-bottom: 10px;
+            color: #333;
         }
-        .status-container {
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px auto;
-            max-width: 600px;
-        }
-        .sold-out {
-            font-size: 3em;
-            color: #ff4757;
-            font-weight: bold;
-            margin: 20px 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        #timer {
+            font-size: 24px;
+            color: #ff0000;
+            margin: 10px 0;
         }
         .seat-container {
             display: grid;
-            grid-template-columns: repeat(10, 35px);
-            gap: 3px;
+            grid-template-columns: repeat(10, 50px);
+            gap: 5px;
             justify-content: center;
             margin: 20px auto;
-            max-width: 450px;
+            max-width: 600px;
         }
         .seat {
-            width: 35px;
-            height: 35px;
-            background-color: #f44336;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            font-size: 12px;
             color: #fff;
-            border: 2px solid #d32f2f;
-            border-radius: 5px;
+            cursor: not-allowed;
+            border: 1px solid #999;
+            position: relative;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .seat-number {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            padding: 2px;
+            font-size: 10px;
+        }
+        .free {
+            background-image: url('https://www.shutterstock.com/image-photo/black-empty-plastic-chairs-stand-260nw-2197772861.jpg');
+            cursor: pointer;
+        }
+        .free:hover {
+            opacity: 0.8;
         }
         .vip {
-            background-color: #FFD700;
+            background-image: url('https://sc04.alicdn.com/kf/Hd16632dd0727494f85edc5c9c06da8b5l.jpg');
             color: #000;
-            font-weight: bold;
-            border: 2px solid #FFA500;
+            cursor: not-allowed;
         }
-        .total-stats {
-            background: rgba(0,0,0,0.3);
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px auto;
-            max-width: 400px;
-            font-size: 1.2em;
+        .booked {
+            background-image: url('https://media.gettyimages.com/id/200127563-001/photo/red-theater-seats-with-reserved-signs.jpg?s=612x612&w=gi&k=20&c=5qkb9-rnw6VubxnFrFanOrUEn9u_eruYTL4QJl3fKV0=');
         }
-        .whatsapp-btn {
-            display: inline-block;
-            background: #25D366;
-            color: white;
-            padding: 15px 30px;
-            text-decoration: none;
-            border-radius: 25px;
-            font-size: 1.2em;
+        #status {
             margin-top: 20px;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            font-size: 18px;
+            color: #333;
         }
-        .whatsapp-btn:hover {
-            background: #128C7E;
-            transform: scale(1.05);
+        dialog {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background: white;
+            width: 300px;
         }
-        .congrats {
-            font-size: 1.5em;
-            color: #FFD700;
-            margin: 20px 0;
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        label {
+            text-align: left;
+        }
+        input, select {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #45a049;
         }
     </style>
 </head>
 <body>
-    <h1>🎉 VinceVision Kicks Launch 🎉</h1>
-    
-    <div class="status-container">
-        <div class="sold-out">SOLD OUT!</div>
-        <div class="congrats">All 78 Seats Booked Successfully!</div>
-        <div class="total-stats">
-            <strong>Total Seats: 78</strong><br>
-            <strong>Free Seats: 0</strong><br>
-            <strong>VIP Seat: Reserved for CEO Mr. Vincent Omondi</strong>
-        </div>
-    </div>
-
-    <h2>Seat Layout - All Booked!</h2>
+    <h1>VinceVision Kicks Launch Seat Booking</h1>
+    <p>Total Seats: 78 | Free Seats: <span id="free-count">77</span></p>
+    <p>Bookings must be completed before October 20, 2025.</p>
+    <div id="timer"></div>
     <div class="seat-container" id="seat-container"></div>
+    <div id="status"></div>
 
-    <div class="status-container">
-        <p>Thank you for the overwhelming response! All seats are now reserved.</p>
-        <br>
-        <a href="https://wa.me/+254742850266?text=Hi%20VinceVision%20Team!%20I%20saw%20the%20event%20is%20SOLD%20OUT%20-%20congratulations!%20Can%20I%20be%20notified%20for%20future%20events?" 
-           class="whatsapp-btn">
-            📱 Contact Us on WhatsApp
-        </a>
-        <p style="margin-top: 15px; font-size: 0.9em;">Get notified for future events!</p>
-    </div>
+    <dialog id="bookingModal">
+        <h2>Book Seat <span id="selected-seat"></span></h2>
+        <form id="bookingForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" required>
+
+            <label for="id">ID (National ID):</label>
+            <input type="text" id="id" required>
+
+            <label for="age">Age (must be at least 18):</label>
+            <input type="number" id="age" min="18" required>
+
+            <label for="phoneModel">Preferred Phone Model:</label>
+            <select id="phoneModel" required>
+                <option value="">Select...</option>
+                <option value="iPhone Pro 256GB">iPhone Pro 256GB</option>
+                <option value="iPhone Pro Max 256GB">iPhone Pro Max 256GB</option>
+                <option value="iPhone Plain 256GB">iPhone Plain 256GB</option>
+                <option value="Samsung S25 Ultra">Samsung S25 Ultra</option>
+            </select>
+
+            <label for="shoeSize">Shoe Size (for free shoes):</label>
+            <input type="number" id="shoeSize" min="1" max="50" required>
+
+            <button type="submit">Submit</button>
+        </form>
+    </dialog>
 
     <script>
         const totalSeats = 78;
-        const vipSeat = 1; // VIP seat for CEO
+        const vipSeat = 1;
+        const whatsappNumber = '+254742850266';
+        const deadline = new Date('2025-10-20T00:00:00');
         const container = document.getElementById('seat-container');
+        const modal = document.getElementById('bookingModal');
+        const form = document.getElementById('bookingForm');
+        const selectedSeatSpan = document.getElementById('selected-seat');
+        const timerDiv = document.getElementById('timer');
+        const freeCountSpan = document.getElementById('free-count');
+        const statusDiv = document.getElementById('status');
 
-        // Create all seats - ALL BOOKED
-        for (let i = 1; i <= totalSeats; i++) {
-            const seat = document.createElement('div');
-            seat.classList.add('seat');
-            seat.textContent = i;
+        let bookedSeats = JSON.parse(localStorage.getItem('bookedSeats')) || {};
+        let freeCount = totalSeats - 1 - Object.keys(bookedSeats).length; // All except VIP
+        freeCountSpan.textContent = freeCount;
 
-            if (i === vipSeat) {
-                seat.classList.add('vip');
-                seat.title = 'VIP Seat - CEO Mr. Vincent Omondi (Reserved)';
-            } else {
-                seat.title = `Seat ${i} - BOOKED`;
+        let currentSeat = null;
+
+        function updateTimer() {
+            const now = new Date();
+            const timeLeft = deadline - now;
+
+            if (timeLeft <= 0) {
+                timerDiv.textContent = 'Booking period has ended!';
+                disableBookings();
+                return;
             }
 
-            container.appendChild(seat);
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            timerDiv.textContent = `Time left: ${days}d ${hours}h ${minutes}m ${seconds}s`;
         }
 
-        // Add celebration effect
-        setTimeout(() => {
-            container.style.animation = 'pulse 2s infinite';
-        }, 1000);
+        function disableBookings() {
+            const freeSeatsElems = document.querySelectorAll('.free');
+            freeSeatsElems.forEach(seat => {
+                seat.classList.remove('free');
+                seat.classList.add('booked');
+                seat.removeEventListener('click', openModal);
+            });
+            statusDiv.textContent = 'Bookings are closed.';
+        }
+
+        function openModal() {
+            currentSeat = this.dataset.seat;
+            selectedSeatSpan.textContent = currentSeat;
+            modal.showModal();
+        }
+
+        function initSeats() {
+            for (let i = 1; i <= totalSeats; i++) {
+                const seat = document.createElement('div');
+                seat.classList.add('seat');
+                seat.dataset.seat = i;
+
+                const seatNumber = document.createElement('div');
+                seatNumber.classList.add('seat-number');
+                seatNumber.textContent = i;
+                seat.appendChild(seatNumber);
+
+                if (i === vipSeat) {
+                    seat.classList.add('vip');
+                    seat.title = 'Reserved for CEO Mr. Vincent Omondi';
+                } else if (!bookedSeats[i]) {
+                    seat.classList.add('free');
+                    seat.addEventListener('click', openModal);
+                    seat.title = 'Available Seat';
+                } else {
+                    seat.classList.add('booked');
+                    seat.title = `Booked by ${bookedSeats[i].name}`;
+                }
+
+                container.appendChild(seat);
+            }
+        }
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const idNum = document.getElementById('id').value;
+            const age = parseInt(document.getElementById('age').value);
+            const phoneModel = document.getElementById('phoneModel').value;
+            const shoeSize = document.getElementById('shoeSize').value;
+
+            if (age < 18) {
+                alert('You must be at least 18 years old to book.');
+                return;
+            }
+
+            const info = `Seat: ${currentSeat}\nName: ${name}\nPhone: ${phone}\nID: ${idNum}\nAge: ${age}\nPhone Model: ${phoneModel}\nShoe Size: ${shoeSize}`;
+
+            if (confirm(`Confirm booking:\n${info}`)) {
+                bookedSeats[currentSeat] = { name, phone, idNum, age, phoneModel, shoeSize };
+                localStorage.setItem('bookedSeats', JSON.stringify(bookedSeats));
+
+                const seatElem = document.querySelector(`.seat[data-seat="${currentSeat}"]`);
+                seatElem.classList.remove('free');
+                seatElem.classList.add('booked');
+                seatElem.removeEventListener('click', openModal);
+                seatElem.title = `Booked by ${name}`;
+
+                freeCount--;
+                freeCountSpan.textContent = freeCount;
+                statusDiv.textContent = `Seat ${currentSeat} booked by ${name}!`;
+
+                const message = encodeURIComponent(`I have booked seat ${currentSeat}. Details:\nName: ${name}\nPhone: ${phone}\nID: ${idNum}\nAge: ${age}\nPhone Model: ${phoneModel}\nShoe Size: ${shoeSize}`);
+                window.location.href = `https://wa.me/${whatsappNumber}?text=${message}`;
+            }
+
+            modal.close();
+            form.reset();
+        });
+
+        updateTimer();
+        setInterval(updateTimer, 1000);
+
+        const now = new Date();
+        if (now >= deadline) {
+            disableBookings();
+        } else {
+            initSeats();
+        }
+
+        statusDiv.textContent = `Only ${freeCount} seats left!`;
     </script>
-
-    <style>
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
-    </style>
 </body>
 </html>
-
-
