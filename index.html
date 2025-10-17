@@ -122,6 +122,20 @@
             padding: 10px;
             border-radius: 10px;
         }
+        #challenge {
+            margin: 20px 0;
+        }
+        #challenge-btn {
+            background: #ff69b4;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #challenge-btn:hover {
+            background: #ff1493;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
@@ -139,10 +153,12 @@
         <div id="cute-buttons">
             <button class="cute-btn" onclick="playFancyAnimation()">💕 Fancy Hearts</button>
             <button class="cute-btn" onclick="playConfetti()">🎉 Sparkly Confetti!</button>
-            <button class="cute-btn" onclick="playMusic()">🎶 Sweet Melodies</button>
         </div>
-        <div id="message"></div>
-        <div id="typing"></div>
+        <div id="challenge">
+            <button id="challenge-btn" onclick="completeChallenge()">Accept Vincent's Cute Love Challenge 💌</button>
+        </div>
+        <div id="message" class="hidden"></div>
+        <div id="typing" class="hidden"></div>
         <div id="timer">Time to next level: 60 seconds ⏳</div>
         <button id="next-btn" class="hidden" onclick="nextLevel()">Unlock Next Level 💌</button>
     </div>
@@ -184,18 +200,29 @@
             "Level 28: To eternity and beyond, I love you endlessly. 🚀"
         ];
         const songs = [
-            'https://www.youtube.com/embed/Pvhpfoi7PEY?autoplay=1&loop=1&playlist=Pvhpfoi7PEY',
-            'https://www.youtube.com/embed/3HbKnQxd0_E?autoplay=1&loop=1&playlist=3HbKnQxd0_E',
-            'https://www.youtube.com/embed/VTbo8E8es9A?autoplay=1&loop=1&playlist=VTbo8E8es9A',
-            'https://www.youtube.com/embed/7M2G2ps9xR2?autoplay=1&loop=1&playlist=7M2G2ps9xR2', // Note: ID might have typo in search, but using as is
-            'https://www.youtube.com/embed/WcrQu5mjpME?autoplay=1&loop=1&playlist=WcrQu5mjpME',
-            'https://www.youtube.com/embed/8xg3vE8Ie_E?autoplay=1&loop=1&playlist=8xg3vE8Ie_E',
-            'https://www.youtube.com/embed/VuNIsY6JdUw?autoplay=1&loop=1&playlist=VuNIsY6JdUw'
+            'https://www.youtube.com/embed/kBSEbRtKue0?autoplay=1&loop=1&playlist=kBSEbRtKue0', // CeCile - Break Up
+            'https://www.youtube.com/embed/3HbKnQxd0_E?autoplay=1&loop=1&playlist=3HbKnQxd0_E', // Shayne Ward - Breathless
+            'https://www.youtube.com/embed/aq7W5AyS6ZE?autoplay=1&loop=1&playlist=aq7W5AyS6ZE', // Mbosso - Pawa
+            'https://www.youtube.com/embed/XODdht_bcLg?autoplay=1&loop=1&playlist=XODdht_bcLg', // Ruger - Luv Again
+            'https://www.youtube.com/embed/7M2Gps9xR8g?autoplay=1&loop=1&playlist=7M2Gps9xR8g', // Ruger - Girlfriend
+            'https://www.youtube.com/embed/yNaRT1AtS60?autoplay=1&loop=1&playlist=yNaRT1AtS60', // Ruger - Calculate Love
+            'https://www.youtube.com/embed/3cqssMaHaUA?autoplay=1&loop=1&playlist=3cqssMaHaUA', // Ruger - Kristy
+            'https://www.youtube.com/embed/xB2W9ge-Q-Y?autoplay=1&loop=1&playlist=xB2W9ge-Q-Y', // Ruger - Runaway
+            'https://www.youtube.com/embed/pabOIJRciug?autoplay=1&loop=1&playlist=pabOIJRciug', // Ruger - Make Way
+            'https://www.youtube.com/embed/WcrQu5mjpME?autoplay=1&loop=1&playlist=WcrQu5mjpME', // Rayvanny - I Love You
+            'https://www.youtube.com/embed/t6-fwyjBgyc?autoplay=1&loop=1&playlist=t6-fwyjBgyc', // Rayvanny - Forever
+            'https://www.youtube.com/embed/J8bo_M0u29o?autoplay=1&loop=1&playlist=J8bo_M0u29o', // Rayvanny - Marry Me
+            'https://www.youtube.com/embed/OmUvLpZQS3o?autoplay=1&loop=1&playlist=OmUvLpZQS3o', // Rayvanny - Mi Amor
+            'https://www.youtube.com/embed/8xg3vE8Ie_E?autoplay=1&loop=1&playlist=8xg3vE8Ie_E', // Taylor Swift - Love Story
+            'https://www.youtube.com/embed/mvxQYPR4lmU?autoplay=1&loop=1&playlist=mvxQYPR4lmU', // Taylor Swift - This Love
+            'https://www.youtube.com/embed/-BjZmE2gtdo?autoplay=1&loop=1&playlist=-BjZmE2gtdo', // Taylor Swift - Lover
+            'https://www.youtube.com/embed/M7ySK0keirY?autoplay=1&loop=1&playlist=M7ySK0keirY', // Taylor Swift - You Are In Love
+            'https://www.youtube.com/embed/VuNIsY6JdUw?autoplay=1&loop=1&playlist=VuNIsY6JdUw', // Taylor Swift - You Belong With Me
+            'https://www.youtube.com/embed/aXzVF3XeS8M?autoplay=1&loop=1&playlist=aXzVF3XeS8M' // Taylor Swift - Love Story (TV)
         ];
         let currentLevel = 0;
         let timerInterval;
         let typingInterval;
-        let isMusicPlaying = false;
 
         function checkPassword() {
             const pw = document.getElementById('password').value;
@@ -210,13 +237,26 @@
 
         function startLevel() {
             document.getElementById('level-num').textContent = currentLevel + 1;
-            document.getElementById('message').textContent = '';
-            document.getElementById('typing').textContent = '';
-            typeMessage(levels[currentLevel]);
+            document.getElementById('message').classList.add('hidden');
+            document.getElementById('typing').classList.add('hidden');
+            document.getElementById('challenge-btn').textContent = `Accept Vincent's Cute Love Challenge 💌`;
             document.getElementById('next-btn').classList.add('hidden');
+            playBackgroundMusic();
             startTimer();
-            if (currentLevel === 14) { // Special romantic animation level (arbitrary choice)
+            if (currentLevel === 14) { // Special romantic animation level
                 playFancyAnimation(); // Auto-play fancy animation on this level
+            }
+        }
+
+        function completeChallenge() {
+            // Simple cute challenge: confirm love
+            if (confirm('Do you accept my eternal love, Sharon? 💖')) {
+                document.getElementById('challenge').classList.add('hidden');
+                document.getElementById('message').classList.remove('hidden');
+                document.getElementById('typing').classList.remove('hidden');
+                typeMessage(levels[currentLevel]);
+            } else {
+                alert('Oh no! But I know you do deep down. Try again! 😘');
             }
         }
 
@@ -250,9 +290,10 @@
         function nextLevel() {
             currentLevel++;
             if (currentLevel < levels.length) {
+                document.getElementById('challenge').classList.remove('hidden');
                 startLevel();
             } else {
-                alert('Congratulations, my eternal love Sharon! You've completed our romantic journey. Vincent loves you forever and always! 💖💍');
+                alert('Congratulations, my eternal love Sharon! You\'ve completed our romantic journey. Vincent loves you forever and always! 💖💍');
             }
         }
 
@@ -277,19 +318,12 @@
             });
         }
 
-        function playMusic() {
+        function playBackgroundMusic() {
             const iframe = document.getElementById('music-iframe');
             const player = document.getElementById('music-player');
-            if (!isMusicPlaying) {
-                const randomSong = songs[Math.floor(Math.random() * songs.length)];
-                iframe.src = randomSong;
-                player.style.display = 'block';
-                isMusicPlaying = true;
-            } else {
-                iframe.src = '';
-                player.style.display = 'none';
-                isMusicPlaying = false;
-            }
+            const randomSong = songs[Math.floor(Math.random() * songs.length)];
+            iframe.src = randomSong;
+            player.style.display = 'block';
         }
     </script>
 </body>
