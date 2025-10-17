@@ -1,77 +1,129 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VinceVision Kicks Launch Seat Booking</title>
+    <title>VinceVision Kicks Launch - SOLD OUT!</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #f4f4f4;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             margin: 0;
             padding: 20px;
+            color: white;
+            min-height: 100vh;
         }
         h1 {
-            color: #333;
+            color: #FFD700;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 10px;
+        }
+        .status-container {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        .sold-out {
+            font-size: 3em;
+            color: #ff4757;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
         .seat-container {
             display: grid;
-            grid-template-columns: repeat(10, 40px); /* 10 columns for simplicity, adjust as needed */
-            gap: 5px;
+            grid-template-columns: repeat(10, 35px);
+            gap: 3px;
             justify-content: center;
             margin: 20px auto;
-            max-width: 500px;
+            max-width: 450px;
         }
         .seat {
-            width: 40px;
-            height: 40px;
-            background-color: #ccc;
+            width: 35px;
+            height: 35px;
+            background-color: #f44336;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 10px;
             color: #fff;
-            cursor: not-allowed;
-            border: 1px solid #999;
-        }
-        .free {
-            background-color: #4CAF50;
-            cursor: pointer;
-        }
-        .free:hover {
-            background-color: #45a049;
+            border: 2px solid #d32f2f;
+            border-radius: 5px;
         }
         .vip {
             background-color: #FFD700;
             color: #000;
-            cursor: not-allowed;
+            font-weight: bold;
+            border: 2px solid #FFA500;
         }
-        .booked {
-            background-color: #f44336;
+        .total-stats {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 400px;
+            font-size: 1.2em;
         }
-        #status {
+        .whatsapp-btn {
+            display: inline-block;
+            background: #25D366;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 1.2em;
             margin-top: 20px;
-            font-size: 18px;
-            color: #333;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .whatsapp-btn:hover {
+            background: #128C7E;
+            transform: scale(1.05);
+        }
+        .congrats {
+            font-size: 1.5em;
+            color: #FFD700;
+            margin: 20px 0;
         }
     </style>
 </head>
 <body>
-    <h1>VinceVision Kicks Launch Seat Booking</h1>
-    <p>Total Seats: 78 | Free Seats: 3</p>
+    <h1>🎉 VinceVision Kicks Launch 🎉</h1>
+    
+    <div class="status-container">
+        <div class="sold-out">SOLD OUT!</div>
+        <div class="congrats">All 78 Seats Booked Successfully!</div>
+        <div class="total-stats">
+            <strong>Total Seats: 78</strong><br>
+            <strong>Free Seats: 0</strong><br>
+            <strong>VIP Seat: Reserved for CEO Mr. Vincent Omondi</strong>
+        </div>
+    </div>
+
+    <h2>Seat Layout - All Booked!</h2>
     <div class="seat-container" id="seat-container"></div>
-    <div id="status"></div>
+
+    <div class="status-container">
+        <p>Thank you for the overwhelming response! All seats are now reserved.</p>
+        <br>
+        <a href="https://wa.me/+254742850266?text=Hi%20VinceVision%20Team!%20I%20saw%20the%20event%20is%20SOLD%20OUT%20-%20congratulations!%20Can%20I%20be%20notified%20for%20future%20events?" 
+           class="whatsapp-btn">
+            📱 Contact Us on WhatsApp
+        </a>
+        <p style="margin-top: 15px; font-size: 0.9em;">Get notified for future events!</p>
+    </div>
 
     <script>
         const totalSeats = 78;
-        const freeSeats = [5, 22, 47]; // Example free seat numbers (1-based)
-        const vipSeat = 1; // Example VIP seat for CEO
-        const whatsappNumber = '+254742850266';
-
+        const vipSeat = 1; // VIP seat for CEO
         const container = document.getElementById('seat-container');
-        let freeCount = freeSeats.length;
 
+        // Create all seats - ALL BOOKED
         for (let i = 1; i <= totalSeats; i++) {
             const seat = document.createElement('div');
             seat.classList.add('seat');
@@ -79,28 +131,39 @@
 
             if (i === vipSeat) {
                 seat.classList.add('vip');
-                seat.title = 'VIP Seat for CEO Mr. Vincent Omondi (Reserved)';
-            } else if (freeSeats.includes(i)) {
-                seat.classList.add('free');
-                seat.addEventListener('click', () => bookSeat(i));
+                seat.title = 'VIP Seat - CEO Mr. Vincent Omondi (Reserved)';
             } else {
-                seat.classList.add('booked');
+                seat.title = `Seat ${i} - BOOKED`;
             }
 
             container.appendChild(seat);
         }
 
-        function bookSeat(seatNumber) {
-            if (freeCount > 0) {
-                const message = encodeURIComponent(`I have booked the seat and seat number ${seatNumber}`);
-                window.location.href = `https://wa.me/${whatsappNumber}?text=${message}`;
-                // Note: In a real app, you'd update the server here, but for this demo, we redirect immediately.
-            }
-        }
-
-        document.getElementById('status').textContent = `Only ${freeCount} seats left!`;
+        // Add celebration effect
+        setTimeout(() => {
+            container.style.animation = 'pulse 2s infinite';
+        }, 1000);
     </script>
+
+    <style>
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+    </style>
 </body>
 </html>
 ```
 
+This new version shows:
+
+✅ **ALL 78 SEATS ARE BOOKED** - No free seats left  
+✅ **Clear "SOLD OUT!" message** with celebration styling  
+✅ **VIP Seat highlighted** for CEO Mr. Vincent Omondi (Seat #1)  
+✅ **Visual seat grid** with all seats red (booked) except VIP in gold  
+✅ **WhatsApp button** to contact company for future events  
+✅ **Festive design** with gradients and animations  
+✅ **Stats showing**: Total: 78 | Free: 0  
+
+The page celebrates the sell-out success and encourages visitors to contact via WhatsApp for future events! 🎉
