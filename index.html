@@ -1,13 +1,11 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vincevision - Engineering the Future</title>
+    <title>Vincevision - Under Maintenance</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <style>
         :root {
             --primary-neon: #00ffff;
@@ -27,237 +25,195 @@
 
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: var(--bg-dark);
+            background: linear-gradient(135deg, var(--bg-dark), var(--bg-gradient-1));
             color: var(--text-light);
-            overflow-x: hidden;
-            scroll-snap-type: y mandatory;
-        }
-
-        section {
-            scroll-snap-align: start;
-            min-height: 100vh;
-            padding: 5rem 2rem;
-            position: relative;
+            overflow: hidden;
+            height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
+        }
+
+        .maintenance-container {
+            max-width: 800px;
+            padding: 4rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 20px;
             text-align: center;
-        }
-
-        h2, h3 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--primary-neon);
-            text-shadow: 0 0 10px var(--primary-neon);
-        }
-
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg-dark);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            flex-direction: column;
-        }
-
-        #preloader h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 5rem;
-            color: var(--primary-neon);
-            text-transform: uppercase;
-            letter-spacing: 0.3rem;
-        }
-
-        #preloader h1 span {
-            display: inline-block;
-            opacity: 1;
-        }
-
-        .glitch-effect {
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.2);
             position: relative;
+            overflow: hidden;
+        }
+
+        .maintenance-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, var(--primary-neon), transparent 30%);
+            animation: rotate 4s linear infinite;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 6rem;
+            color: var(--primary-neon);
+            text-shadow: 0 0 20px var(--primary-neon);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .logo .glitch-effect {
             animation: glitch-flicker 2s infinite;
         }
 
         @keyframes glitch-flicker {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; text-shadow: 2px 2px var(--accent-glitch), -2px -2px var(--secondary-neon); }
+            0%, 100% { opacity: 1; transform: translate(0); }
+            20% { opacity: 0.8; transform: translate(-2px, 2px); }
+            40% { opacity: 0.9; transform: translate(2px, -2px); }
+            60% { opacity: 0.8; transform: translate(-1px, 1px); }
+            80% { opacity: 0.9; transform: translate(1px, -1px); }
         }
 
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(10, 10, 10, 0.9);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(5px);
+        .maintenance-icon {
+            font-size: 8rem;
+            margin: 2rem 0;
+            filter: drop-shadow(0 0 20px var(--primary-neon));
+            animation: pulse 2s infinite;
         }
 
-        header h1 {
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        h2 {
             font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
             color: var(--primary-neon);
-            text-shadow: 0 0 5px var(--primary-neon);
+            text-shadow: 0 0 15px var(--primary-neon);
+            margin-bottom: 1rem;
         }
 
-        nav ul {
-            list-style: none;
+        .status-message {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        #countdown {
             display: flex;
+            justify-content: center;
             gap: 2rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
         }
 
-        nav ul li a {
-            color: var(--text-light);
-            text-decoration: none;
+        .time-unit {
+            background: linear-gradient(45deg, var(--primary-neon), var(--secondary-neon));
+            color: var(--bg-dark);
+            padding: 2rem 1rem;
+            border-radius: 15px;
+            min-width: 120px;
             font-weight: bold;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
             position: relative;
-            transition: color 0.3s;
+            overflow: hidden;
+            animation: neon-glow 2s infinite alternate;
         }
 
-        nav ul li a::after {
+        .time-unit::before {
             content: '';
             position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary-neon);
-            transition: width 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: var(--primary-neon);
-        }
-
-        nav ul li a:hover::after {
-            width: 100%;
-        }
-
-        .parallax-layer {
-            position: absolute;
             top: 0;
-            left: 0;
+            left: -100%;
             width: 100%;
             height: 100%;
-            background: url('https://via.placeholder.com/1920x1080?text=Neon+Grid') no-repeat center center/cover;
-            opacity: 0.1;
-            z-index: -1;
-            transform: translateZ(0);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
         }
 
-        #overview {
-            background: linear-gradient(135deg, var(--bg-dark), var(--bg-gradient-1));
+        .time-unit:hover::before {
+            left: 100%;
         }
 
-        #ceo {
-            background: linear-gradient(135deg, var(--bg-gradient-1), var(--bg-gradient-2));
+        .time-unit span:first-child {
+            display: block;
+            font-size: 3.5rem;
+            font-family: 'Orbitron', sans-serif;
+            line-height: 1;
         }
 
-        #services {
-            background: linear-gradient(135deg, var(--bg-gradient-2), var(--bg-dark));
-            text-align: left;
+        .time-unit span:last-child {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        .service-category {
-            margin-bottom: 3rem;
-            opacity: 0;
-            transform: translateY(50px);
-        }
-
-        .service-category ul {
-            list-style: none;
-            columns: 3;
-            column-gap: 2rem;
-        }
-
-        .service-category li {
-            margin-bottom: 1rem;
-            position: relative;
-            padding-left: 2rem;
-            transition: color 0.3s;
-        }
-
-        .service-category li:hover {
-            color: var(--primary-neon);
-        }
-
-        .service-category li::before {
-            content: '>>';
+        .back-message {
             color: var(--secondary-neon);
-            position: absolute;
-            left: 0;
-            opacity: 0;
-            transition: opacity 0.3s;
+            font-size: 2rem;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 15px var(--secondary-neon);
+            animation: neon-glow 2s infinite alternate;
+            display: none;
         }
 
-        .service-category li:hover::before {
-            opacity: 1;
+        @keyframes neon-glow {
+            from { box-shadow: 0 0 10px currentColor; }
+            to { box-shadow: 0 0 30px currentColor, 0 0 40px currentColor; }
         }
 
-        #kicks {
-            background: linear-gradient(135deg, var(--bg-dark), #1a001a);
+        .contact-info {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(0, 255, 255, 0.3);
         }
 
-        #shoe-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            width: 100%;
-            max-width: 1400px;
+        .contact-item {
+            display: inline-block;
+            margin: 0 1rem;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s;
         }
 
-        .shoe-item {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 1.5rem;
-            border-radius: 15px;
-            transition: all 0.4s ease;
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            opacity: 0;
-            transform: scale(0.9);
-        }
-
-        .shoe-item:hover {
-            transform: translateY(-10px) scale(1.05);
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
-            border-color: var(--primary-neon);
-        }
-
-        .shoe-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 10px;
-            transition: filter 0.3s;
-        }
-
-        .shoe-item:hover img {
-            filter: brightness(1.2);
+        .contact-item:hover {
+            color: var(--primary-neon);
+            text-shadow: 0 0 10px var(--primary-neon);
         }
 
         .cta-button {
             background: linear-gradient(45deg, var(--primary-neon), var(--secondary-neon));
             color: var(--bg-dark);
-            padding: 0.75rem 1.5rem;
+            padding: 1rem 2rem;
             border: none;
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            margin-top: 2rem;
             display: inline-block;
-            margin-top: 1rem;
             transition: all 0.3s;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .cta-button:hover {
             transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.8);
         }
 
         .floating-cta {
@@ -266,14 +222,14 @@
             right: 3rem;
             background: linear-gradient(45deg, var(--primary-neon), var(--secondary-neon));
             color: var(--bg-dark);
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.5rem;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+            font-size: 1.8rem;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.7);
             z-index: 1000;
             animation: float-pulse 3s infinite ease-in-out;
             text-decoration: none;
@@ -281,457 +237,210 @@
 
         @keyframes float-pulse {
             0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-10px) scale(1.1); }
+            50% { transform: translateY(-15px) scale(1.1); }
         }
 
-        .tagline {
-            font-size: 1.5rem;
-            margin-top: 2rem;
-            color: var(--secondary-neon);
-            text-shadow: 0 0 10px var(--secondary-neon);
-            animation: neon-glow 2s infinite alternate;
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.1;
         }
 
-        @keyframes neon-glow {
-            from { text-shadow: 0 0 5px var(--secondary-neon); }
-            to { text-shadow: 0 0 20px var(--secondary-neon), 0 0 30px var(--secondary-neon); }
-        }
-
-        @media (max-width: 992px) {
-            .service-category ul {
-                columns: 2;
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 4rem;
             }
-        }
-
-        @media (max-width: 600px) {
-            .service-category ul {
-                columns: 1;
+            
+            .maintenance-icon {
+                font-size: 5rem;
             }
-
-            #preloader h1 {
-                font-size: 3rem;
-            }
-
-            nav ul {
-                flex-direction: column;
+            
+            #countdown {
                 gap: 1rem;
+            }
+            
+            .time-unit {
+                min-width: 90px;
+                padding: 1.5rem 0.5rem;
+            }
+            
+            .time-unit span:first-child {
+                font-size: 2.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <div id="preloader">
-        <h1 class="glitch-effect">Vincevision</h1>
-        <p style="color: var(--primary-neon); margin-top: 1rem;">Powering Up Systems...</p>
-    </div>
+    <!-- Matrix Background -->
+    <canvas class="matrix-bg" id="matrix"></canvas>
 
-    <header>
-        <h1>Vincevision</h1>
-        <nav>
-            <ul>
-                <li><a href="#overview">Overview</a></li>
-                <li><a href="#ceo">CEO</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#kicks">Kicks</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <section id="overview">
-        <div class="parallax-layer"></div>
-        <h2>Welcome to Vincevision</h2>
-        <p>Headquarters: Los Angeles, USA</p>
-        <p>Current Operations: Kenya</p>
-        <p>Email: <a href="mailto:skytechplc@protonmail.com" style="color: var(--primary-neon);">skytechplc@protonmail.com</a></p>
-        <p>WhatsApp: <a href="https://wa.me/254742850266" style="color: var(--secondary-neon);">Contact via WhatsApp</a></p>
-        <p class="tagline">Engineering the Future, One Innovation at a Time.</p>
-    </section>
-
-    <section id="ceo">
-        <div class="parallax-layer"></div>
-        <h2>Our Visionary Leader</h2>
-        <h3>Mr. Vincent Omondi</h3>
-        <p>Age: 25 | Founder & CEO</p>
-        <p>Vision: Building the world's largest global tech empire, democratizing access to cutting-edge technology across continents.</p>
-        <p>At just 25, Mr. Vincent Omondi stands as a beacon of innovation and leadership in the tech world. His journey began in the bustling streets of Nairobi, Kenya, where a borrowed laptop sparked an insatiable curiosity for coding at age 10. Self-taught through free online resources, he developed his first mobile app—a community health tracker—by 16, which gained local acclaim and funding from international grants.</p>
-        <p>Vincent's leadership shines through his ability to assemble diverse, high-performing teams, fostering environments where creativity thrives. His expertise spans AI, blockchain, quantum-inspired algorithms, and sustainable tech solutions. With an international mindset, he expanded Vincevision to Los Angeles, establishing partnerships with Silicon Valley giants while maintaining roots in African innovation hubs.</p>
-        <p>Beyond business, Vincent is a dedicated mentor, having trained over 5,000 young Africans in tech skills via virtual academies. His drive for innovation has led to patents in AI ethics and green computing. Under his guidance, Vincevision pioneers solutions that solve global challenges, from climate tech to inclusive digital economies, aiming for a future where technology empowers everyone.</p>
-        <p>He envisions Vincevision not just as a company, but as a movement—bridging gaps, shattering barriers, and engineering tomorrow today.</p>
-    </section>
-
-    <section id="services">
-        <div class="parallax-layer"></div>
-        <h2>Comprehensive Tech Services</h2>
-        <p>Delivering excellence online and on-site worldwide. Our services span every corner of technology, powered by experts committed to your success.</p>
+    <div class="maintenance-container">
+        <div class="logo glitch-effect">Vincevision</div>
+        <div class="maintenance-icon">🔧⚡🔩</div>
+        <h2>Systems Under Maintenance</h2>
+        <p class="status-message">Engineering the Future - Reboot in Progress</p>
         
-        <div class="service-category" id="cat-software">
-            <h3>Software Development</h3>
-            <ul>
-                <li>Full-Stack Web Development</li>
-                <li>Mobile Apps (Native, Hybrid, Cross-Platform)</li>
-                <li>Desktop Applications (Electron, .NET)</li>
-                <li>Custom Enterprise Software</li>
-                <li>API Design & Microservices</li>
-                <li>Progressive Web Apps & SPAs</li>
-                <li>Legacy Code Refactoring</li>
-                <li>Low-Code/No-Code Solutions</li>
-                <li>Embedded Software</li>
-                <li>Firmware Development</li>
-            </ul>
+        <div id="countdown"></div>
+        <div id="back-message" class="back-message">🚀 SYSTEMS ONLINE! Redirecting to Future...</div>
+        
+        <div class="contact-info">
+            <p>Stay Connected:</p>
+            <a href="mailto:skytechplc@protonmail.com" class="contact-item">📧 Email</a>
+            <a href="https://wa.me/254742850266" class="contact-item">💬 WhatsApp</a>
+            <a href="https://wa.me/254742850266" class="cta-button">Contact Now</a>
         </div>
-
-        <div class="service-category" id="cat-ai">
-            <h3>AI & Machine Learning</h3>
-            <ul>
-                <li>Custom AI Models (TensorFlow, PyTorch)</li>
-                <li>ML Pipelines & Deployment</li>
-                <li>NLP for Chatbots & Sentiment Analysis</li>
-                <li>Computer Vision & Image Recognition</li>
-                <li>Generative AI (GANs, Diffusion Models)</li>
-                <li>AI Integration & Automation</li>
-                <li>Edge AI for Devices</li>
-                <li>Ethical AI Auditing</li>
-                <li>Robotic Process Automation (RPA)</li>
-                <li>Federated Learning</li>
-            </ul>
-        </div>
-
-        <!-- Expanded categories with more services -->
-        <div class="service-category" id="cat-cyber">
-            <h3>Cybersecurity</h3>
-            <ul>
-                <li>Ethical Hacking & Pentesting</li>
-                <li>Threat Intelligence</li>
-                <li>Malware Analysis</li>
-                <li>Security Operations Center (SOC)</li>
-                <li>Identity & Access Management</li>
-                <li>Ransomware Protection</li>
-                <li>Blockchain Security</li>
-                <li>IoT Security</li>
-                <li>Forensic Investigations</li>
-                <li>CISO as a Service</li>
-            </ul>
-        </div>
-
-        <div class="service-category" id="cat-cloud">
-            <h3>Cloud & DevOps</h3>
-            <ul>
-                <li>Multi-Cloud Strategies (AWS, Azure, GCP)</li>
-                <li>Serverless Architectures</li>
-                <li>Kubernetes Orchestration</li>
-                <li>CI/CD Automation (Jenkins, GitOps)</li>
-                <li>Terraform IaC</li>
-                <li>Monitoring & Logging (ELK, Prometheus)</li>
-                <li>Disaster Recovery Planning</li>
-                <li>Cost Optimization</li>
-                <li>FinOps Consulting</li>
-                <li>Cloud-Native Development</li>
-            </ul>
-        </div>
-
-        <div class="service-category" id="cat-blockchain">
-            <h3>Blockchain & Web3</h3>
-            <ul>
-                <li>dApp Development (Ethereum, Solana)</li>
-                <li>Smart Contract Creation & Audit</li>
-                <li>NFT Marketplaces</li>
-                <li>DeFi Protocols</li>
-                <li>DAO Setup</li>
-                <li>Layer 2 Scaling Solutions</li>
-                <li>Crypto Wallet Integration</li>
-                <li>Metaverse Development</li>
-                <li>Zero-Knowledge Proofs</li>
-                <li>Web3 Authentication</li>
-            </ul>
-        </div>
-
-        <div class="service-category" id="cat-consult">
-            <h3>IT Consulting</h3>
-            <ul>
-                <li>Digital Transformation Roadmaps</li>
-                <li>Tech Stack Advisory</li>
-                <li>Agile & DevOps Coaching</li>
-                <li>Risk Assessment</li>
-                <li>Innovation Workshops</li>
-                <li>Scalability Planning</li>
-                <li>Mergers & Acquisitions Tech Due Diligence</li>
-                <li>Sustainability in IT</li>
-                <li>Remote Work Infrastructure</li>
-                <li>Global Compliance</li>
-            </ul>
-        </div>
-
-        <div class="service-category" id="cat-uiux">
-            <h3>UI/UX & Design</h3>
-            <ul>
-                <li>User Research & Personas</li>
-                <li>Wireframing (Figma, Adobe XD)</li>
-                <li>Prototyping & MVPs</li>
-                <li>Motion Design & Animations</li>
-                <li>Brand Identity Tech Integration</li>
-                <li>A/B Testing</li>
-                <li>Voice UI Design</li>
-                <li>AR/VR Interfaces</li>
-                <li>Design Systems & Component Libraries</li>
-                <li>Inclusive Design</li>
-            </ul>
-        </div>
-
-        <div class="service-category" id="cat-data">
-            <h3>Data & Analytics</h3>
-            <ul>
-                <li>Big Data Engineering (Hadoop, Spark)</li>
-                <li>Data Lakes & Warehouses</li>
-                <li>BI Dashboards (Tableau, Power BI)</li>
-                <li>Predictive & Prescriptive Analytics</li>
-                <li>Data Governance & Privacy</li>
-                <li>Real-Time Streaming (Kafka)</li>
-                <li>Graph Databases</li>
-                <li>Geospatial Analysis</li>
-                <li>Anomaly Detection</li>
-                <li>Data Monetization Strategies</li>
-            </ul>
-        </div>
-
-        <div class="service-category" id="cat-erp">
-            <h3>ERP/CRM</h3>
-            <ul>
-                <li>Odoo, SAP, Oracle Implementations</li>
-                <li>Salesforce Customization</li>
-                <li>HubSpot Integrations</li>
-                <li>Inventory & Supply Chain Modules</li>
-                <li>Finance & HR Systems</li>
-                <li>Customer Journey Mapping</li>
-                <li>Omnichannel Solutions</li>
-                <li>AI-Enhanced CRM</li>
-                <li>Migration Services</li>
-                <li>Custom Modules</li>
-            </ul>
-        </div>
-
-        <div class="service-category" id="cat-iot">
-            <h3>IoT & Hardware</h3>
-            <ul>
-                <li>Smart Device Prototyping</li>
-                <li>Hardware Repair & Diagnostics</li>
-                <li>Network Installation (LAN/WAN)</li>
-                <li>5G & Edge Computing</li>
-                <li>Drone Tech & Mapping</li>
-                <li>3D Printing & CAD Design</li>
-                <li>Robotics Assembly</li>
-                <li>Wearables Development</li>
-                <li>Sensor Networks</li>
-                <li>Industrial Automation</li>
-            </ul>
-        </div>
-
-        <div class="service-category" id="cat-media">
-            <h3>Media & Emerging Tech</h3>
-            <ul>
-                <li>AR/VR Content Creation</li>
-                <li>Game Dev (Unity, Unreal)</li>
-                <li>Photography/Videography Tech</li>
-                <li>Streaming Platforms</li>
-                <li>Quantum Computing Simulations</li>
-                <li>Biometrics Integration</li>
-                <li>Neuotech Interfaces</li>
-                <li>Space Tech Software</li>
-                <li>Green Energy IT</li>
-                <li>Nanotech Consulting</li>
-            </ul>
-        </div>
-
-        <!-- Add more categories to cover all possible tech services -->
-        <div class="service-category" id="cat-extra">
-            <h3>Additional Specialized Services</h3>
-            <ul>
-                <li>FinTech & Payment Gateways</li>
-                <li>HealthTech & Telemedicine</li>
-                <li>EduTech Platforms</li>
-                <li>AgriTech Sensors</li>
-                <li>Smart City Infrastructures</li>
-                <li>E-commerce Engines</li>
-                <li>Social Media Algorithms</li>
-                <li>Voice & Speech Tech</li>
-                <li>Autonomous Systems</li>
-                <li>Cryptographic Protocols</li>
-                <li>HPC Clusters</li>
-                <li>Custom Chip Design</li>
-                <li>SEO Tech Tools</li>
-                <li>Virtual Events Tech</li>
-                <li>Disaster Response Tech</li>
-                <li>And Many More Innovations...</li>
-            </ul>
-        </div>
-    </section>
-
-    <section id="kicks">
-        <div class="parallax-layer"></div>
-        <h2>Vincevision Kicks - Step Into the Future</h2>
-        <p>Premium sneaker subsidiary offering global styles. Order directly via WhatsApp for seamless delivery.</p>
-        <div id="shoe-grid">
-            <!-- 70 Shoes with varied designs -->
-            <div class="shoe-item">
-                <img src="https://via.placeholder.com/300?text=Neon+Runner+X1" alt="Neon Runner X1">
-                <h4>Neon Runner X1</h4>
-                <p>Price: $120</p>
-                <a href="https://wa.me/254742850266?text=Interested%20in%20Neon%20Runner%20X1" class="cta-button">Order</a>
-            </div>
-            <div class="shoe-item">
-                <img src="https://via.placeholder.com/300?text=Glitch+Boost+Pro" alt="Glitch Boost Pro">
-                <h4>Glitch Boost Pro</h4>
-                <p>Price: $180</p>
-                <a href="https://wa.me/254742850266?text=Interested%20in%20Glitch%20Boost%20Pro" class="cta-button">Order</a>
-            </div>
-            <!-- Repeat pattern for 70 items with unique names -->
-            <div class="shoe-item">
-                <img src="https://via.placeholder.com/300?text=Futurist+Air+Max" alt="Futurist Air Max">
-                <h4>Futurist Air Max</h4>
-                <p>Price: $150</p>
-                <a href="https://wa.me/254742850266?text=Interested%20in%20Futurist%20Air%20Max" class="cta-button">Order</a>
-            </div>
-            <div class="shoe-item">
-                <img src="https://via.placeholder.com/300?text=Quantum+Stride" alt="Quantum Stride">
-                <h4>Quantum Stride</h4>
-                <p>Price: $200</p>
-                <a href="https://wa.me/254742850266?text=Interested%20in%20Quantum%20Stride" class="cta-button">Order</a>
-            </div>
-            <div class="shoe-item">
-                <img src="https://via.placeholder.com/300?text=Cyber+Punk+Low" alt="Cyber Punk Low">
-                <h4>Cyber Punk Low</h4>
-                <p>Price: $95</p>
-                <a href="https://wa.me/254742850266?text=Interested%20in%20Cyber%20Punk%20Low" class="cta-button">Order</a>
-            </div>
-            <div class="shoe-item">
-                <img src="https://via.placeholder.com/300?text=Neon+Wave+High" alt="Neon Wave High">
-                <h4>Neon Wave High</h4>
-                <p>Price: $110</p>
-                <a href="https://wa.me/254742850266?text=Interested%20in%20Neon%20Wave%20High" class="cta-button">Order</a>
-            </div>
-            <div class="shoe-item">
-                <img src="https://via.placeholder.com/300?text=Holo+Boost+350" alt="Holo Boost 350">
-                <h4>Holo Boost 350</h4>
-                <p>Price: $220</p>
-                <a href="https://wa.me/254742850266?text=Interested%20in%20Holo%20Boost%20350" class="cta-button">Order</a>
-            </div>
-            <div class="shoe-item">
-                <img src="https://via.placeholder.com/300?text=Matrix+Runner" alt="Matrix Runner">
-                <h4>Matrix Runner</h4>
-                <p>Price: $130</p>
-                <a href="https://wa.me/254742850266?text=Interested%20in%20Matrix%20Runner" class="cta-button">Order</a>
-            </div>
-            <div class="shoe-item">
-                <img src="https://via.placeholder.com/300?text=Glitch+Force+1" alt="Glitch Force 1">
-                <h4>Glitch Force 1</h4>
-                <p>Price: $100</p>
-                <a href="https://wa.me/254742850266?text=Interested%20in%20Glitch%20Force%201" class="cta-button">Order</a>
-            </div>
-            <div class="shoe-item">
-                <img src="https://via.placeholder.com/300?text=Visionary+Ultra" alt="Visionary Ultra">
-                <h4>Visionary Ultra</h4>
-                <p>Price: $190</p>
-                <a href="https://wa.me/254742850266?text=Interested%20in%20Visionary%20Ultra" class="cta-button">Order</a>
-            </div>
-            <!-- Continue to 70... (abbreviated for brevity, in full code would list all 70) -->
-            <div class="shoe-item">
-                <img src="https://via.placeholder.com/300?text=Tech+Nova+Slip" alt="Tech Nova Slip">
-                <h4>Tech Nova Slip</h4>
-                <p>Price: $85</p>
-                <a href="https://wa.me/254742850266?text=Interested%20in%20Tech%20Nova%20Slip" class="cta-button">Order</a>
-            </div>
-            <!-- ... up to 70 unique entries with varied prices $50-$500 and futuristic names like AI Lace Pro, VR Step Elite, Blockchain Boot, etc. -->
-            <!-- For this response, note: In a complete file, expand to 70 with names like Echo Pulse, Fusion Kick, etc. -->
-            <!-- Placeholder for remaining 60 -->
-            <!--[Additional 60 shoe items here with similar structure, unique names, and Pinterest-style placeholders e.g., https://via.placeholder.com/300?text=Shoe+11 ]-->
-        </div>
-    </section>
-
-    <section id="contact">
-        <div class="parallax-layer"></div>
-        <h2>Get In Touch</h2>
-        <p>Email us at <a href="mailto:skytechplc@protonmail.com" style="color: var(--primary-neon);">skytechplc@protonmail.com</a></p>
-        <a href="https://wa.me/254742850266" class="cta-button" style="font-size: 1.2rem; padding: 1rem 2rem;">Start Chat on WhatsApp</a>
-    </section>
+    </div>
 
     <a href="https://wa.me/254742850266" class="floating-cta">💬</a>
 
     <script>
-        // Preloader with enhanced glitch and sequential fade
-        window.addEventListener('load', () => {
-            const preloader = document.getElementById('preloader');
-            const title = preloader.querySelector('h1');
-            title.innerHTML = title.textContent.split('').map(char => `<span>${char}</span>`).join('');
-            const spans = title.querySelectorAll('span');
+        // Matrix Background Animation
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-            gsap.timeline({
-                onComplete: () => {
-                    gsap.to(preloader, {opacity: 0, duration: 1, display: 'none'});
-                }
-            })
-            .to(spans, {
-                opacity: 0,
-                color: '#000000',  // Fade to invisible (not black bg, but transparent effect)
-                stagger: 0.15,
-                duration: 0.8,
-                ease: 'power4.in',
-                filter: 'blur(5px)'
-            })
-            .to(preloader.querySelector('p'), {opacity: 0, y: -20, duration: 0.5}, '-=0.5');
+        const matrix = "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン".split("");
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00ffff';
+            ctx.font = `${fontSize}px monospace`;
+
+            drops.forEach((y, i) => {
+                const text = matrix[Math.floor(Math.random() * matrix.length)];
+                ctx.fillText(text, i * fontSize, y * fontSize);
+                if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            });
+        }
+
+        setInterval(drawMatrix, 50);
+
+        // Countdown Timer
+        function updateCountdown() {
+            const endDate = new Date("2025-10-18T00:00:00").getTime();
+            const now = new Date().getTime();
+            const diff = endDate - now;
+            const countdownEl = document.getElementById("countdown");
+            const backMessage = document.getElementById("back-message");
+
+            if (diff < 0) {
+                countdownEl.style.display = 'none';
+                backMessage.style.display = 'block';
+                
+                // Animate success message
+                gsap.fromTo(backMessage, 
+                    { scale: 0, opacity: 0, rotation: -180 },
+                    { scale: 1, opacity: 1, rotation: 0, duration: 1, ease: "back.out(1.7)" }
+                );
+                
+                // Redirect after 3 seconds
+                setTimeout(() => {
+                    window.location.href = '/'; // Replace with your main site URL
+                }, 3000);
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            countdownEl.innerHTML = `
+                <div class="time-unit">
+                    <span>${days.toString().padStart(2, '0')}</span>
+                    <span>Days</span>
+                </div>
+                <div class="time-unit">
+                    <span>${hours.toString().padStart(2, '0')}</span>
+                    <span>Hours</span>
+                </div>
+                <div class="time-unit">
+                    <span>${minutes.toString().padStart(2, '0')}</span>
+                    <span>Minutes</span>
+                </div>
+                <div class="time-unit">
+                    <span>${seconds.toString().padStart(2, '0')}</span>
+                    <span>Seconds</span>
+                </div>
+            `;
+        }
+
+        // GSAP Animations
+        gsap.from(".logo", { 
+            scale: 0, 
+            duration: 1.5, 
+            ease: "back.out(1.7)",
+            rotation: 360
         });
 
-        // Scroll snapping and animations
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Parallax layers
-        gsap.utils.toArray('.parallax-layer').forEach(layer => {
-            gsap.to(layer, {
-                yPercent: -50,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: layer.parentElement,
-                    scrub: 1
-                }
-            });
+        gsap.from(".maintenance-icon", { 
+            y: -100, 
+            opacity: 0, 
+            duration: 1, 
+            delay: 0.5,
+            ease: "power2.out"
         });
 
-        // Service categories fade in
-        gsap.utils.toArray('.service-category').forEach((cat, i) => {
-            gsap.to(cat, {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                delay: i * 0.2,
-                scrollTrigger: {
-                    trigger: '#services',
-                    start: 'top top',
-                    toggleActions: 'play none none reverse'
-                }
-            });
+        gsap.from("h2", { 
+            y: 50, 
+            opacity: 0, 
+            duration: 1, 
+            delay: 1,
+            ease: "power2.out"
         });
 
-        // Shoe items stagger animation
-        gsap.utils.toArray('.shoe-item').forEach((item, i) => {
-            gsap.to(item, {
-                opacity: 1,
-                scale: 1,
-                duration: 0.5,
-                delay: i * 0.05,
-                ease: 'back.out(1.7)',
-                scrollTrigger: {
-                    trigger: '#kicks',
-                    start: 'top 80%',
-                }
-            });
+        gsap.from(".status-message", { 
+            y: 50, 
+            opacity: 0, 
+            duration: 1, 
+            delay: 1.2,
+            ease: "power2.out"
         });
 
-        // Navigation smooth scroll
-        document.querySelectorAll('nav a').forEach(link => {
-            link.addEventListener('click', e => {
-                e.preventDefault();
-                const target = document.querySelector(link.getAttribute('href'));
-                target.scrollIntoView({ behavior: 'smooth' });
-            });
+        gsap.from("#countdown", { 
+            scale: 0.5, 
+            opacity: 0, 
+            duration: 1.5, 
+            delay: 1.5,
+            ease: "back.out(1.7)"
+        });
+
+        gsap.from(".contact-info", { 
+            y: 50, 
+            opacity: 0, 
+            duration: 1, 
+            delay: 2,
+            ease: "power2.out"
+        });
+
+        // Continuous animations for time units
+        gsap.to(".time-unit", {
+            scale: 1.05,
+            duration: 0.5,
+            yoyo: true,
+            repeat: -1,
+            stagger: 0.2
+        });
+
+        // Initial call and update every second
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Responsive canvas resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         });
     </script>
 </body>
