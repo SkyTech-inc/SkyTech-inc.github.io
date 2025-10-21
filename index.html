@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VinceVision iPhone 14 Pro Max Giveaway - Match 3 Cards!</title>
+    <title>iPhone 14 Pro Max Giveaway - Match 3 Cards!</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
         
@@ -300,8 +300,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🎉 VinceVision iPhone 14 Pro Max Giveaway! 🎉</h1>
-            <img src="https://i.pinimg.com/1200x/43/e2/14/43e214430d4a8b5c4156b146a2d2be71.jpg" alt="iPhone 14 Pro Max" class="iphone-image">
+            <h1>🎉 iPhone 14 Pro Max Giveaway! 🎉</h1>
+            <img src="https://images.unsplash.com/photo-1664478546384-839152e0f701?w=200&h=400&fit=crop" alt="iPhone 14 Pro Max" class="iphone-image">
             <div class="countdown">
                 <h3>⏰ Giveaway Ends In:</h3>
                 <div class="time-display" id="countdown"></div>
@@ -311,7 +311,7 @@
         <div class="game-info">
             <h3>📱 Win iPhone 14 Pro Max 256GB!</h3>
             <p><strong>Match 3 identical cards</strong> to win! Only <span id="winners-left">1</span> winner left!</p>
-            <p><em>⚠ ONE ATTEMPT ONLY - Failed attempt = BLOCKED!</em></p>
+            <p><em>⚠️ ONE ATTEMPT ONLY - Failed attempt = BLOCKED!</em></p>
         </div>
 
         <!-- Blocked Message -->
@@ -331,7 +331,7 @@
                 <li>Click any card to flip it</li>
                 <li>Find and select <strong>3 matching cards</strong></li>
                 <li>Complete the set to WIN the iPhone!</li>
-                <li><strong>⚠ ONE CHANCE ONLY</strong> - Fail = BLOCKED FOREVER!</li>
+                <li><strong>⚠️ ONE CHANCE ONLY</strong> - Fail = BLOCKED FOREVER!</li>
             </ol>
         </div>
 
@@ -403,8 +403,8 @@
             }
 
             checkDeviceStatus() {
-                const attempts = parseInt(localStorage.getItem(${this.deviceId}_attempts) || '0');
-                const hasWon = localStorage.getItem(${this.deviceId}_won) === 'true';
+                const attempts = parseInt(localStorage.getItem(`${this.deviceId}_attempts`) || '0');
+                const hasWon = localStorage.getItem(`${this.deviceId}_won`) === 'true';
                 
                 if (hasWon) {
                     this.showBlockedMessage('You already WON! Check your email for iPhone delivery!');
@@ -417,7 +417,7 @@
                 }
                 
                 // First attempt - increment immediately
-                localStorage.setItem(${this.deviceId}_attempts, '1');
+                localStorage.setItem(`${this.deviceId}_attempts`, '1');
                 this.isBlocked = false;
             }
 
@@ -494,7 +494,7 @@
             handleCardClick(card) {
                 if (this.isBlocked || this.hasWon()) return;
                 
-                const cardElement = document.querySelector([data-id="${card.id}"]);
+                const cardElement = document.querySelector(`[data-id="${card.id}"]`);
                 
                 // Flip card
                 cardElement.classList.add('flipped');
@@ -519,7 +519,7 @@
                 if (card1.image === card2.image && card2.image === card3.image) {
                     this.handleWin();
                 } else {
-                    // *CRITICAL: BLOCK DEVICE AFTER ONE FAILED ATTEMPT*
+                    // **CRITICAL: BLOCK DEVICE AFTER ONE FAILED ATTEMPT**
                     this.handleFailedAttempt();
                 }
             }
@@ -528,12 +528,12 @@
                 // Flip cards back
                 this.resetSelection();
                 
-                // *BLOCK THIS DEVICE IMMEDIATELY*
+                // **BLOCK THIS DEVICE IMMEDIATELY**
                 this.showBlockedMessage('❌ WRONG MATCH! Device BLOCKED after 1 failed attempt!');
                 
                 // Mark as blocked
-                localStorage.setItem(${this.deviceId}_blocked, 'true');
-                localStorage.setItem(${this.deviceId}_attempts, '2'); // Mark as failed
+                localStorage.setItem(`${this.deviceId}_blocked`, 'true');
+                localStorage.setItem(`${this.deviceId}_attempts`, '2'); // Mark as failed
                 
                 // Disable all cards
                 document.querySelectorAll('.card').forEach(card => {
@@ -543,14 +543,14 @@
 
             handleWin() {
                 this.selectedCards.forEach(card => {
-                    const cardElement = document.querySelector([data-id="${card.id}"]);
+                    const cardElement = document.querySelector(`[data-id="${card.id}"]`);
                     cardElement.classList.remove('selected');
                     cardElement.classList.add('matched');
                 });
 
                 // Mark as winner (NOT blocked)
-                localStorage.setItem(${this.deviceId}_won, 'true');
-                localStorage.setItem(${this.deviceId}_attempts, '0'); // Reset attempts for winner
+                localStorage.setItem(`${this.deviceId}_won`, 'true');
+                localStorage.setItem(`${this.deviceId}_attempts`, '0'); // Reset attempts for winner
                 
                 // Show win modal
                 document.getElementById('winModal').style.display = 'block';
@@ -562,7 +562,7 @@
 
             resetSelection() {
                 this.selectedCards.forEach(card => {
-                    const cardElement = document.querySelector([data-id="${card.id}"]);
+                    const cardElement = document.querySelector(`[data-id="${card.id}"]`);
                     cardElement.classList.remove('flipped', 'selected');
                     card.isFlipped = false;
                     card.isSelected = false;
@@ -572,7 +572,7 @@
             }
 
             hasWon() {
-                return localStorage.getItem(${this.deviceId}_won) === 'true';
+                return localStorage.getItem(`${this.deviceId}_won`) === 'true';
             }
 
             startCountdown() {
@@ -586,7 +586,7 @@
                         const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
                         
                         document.getElementById('countdown').textContent = 
-                            ${hours}h ${minutes}m ${seconds}s;
+                            `${hours}h ${minutes}m ${seconds}s`;
                     } else {
                         document.getElementById('countdown').textContent = 'GIVEAWAY ENDED!';
                         if (!this.isBlocked && !this.hasWon()) {
@@ -607,7 +607,7 @@
                 const phone = document.getElementById('phone').value;
 
                 // Simulate form submission
-                alert(Congratulations ${name}!\n\nYour iPhone 14 Pro Max 256GB is on its way!\n\nWe'll contact you at ${email} within 24 hours.\n\nThank you for participating! 🎉);
+                alert(`Congratulations ${name}!\n\nYour iPhone 14 Pro Max 256GB is on its way!\n\nWe'll contact you at ${email} within 24 hours.\n\nThank you for participating! 🎉`);
                 
                 // Close modal
                 document.getElementById('winModal').style.display = 'none';
