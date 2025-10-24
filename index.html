@@ -1,881 +1,607 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VinceVision - Premium Tech Solutions</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --black: #0a0a0a;
-            --gold: #D4AF37;
-            --blue: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            --white: #ffffff;
-            --shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--black);
-            color: var(--white);
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-
-        body.light {
-            --black: #ffffff;
-            --white: #0a0a0a;
-        }
-
-        /* Circuit Animation */
-        .circuit-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.1;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10 50 L20 50 M30 50 L40 50 M50 50 L60 50 M70 50 L80 50 M90 50 L95 50" stroke="%23D4AF37" stroke-width="0.5" opacity="0.3"/><path d="M50 10 L50 20 M50 30 L50 40 M50 60 L50 70 M50 80 L50 90" stroke="%23D4AF37" stroke-width="0.5" opacity="0.3"/><circle cx="25" cy="25" r="2" fill="%23D4AF37"/><circle cx="75" cy="25" r="2" fill="%23D4AF37"/><circle cx="25" cy="75" r="2" fill="%23D4AF37"/><circle cx="75" cy="75" r="2" fill="%23D4AF37"/></svg>') repeat;
-            animation: circuitMove 20s linear infinite;
-        }
-
-        @keyframes circuitMove {
-            0% { transform: translateX(0) translateY(0); }
-            100% { transform: translateX(-100px) translateY(-100px); }
-        }
-
-        /* Header */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .logo {
-            font-size: 2rem;
-            font-weight: 700;
-            background: var(--blue);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .logo i {
-            color: var(--gold);
-            margin-right: 0.5rem;
-        }
-
-        nav a {
-            color: var(--white);
-            text-decoration: none;
-            margin: 0 1.5rem;
-            font-weight: 400;
-            transition: color 0.3s ease, letter-spacing 0.3s ease;
-            position: relative;
-        }
-
-        nav a:hover {
-            color: var(--gold);
-            letter-spacing: 0.1em;
-        }
-
-        nav a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background-color: var(--gold);
-            transition: width 0.3s ease;
-        }
-
-        nav a:hover::after {
-            width: 100%;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        #search {
-            padding: 0.5rem 1rem;
-            border: 2px solid var(--gold);
-            border-radius: 25px;
-            background: transparent;
-            color: var(--white);
-            width: 250px;
-        }
-
-        #mode-toggle {
-            background: var(--blue);
-            color: var(--white);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        #local-time {
-            background: rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 16px;
-            padding: 0.6rem 1.2rem;
-            font-weight: 500;
-            color: var(--white);
-            font-size: 0.9rem;
-            text-align: center;
-            min-width: 200px;
-        }
-
-        body.light #local-time {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            color: var(--black);
-        }
-
-        /* Hero Section */
-        #home {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        #home video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.8;
-            z-index: -1;
-        }
-
-        .hero-content {
-            z-index: 1;
-        }
-
-        .hero-content h1 {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease forwards;
-        }
-
-        .hero-content p {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.3s forwards;
-        }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Services Grid */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            padding: 5rem 5%;
-        }
-
-        .service-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 20px;
-            padding: 2rem;
-            backdrop-filter: blur(10px);
-            transform: translateY(50px);
-            opacity: 0;
-            transition: all 0.6s ease;
-        }
-
-        .service-card.visible {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .service-card h2 {
-            color: var(--gold);
-            margin-bottom: 1rem;
-            font-size: 1.8rem;
-        }
-
-        /* Slideshow */
-        .slideshow {
-            height: 250px;
-            overflow: hidden;
-            border-radius: 15px;
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-
-        .slide {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 1s ease;
-        }
-
-        .slide.active {
-            opacity: 1;
-        }
-
-        .slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Quote Buttons */
-        .quote-options {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .quote-btn {
-            flex: 1;
-            padding: 1rem;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .whatsapp-btn {
-            background: #25D366;
-            color: white;
-        }
-
-        .email-btn {
-            background: var(--blue);
-            color: white;
-        }
-
-        .quote-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-
-        /* CEO Section */
-        #ceo {
-            padding: 5rem 5%;
-            text-align: center;
-            background: var(--blue);
-        }
-
-        .ceo-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .ceo-image {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            margin: 0 auto 2rem;
-            background: var(--gold);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            color: var(--black);
-        }
-
-        /* Modal */
-        #modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: var(--black);
-            padding: 3rem;
-            border-radius: 20px;
-            text-align: center;
-            border: 2px solid var(--gold);
-        }
-
-        /* Footer */
-        footer {
-            background: rgba(10, 10, 10, 0.95);
-            padding: 2rem 5%;
-            text-align: center;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .services-grid {
-                grid-template-columns: 1fr;
-                padding: 2rem 2%;
-            }
-            
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-        }
-
-        /* Search Results */
-        .search-results {
-            position: absolute;
-            background: var(--black);
-            border: 1px solid var(--gold);
-            border-radius: 10px;
-            width: 250px;
-            top: 100%;
-            right: 0;
-            z-index: 1001;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .search-item {
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .search-item:hover {
-            background: var(--gold);
-            color: var(--black);
-        }
-
-        /* Additional styles for Microsoft-like feel */
-        body {
-            line-height: 1.6;
-        }
-
-        h1, h2 {
-            font-weight: 600;
-        }
-
-        a {
-            transition: color 0.2s ease-in-out;
-        }
-
-        button {
-            transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-        }
-
-        .service-card {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: box-shadow 0.3s ease;
-        }
-
-        .service-card:hover {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        header {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Faint faded watermark on all slideshow images */
-        .slideshow::before {
-            content: "VinceVision";
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 1.5rem;
-            font-weight: bold;
-            z-index: 1;
-        }
-
-        body.light .slideshow::before {
-            color: rgba(0, 0, 0, 0.3);
-        }
-
-        /* Preloader with TikTok-style glitch effect */
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--black);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
-        }
-
-        #preloader.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .glitch {
-            color: var(--white);
-            font-size: 4rem;
-            font-weight: bold;
-            position: relative;
-            animation: glitch 1s linear infinite;
-        }
-
-        .glitch::before,
-        .glitch::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .glitch::before {
-            left: 2px;
-            text-shadow: -2px 0 #ff00c1;
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim 5s infinite linear alternate-reverse;
-        }
-
-        .glitch::after {
-            left: -2px;
-            text-shadow: -2px 0 #00fff9, 2px 2px #ff00c1;
-            animation: glitch-anim2 1s infinite linear alternate-reverse;
-        }
-
-        @keyframes glitch-anim {
-            0% { clip: rect(31px, 9999px, 94px, 0); transform: skew(0.6deg); }
-            5% { clip: rect(17px, 9999px, 94px, 0); transform: skew(0.6deg); }
-            10% { clip: rect(34px, 9999px, 42px, 0); transform: skew(0.2deg); }
-            15% { clip: rect(97px, 9999px, 72px, 0); transform: skew(0.8deg); }
-            20% { clip: rect(3px, 9999px, 9px, 0); transform: skew(0.9deg); }
-            25% { clip: rect(46px, 9999px, 100px, 0); transform: skew(0.1deg); }
-            30% { clip: rect(54px, 9999px, 11px, 0); transform: skew(0.5deg); }
-            35% { clip: rect(61px, 9999px, 3px, 0); transform: skew(0.4deg); }
-            40% { clip: rect(18px, 9999px, 87px, 0); transform: skew(0.3deg); }
-            45% { clip: rect(40px, 9999px, 32px, 0); transform: skew(0.7deg); }
-            50% { clip: rect(96px, 9999px, 2px, 0); transform: skew(0.4deg); }
-            55% { clip: rect(48px, 9999px, 68px, 0); transform: skew(0.8deg); }
-            60% { clip: rect(74px, 9999px, 28px, 0); transform: skew(0.2deg); }
-            65% { clip: rect(56px, 9999px, 83px, 0); transform: skew(0.1deg); }
-            70% { clip: rect(85px, 9999px, 120px, 0); transform: skew(0.2deg); }
-            75% { clip: rect(76px, 9999px, 90px, 0); transform: skew(0.4deg); }
-            80% { clip: rect(22px, 9999px, 5px, 0); transform: skew(0.6deg); }
-            85% { clip: rect(58px, 9999px, 64px, 0); transform: skew(0.9deg); }
-            90% { clip: rect(16px, 9999px, 47px, 0); transform: skew(0.3deg); }
-            95% { clip: rect(13px, 9999px, 88px, 0); transform: skew(0.5deg); }
-            100% { clip: rect(85px, 9999px, 90px, 0); transform: skew(0.8deg); }
-        }
-
-        @keyframes glitch-anim2 {
-            0% { clip: rect(65px, 9999px, 100px, 0); transform: skew(0.3deg); }
-            5% { clip: rect(23px, 9999px, 100px, 0); transform: skew(0.3deg); }
-            10% { clip: rect(35px, 9999px, 90px, 0); transform: skew(0.1deg); }
-            15% { clip: rect(63px, 9999px, 2px, 0); transform: skew(0.7deg); }
-            20% { clip: rect(96px, 9999px, 112px, 0); transform: skew(0.1deg); }
-            25% { clip: rect(85px, 9999px, 119px, 0); transform: skew(0.9deg); }
-            30% { clip: rect(24px, 9999px, 100px, 0); transform: skew(0.8deg); }
-            35% { clip: rect(42px, 9999px, 76px, 0); transform: skew(0.2deg); }
-            40% { clip: rect(19px, 9999px, 20px, 0); transform: skew(0.4deg); }
-            45% { clip: rect(18px, 9999px, 117px, 0); transform: skew(0.3deg); }
-            50% { clip: rect(45px, 9999px, 87px, 0); transform: skew(0.7deg); }
-            55% { clip: rect(55px, 9999px, 18px, 0); transform: skew(0.1deg); }
-            60% { clip: rect(4px, 9999px, 57px, 0); transform: skew(0.9deg); }
-            65% { clip: rect(89px, 9999px, 63px, 0); transform: skew(0.6deg); }
-            70% { clip: rect(6px, 9999px, 50px, 0); transform: skew(0.2deg); }
-            75% { clip: rect(39px, 9999px, 98px, 0); transform: skew(0.3deg); }
-            80% { clip: rect(20px, 9999px, 112px, 0); transform: skew(0.8deg); }
-            85% { clip: rect(26px, 9999px, 85px, 0); transform: skew(0.1deg); }
-            90% { clip: rect(58px, 9999px, 44px, 0); transform: skew(0.7deg); }
-            95% { clip: rect(22px, 9999px, 19px, 0); transform: skew(0.9deg); }
-            100% { clip: rect(19px, 9999px, 100px, 0); transform: skew(0.4deg); }
-        }
-
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-5px, 5px); }
-            40% { transform: translate(-5px, -5px); }
-            60% { transform: translate(5px, 5px); }
-            80% { transform: translate(5px, -5px); }
-            100% { transform: translate(0); }
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VinceVision - Offline</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root{
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --gold: #D4AF37;
+      --accent: #ff2d55;
+      --glass: rgba(255,255,255,0.03);
+    }
+
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background:var(--black);
+      color:var(--white);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* -------------------------
+       Background site (archive)
+       kept in DOM but blurred
+       ------------------------- */
+    .archive-wrap{
+      filter: blur(0px);
+      pointer-events:auto;
+      transition: filter 600ms ease, opacity 600ms ease;
+      opacity:1;
+      min-height:100vh;
+    }
+
+    .archive-wrap.blurred{
+      filter: blur(12px);
+      pointer-events:none;
+      opacity:0.25;
+    }
+
+    /* Keep your existing site styles, updated and minimal here
+       I kept the core visuals from your original file but compacted
+       and integrated them into the archive container. */
+
+    header{
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:1rem 5%;
+      background:rgba(10,10,10,0.95);
+      z-index:10;
+      backdrop-filter: blur(6px);
+    }
+
+    .logo{
+      font-size:1.6rem;
+      font-weight:700;
+      display:flex;
+      align-items:center;
+      gap:.6rem;
+      background: linear-gradient(135deg,#1e3c72,#2a5298);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+    /* sample content area to demonstrate archive */
+    main{
+      padding-top:90px;
+    }
+
+    section{
+      padding:4rem 5%;
+    }
+
+    .services-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:1.6rem;
+    }
+
+    .service-card{
+      background:var(--glass);
+      border-radius:14px;
+      padding:1.4rem;
+      border:1px solid rgba(212,175,55,0.08);
+    }
+
+    footer{
+      padding:2rem 5%;
+      text-align:center;
+      background:rgba(0,0,0,0.6);
+      margin-top:2rem;
+    }
+
+    /* -------------------------
+       Shutdown overlay
+       ------------------------- */
+    .shutdown-overlay{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:9999;
+      background:linear-gradient(180deg, rgba(0,0,0,0.85), rgba(4,4,4,0.95));
+      color:var(--white);
+      overflow:hidden;
+      padding:3rem;
+      text-align:center;
+    }
+
+    .shutdown-card{
+      width:100%;
+      max-width:920px;
+      border-radius:18px;
+      padding:2.6rem;
+      background: linear-gradient(180deg, rgba(15,15,15,0.9), rgba(6,6,6,0.9));
+      border:1px solid rgba(212,175,55,0.06);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+      position:relative;
+    }
+
+    .shutdown-top{
+      display:flex;
+      align-items:center;
+      gap:1rem;
+      justify-content:center;
+      margin-bottom:1.4rem;
+    }
+
+    .shutdown-icon{
+      width:84px;
+      height:84px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(180deg, rgba(212,175,55,0.12), rgba(212,175,55,0.06));
+      border:1px solid rgba(212,175,55,0.08);
+      font-size:2.2rem;
+      color:var(--gold);
+      box-shadow: 0 12px 30px rgba(212,175,55,0.06);
+    }
+
+    h1.shutdown-title{
+      font-size:1.6rem;
+      margin:0;
+      letter-spacing:0.02em;
+    }
+
+    p.shutdown-sub{
+      margin:.6rem 0 1.6rem 0;
+      opacity:0.85;
+      font-size:1rem;
+    }
+
+    /* Animated "system offline" indicator */
+    .status-bar{
+      display:flex;
+      gap:1rem;
+      align-items:center;
+      justify-content:center;
+      margin-bottom:1.2rem;
+      flex-wrap:wrap;
+    }
+
+    .led{
+      width:12px;
+      height:12px;
+      border-radius:50%;
+      background:#333;
+      box-shadow:0 6px 18px rgba(0,0,0,0.6);
+    }
+
+    .led.offline{
+      background:var(--accent);
+      box-shadow:0 0 18px rgba(255,45,85,0.2), 0 6px 18px rgba(0,0,0,0.6);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse{
+      0%{ transform:scale(1); opacity:1;}
+      50%{ transform:scale(1.35); opacity:.7;}
+      100%{ transform:scale(1); opacity:1;}
+    }
+
+    /* main animated shutdown text */
+    .glitch-wrap{
+      margin:1rem 0 1.6rem 0;
+      font-weight:700;
+      font-size:2.2rem;
+      letter-spacing:0.01em;
+      position:relative;
+      line-height:1.05;
+    }
+
+    .glitch{
+      position:relative;
+      display:inline-block;
+      color:var(--white);
+    }
+
+    .glitch::before,
+    .glitch::after{
+      content:attr(data-text);
+      position:absolute;
+      left:0;
+      top:0;
+      width:100%;
+      height:100%;
+      opacity:.85;
+      clip-path: polygon(0 0, 100% 0, 100% 45%, 0 47%);
+      transform:translate(0,0);
+    }
+
+    .glitch::before{
+      color:#ffb2c9;
+      mix-blend-mode:screen;
+      transform: translate(-2px, -1px);
+      opacity:.9;
+      filter:blur(.6px);
+    }
+
+    .glitch::after{
+      color:#bfffff;
+      mix-blend-mode:screen;
+      transform: translate(2px, 1px);
+      opacity:.9;
+      filter:blur(.8px);
+    }
+
+    /* power-down line animation */
+    .power-line{
+      width:240px;
+      height:6px;
+      margin:1rem auto;
+      background:linear-gradient(90deg, rgba(255,255,255,0.06), rgba(212,175,55,0.25), rgba(255,255,255,0.06));
+      border-radius:6px;
+      overflow:hidden;
+      position:relative;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    }
+
+    .power-line::after{
+      content:'';
+      position:absolute;
+      left:0;
+      top:0;
+      bottom:0;
+      width:100%;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 40%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.08) 60%, transparent 100%);
+      transform:translateX(-100%);
+      animation: sweep 2.2s ease forwards;
+    }
+
+    @keyframes sweep{
+      0%{ transform:translateX(-100%); opacity:1; }
+      60%{ transform:translateX(0%); opacity:1; }
+      100%{ transform:translateX(100%); opacity:0; }
+    }
+
+    /* countdown and details */
+    .offline-details{
+      display:flex;
+      gap:1.6rem;
+      justify-content:center;
+      align-items:center;
+      margin-top:1rem;
+      flex-wrap:wrap;
+    }
+
+    .counter{
+      background: rgba(255,255,255,0.03);
+      padding:1rem 1.6rem;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.04);
+      min-width:220px;
+    }
+
+    .counter .big{
+      font-size:1.8rem;
+      font-weight:700;
+    }
+
+    .counter .label{
+      font-size:.95rem;
+      opacity:.85;
+      margin-top:.4rem;
+    }
+
+    .note{
+      font-size:.95rem;
+      opacity:.85;
+      margin-top:.6rem;
+    }
+
+    /* small controls */
+    .controls{
+      display:flex;
+      gap:.8rem;
+      justify-content:center;
+      margin-top:1.4rem;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      padding:.8rem 1.2rem;
+      border-radius:10px;
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.06);
+      color:var(--white);
+      cursor:pointer;
+      font-weight:600;
+      transition:all .22s ease;
+    }
+
+    .btn.primary{
+      background:var(--gold);
+      color:var(--black);
+      border-color:transparent;
+    }
+
+    .btn.ghost{
+      background:transparent;
+      border:1px dashed rgba(255,255,255,0.06);
+    }
+
+    .btn:hover{ transform:translateY(-3px); box-shadow:0 12px 30px rgba(0,0,0,0.4); }
+
+    /* small footer inside overlay */
+    .shutdown-foot{
+      margin-top:1.4rem;
+      font-size:.88rem;
+      color:rgba(255,255,255,0.6);
+    }
+
+    /* little CRT power-down animation to fade the logo */
+    .logo-memory{
+      margin-top:1rem;
+      opacity:0.95;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:.6rem;
+      color:rgba(212,175,55,0.16);
+      font-weight:700;
+      letter-spacing:.06em;
+      font-size:1rem;
+    }
+
+    /* responsive */
+    @media (max-width:720px){
+      .glitch-wrap{ font-size:1.4rem; }
+      .shutdown-card{ padding:1.6rem; }
+      .power-line{ width:180px; }
+      .counter{ min-width:160px; }
+    }
+
+  </style>
 </head>
 <body>
-    <!-- Preloader -->
-    <div id="preloader">
-        <div class="glitch" data-text="VinceVision">VinceVision</div>
-        <audio id="glitch-sound" src="https://example.com/glitch-sound.mp3" preload="auto"></audio> <!-- Replace with actual glitch sound URL -->
-    </div>
-
-    <div class="circuit-bg"></div>
-    
-    <header>
-        <div class="logo"><i class="fas fa-check-circle"></i>VinceVision</div>
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#services">Services</a>
-            <a href="#ceo">About CEO</a>
-            <a href="#contact">Contact</a>
-        </nav>
-        <div class="header-right">
-            <div style="position: relative;">
-                <input id="search" type="text" placeholder="🔍 Search services...">
-                <div id="search-results" class="search-results"></div>
-            </div>
-            <button id="mode-toggle"><i class="fas fa-moon"></i></button>
-            <div id="local-time"></div>
+  <!-- Shutdown overlay, shown on load -->
+  <div id="shutdownOverlay" class="shutdown-overlay" role="dialog" aria-modal="true" aria-label="Site shutdown notice">
+    <div class="shutdown-card" id="shutdownCard">
+      <div class="shutdown-top">
+        <div class="shutdown-icon" aria-hidden="true"><i class="fas fa-power-off"></i></div>
+        <div>
+          <h1 class="shutdown-title">VinceVision is no longer in service</h1>
+          <p class="shutdown-sub">This site was permanently shut down on October 24, 2025, we are sorry for the inconvenience.</p>
         </div>
+      </div>
+
+      <div class="status-bar" aria-hidden="true">
+        <div class="led offline" title="offline indicator"></div>
+        <div class="led" style="width:8px; height:8px; background:transparent;"></div>
+        <div class="led" style="width:8px; height:8px; background:transparent;"></div>
+      </div>
+
+      <div class="glitch-wrap">
+        <span class="glitch" data-text="SYSTEM OFFLINE">SYSTEM OFFLINE</span>
+      </div>
+
+      <div class="power-line" aria-hidden="true"></div>
+
+      <div class="offline-details" role="status" aria-live="polite">
+        <div class="counter" id="sinceBlock">
+          <div style="font-size:.9rem; opacity:.85;">Shutdown date</div>
+          <div class="big">October 24, 2025</div>
+          <div class="label">Official shutdown</div>
+        </div>
+
+        <div class="counter" id="counterBlock">
+          <div style="font-size:.9rem; opacity:.85;">Offline for</div>
+          <div class="big" id="downtimeDays">0 days</div>
+          <div class="label" id="downtimeHrs">0 hours, 0 minutes</div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="viewArchive" class="btn ghost" title="View site archive">View archive</button>
+        <button id="dismissOverlay" class="btn primary" title="Acknowledge and hide this message">Acknowledge</button>
+      </div>
+
+      <div class="shutdown-foot">
+        If you are the owner and want to restore services, contact <a href="mailto:skytechplc@protonmail.com" style="color:var(--gold); text-decoration:none;">skytechplc@protonmail.com</a>.
+      </div>
+
+      <div class="logo-memory" aria-hidden="true">
+        <i class="fas fa-check-circle" style="color:rgba(212,175,55,0.18)"></i>
+        <span>VinceVision memory</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Archive content in background, your original site -->
+  <div id="archive" class="archive-wrap blurred" aria-hidden="true">
+    <!-- Preloader (kept minimal) -->
+    <div id="preloader" style="display:none;"></div>
+
+    <header>
+      <div class="logo"><i class="fas fa-check-circle" style="color:var(--gold)"></i>VinceVision</div>
+      <nav aria-hidden="true">
+        <a href="#home" style="color:var(--white); text-decoration:none; margin-right:1rem;">Home</a>
+        <a href="#services" style="color:var(--white); text-decoration:none; margin-right:1rem;">Services</a>
+        <a href="#ceo" style="color:var(--white); text-decoration:none; margin-right:1rem;">About CEO</a>
+        <a href="#contact" style="color:var(--white); text-decoration:none;">Contact</a>
+      </nav>
     </header>
 
-    <section id="home">
-        <video autoplay loop muted playsinline>
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-streams-of-blue-light-1484-large.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </source>
-    </video>
-        <div class="hero-content">
-            <h1>VinceVision</h1>
-            <p>Premium Tech Solutions for Your Business Success</p>
+    <main>
+      <section id="home" style="display:flex; align-items:center; justify-content:center; min-height:60vh;">
+        <div style="text-align:center;">
+          <h1 style="font-size:2.4rem; margin-bottom:.4rem;">VinceVision</h1>
+          <p style="opacity:.9; max-width:700px; margin:0 auto;">Premium Tech Solutions for Your Business Success</p>
         </div>
-    </section>
+      </section>
 
-    <section id="services">
+      <section id="services">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.2rem;">
+          <h2>Services</h2>
+          <div style="opacity:.8;">Call +254 742 850 266</div>
+        </div>
+
         <div class="services-grid">
-            <!-- Website Design -->
-            <div class="service-card" data-keywords="website design web development">
-                <h2><i class="fas fa-globe"></i> Website Design</h2>
-                <div class="slideshow">
-                    <div class="slide active"><img src="https://i.pinimg.com/1200x/f7/60/72/f76072d1d73b5c5ca9a64079fafd1c8b.jpg"></div>
-                    <div class="slide"><img src="https://i.pinimg.com/736x/7a/3a/94/7a3a94b23d12d08236058da6b2a56d46.jpg"></div>
-                    <div class="slide"><img src="https://i.pinimg.com/736x/8c/55/de/8c55dee4be090a920e57cd9edb3885e0.jpg"></div>
-                    <div class="slide"><img src="https://i.pinimg.com/736x/ff/03/91/ff0391598277c442190334d8009a1acc.jpg"></div>
-                    <div class="slide"><img src="https://i.pinimg.com/1200x/68/ec/f1/68ecf1d7961ffed5450ef6fdbdd61f9e.jpg"></div>
-                    <div class="slide"><img src="https://i.pinimg.com/736x/e5/76/22/e5762283fc5b701fbbe6e9ef6b575e4c.jpg"></div>
-                    <div class="slide"><img src="https://i.pinimg.com/736x/1c/23/da/1c23da7a8d4af3305895889ae224ccad.jpg"></div>
-                    <div class="slide"><img src="https://i.pinimg.com/736x/6f/30/20/6f302043c60f639bfbe0d50690cc8dee.jpg"></div>
-                    <div class="slide"><img src="https://i.pinimg.com/1200x/30/e4/7a/30e47a2c529af5134459a8f57acfa898.jpg"></div>
-                    <div class="slide"><img src="https://i.pinimg.com/736x/c3/78/f1/c378f1976f025f5e20361db06d35f832.jpg"></div>
-                </div>
-                <div class="quote-options">
-                    <button class="quote-btn whatsapp-btn" data-item="Website Design">WhatsApp</button>
-                    <button class="quote-btn email-btn" data-item="Website Design">Email</button>
-                </div>
-            </div>
-
-            <!-- Logo Design -->
-            <div class="service-card" data-keywords="logo design branding">
-                <h2><i class="fas fa-palette"></i> Logo Design</h2>
-                <div class="slideshow">
-                    <div class="slide active"><img src="https://i.pinimg.com/736x/1c/2a/fd/1c2afd5df5bc136bfbae9ce51386cd5f.jpg"></div>
-                    <div class="slide"><img src="https://i.pinimg.com/1200x/8c/6c/db/8c6cdbd18862893b595c2f93f2731efd.jpg"></div>
-                    <div class="slide"><img src="https://i.pinimg.com/1200x/0b/f0/0e/0bf00ee16beb918cf9413a726e87c3be.jpg"></div>
-                    <div class="slide"><img src="https://i.pinimg.com/1200x/94/f7/1b/94f71be498de2615df4329541d53fbc0.jpg"></div>
-                    <div class="slide"><img src="https://i.pinimg.com/736x/f2/21/5a/f2215a5d8bf3239da85e9ea10347503a.jpg"></div>
-                    <div class="slide"><img src="https://i.pinimg.com/736x/98/2b/2a/982b2a2cd3096d9869404321f9a95d01.jpg"></div>
-                    <div class="slide"><img src="https://i.pinimg.com/736x/8a/57/8f/8a578f51df9120e75e018a9b9ba82591.jpg"></div>
-                </div>
-                <div class="quote-options">
-                    <button class="quote-btn whatsapp-btn" data-item="Logo Design">WhatsApp</button>
-                    <button class="quote-btn email-btn" data-item="Logo Design">Email</button>
-                </div>
-            </div>
-
-            <!-- Mobile App Development -->
-            <div class="service-card" data-keywords="mobile app development android ios">
-                <h2><i class="fas fa-mobile-alt"></i> Mobile Apps</h2>
-                <div class="slideshow">
-                    <div class="slide active"><img src="https://cdn.dribbble.com/userupload/14890840/file/original-433566b0e026e3d753658e3c634799f2.png"></div>
-                    <div class="slide"><img src="https://uidesignz.com/assets/img/portfolio/feature/p_5bookme-travel-agency-app-design--min.webp"></div>
-                    <div class="slide"><img src="https://cdn.dribbble.com/userupload/4143175/file/original-f87d02ffb10b2a1a095d4dfb92080dda.png"></div>
-                </div>
-                <div class="quote-options">
-                    <button class="quote-btn whatsapp-btn" data-item="Mobile App Development">WhatsApp</button>
-                    <button class="quote-btn email-btn" data-item="Mobile App Development">Email</button>
-                </div>
-            </div>
-
-            <!-- Graphic Design -->
-            <div class="service-card" data-keywords="graphic design posters flyers">
-                <h2><i class="fas fa-images"></i> Graphic Design</h2>
-                <div class="slideshow">
-                    <div class="slide active"><img src="https://cdn.sanity.io/images/8zqcc24c/production/6f8c1793bd082b75b9a663065ca16728e0ca8b81-2720x3512.png"></div>
-                    <div class="slide"><img src="https://static.wixstatic.com/media/5af200_5214c616fc0944adad8c6f7350c4d96d~mv2.png"></div>
-                    <div class="slide"><img src="https://designshack.net/wp-content/uploads/Atail-%E2%80%93-Unique-Portfolio-Template.jpg"></div>
-                </div>
-                <div class="quote-options">
-                    <button class="quote-btn whatsapp-btn" data-item="Graphic Design">WhatsApp</button>
-                    <button class="quote-btn email-btn" data-item="Graphic Design">Email</button>
-                </div>
-            </div>
-
-            <!-- SEO & Digital Marketing -->
-            <div class="service-card" data-keywords="seo digital marketing social media">
-                <h2><i class="fas fa-chart-line"></i> Digital Marketing</h2>
-                <div class="slideshow">
-                    <div class="slide active"><img src="https://blog.copyfol.io/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fq3dpdl9z%2Fproduction%2F9ee7489117cf632787df94eb6cf3e2b5fd210967-1600x3455.png%3Ffit%3Dmax%26auto%3Dformat&w=3840&q=75"></div>
-                    <div class="slide"><img src="https://cdn.prod.website-files.com/665466340b020e0207a5f6ff/669e1178bdd44add31d3c694_Improve-My-Search-Rankings-Website.webp"></div>
-                </div>
-                <div class="quote-options">
-                    <button class="quote-btn whatsapp-btn" data-item="SEO & Digital Marketing">WhatsApp</button>
-                    <button class="quote-btn email-btn" data-item="SEO & Digital Marketing">Email</button>
-                </div>
-            </div>
-
-            <!-- Custom Software -->
-            <div class="service-card" data-keywords="software development custom software">
-                <h2><i class="fas fa-code"></i> Custom Software</h2>
-                <div class="slideshow">
-                    <div class="slide active"><img src="https://cdn-talent-wp.arc.dev/wp-content/uploads/2021/12/Oluwakemi-Adeleke-software-developer-portfolio-1024x670.png"></div>
-                    <div class="slide"><img src="https://www.hostinger.com/tutorials/wp-content/uploads/sites/2/2022/06/Portfolio-website-of-the-product-designer-and-front-end-developer-Adham-Dannaway-1024x869.png"></div>
-                </div>
-                <div class="quote-options">
-                    <button class="quote-btn whatsapp-btn" data-item="Custom Software Development">WhatsApp</button>
-                    <button class="quote-btn email-btn" data-item="Custom Software Development">Email</button>
-                </div>
-            </div>
-
-            <!-- IT Consulting -->
-            <div class="service-card" data-keywords="it consulting tech consulting">
-                <h2><i class="fas fa-user-tie"></i> IT Consulting</h2>
-                <div class="slideshow">
-                    <div class="slide active"><img src="https://cdn-lajjf.nitrocdn.com/cLaWoFrRByvAzRxbcdpZDVjBlbmDAifk/assets/images/optimized/rev-a44e0a0/www.leapmanagedit.com/wp-content/uploads/2024/09/it-consulting-service-examples-technology-for-business-success.png"></div>
-                    <div class="slide"><img src="https://cdn.prod.website-files.com/67c68c93736617d0ce4e4f7b/67eee4e1129b96893a34d579_66c5c80ea74523d71bc6bcb2_64a8fe0eca75b4829eec9af4_Consulting%252520Websites.webp"></div>
-                </div>
-                <div class="quote-options">
-                    <button class="quote-btn whatsapp-btn" data-item="IT Consulting">WhatsApp</button>
-                    <button class="quote-btn email-btn" data-item="IT Consulting">Email</button>
-                </div>
-            </div>
-
-            <!-- Cybersecurity -->
-            <div class="service-card" data-keywords="cybersecurity security">
-                <h2><i class="fas fa-shield-alt"></i> Cybersecurity</h2>
-                <div class="slideshow">
-                    <div class="slide active"><img src="https://img.freepik.com/free-psd/gradient-data-privacy-design-template_23-2149316852.jpg"></div>
-                    <div class="slide"><img src="https://cdn.dribbble.com/userupload/5432680/file/original-b4e960998a0fa427964bd6fabbfd5a13.jpg"></div>
-                </div>
-                <div class="quote-options">
-                    <button class="quote-btn whatsapp-btn" data-item="Cybersecurity Services">WhatsApp</button>
-                    <button class="quote-btn email-btn" data-item="Cybersecurity Services">Email</button>
-                </div>
-            </div>
-
-            <!-- Cloud Computing -->
-            <div class="service-card" data-keywords="cloud computing aws azure">
-                <h2><i class="fas fa-cloud"></i> Cloud Computing</h2>
-                <div class="slideshow">
-                    <div class="slide active"><img src="https://uniprint.net/wp-content/uploads/2017/05/Cloud-service-models-diagram.png"></div>
-                    <div class="slide"><img src="https://www.tatvasoft.com/blog/wp-content/uploads/2023/08/Types-of-Cloud-2.jpg"></div>
-                </div>
-                <div class="quote-options">
-                    <button class="quote-btn whatsapp-btn" data-item="Cloud Computing Services">WhatsApp</button>
-                    <button class="quote-btn email-btn" data-item="Cloud Computing Services">Email</button>
-                </div>
-            </div>
-
-            <!-- Video Editing (New Service) -->
-            <div class="service-card" data-keywords="video editing video production">
-                <h2><i class="fas fa-video"></i> Video Editing</h2>
-                <div class="slideshow">
-                    <div class="slide active"><img src="https://i.pinimg.com/736x/7d/5a/70/7d5a70e4a931ff8b4c4b2c048f54305f.jpg"></div>
-                    <div class="slide"><img src="https://i.pinimg.com/736x/14/ed/6b/14ed6b81bf70a323091a02f148d46540.jpg"></div>
-                    <div class="slide"><img src="https://i.pinimg.com/736x/95/32/cb/9532cbcb687db72a7f1b2c2a6525c2ac.jpg"></div>
-                </div>
-                <div class="quote-options">
-                    <button class="quote-btn whatsapp-btn" data-item="Video Editing">WhatsApp</button>
-                    <button class="quote-btn email-btn" data-item="Video Editing">Email</button>
-                </div>
-            </div>
-
-            <!-- Forex Trading & Courses (New Service) -->
-            <div class="service-card" data-keywords="forex trading courses">
-                <h2><i class="fas fa-chart-bar"></i> Forex Trading & Courses</h2>
-                <div class="slideshow">
-                    <div class="slide active"><img src="https://i.pinimg.com/736x/79/bb/9b/79bb9bf2a071831b5bddec4efd4d3eb4.jpg"></div>
-                    <div class="slide"><img src="https://i.pinimg.com/736x/b5/2b/05/b52b057a6b6c359bfb86e1e8532474f7.jpg"></div>
-                    <div class="slide"><img src="https://i.pinimg.com/1200x/32/38/20/323820f54b43e4cba143516f15a4c0ea.jpg"></div>
-                    <div class="slide"><img src="https://i.pinimg.com/736x/1b/9b/81/1b9b81167265595ad61cea993d851300.jpg"></div>
-                </div>
-                <div class="quote-options">
-                    <button class="quote-btn whatsapp-btn" data-item="Forex Trading & Courses">WhatsApp</button>
-                    <button class="quote-btn email-btn" data-item="Forex Trading & Courses">Email</button>
-                </div>
-            </div>
+          <div class="service-card"><h3>Website Design</h3><p style="opacity:.85;">Modern, responsive websites.</p></div>
+          <div class="service-card"><h3>Logo Design</h3><p style="opacity:.85;">Brand identity and assets.</p></div>
+          <div class="service-card"><h3>Mobile Apps</h3><p style="opacity:.85;">iOS and Android solutions.</p></div>
+          <div class="service-card"><h3>Graphic Design</h3><p style="opacity:.85;">Posters, banners, social assets.</p></div>
+          <div class="service-card"><h3>Digital Marketing</h3><p style="opacity:.85;">SEO, ads, social media.</p></div>
+          <div class="service-card"><h3>Custom Software</h3><p style="opacity:.85;">Tailored software systems.</p></div>
         </div>
-    </section>
+      </section>
 
-    <section id="ceo">
-        <div class="ceo-content">
-            <div class="ceo-image"><img src="https://media.licdn.com/dms/image/v2/D4D03AQHHmfgCXp7OsA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1636396692080?e=2147483647&v=beta&t=1XGE4UH7oU78czs3dQHFHn26hAxjuffcfYuguLy0H0I" alt="Mr. Vincent Omondi" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"></div>
-            <h1>Mr. Vincent Omondi</h1>
-            <h2>CEO & Founder</h2>
-            <p>Vincent Omondi is a visionary full-stack engineer and entrepreneur with over 10 years of experience in technology. Specializing in Go, Python, and JavaScript, he has successfully led hundreds of businesses to digital transformation. Passionate about AI-powered solutions, Vincent founded VinceVision to empower businesses with cutting-edge technology that drives growth and innovation.</p>
+      <section id="ceo">
+        <div style="max-width:900px; margin:0 auto; text-align:center;">
+          <div style="width:140px; height:140px; margin:0 auto 1rem; border-radius:50%; overflow:hidden;">
+            <img src="https://media.licdn.com/dms/image/v2/D4D03AQHHmfgCXp7OsA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1636396692080?e=2147483647&v=beta&t=1XGE4UH7oU78czs3dQHFHn26hAxjuffcfYuguLy0H0I" alt="Mr. Vincent Omondi" style="width:100%; height:100%; object-fit:cover;">
+          </div>
+          <h2>Mr. Vincent Omondi</h2>
+          <p style="opacity:.9;">CEO & Founder, full-stack engineer, founder of VinceVision.</p>
         </div>
-    </section>
+      </section>
 
-    <section id="contact">
-        <div style="padding: 5rem 5%; text-align: center;">
-            <h1>Contact Information</h1>
-            <p><i class="fas fa-phone"></i> +254 742 850 266</p>
-            <p><i class="fas fa-envelope"></i> skytechplc@protonmail.com</p>
+      <section id="contact">
+        <div style="text-align:center; padding:2.4rem 0;">
+          <h2>Contact</h2>
+          <p><i class="fas fa-phone"></i> +254 742 850 266</p>
+          <p><i class="fas fa-envelope"></i> skytechplc@protonmail.com</p>
         </div>
-    </section>
+      </section>
 
-    <div id="modal">
-        <div class="modal-content">
-            <h2>Get Quotation</h2>
-            <p id="modal-item"></p>
-            <div style="display: flex; gap: 1rem; margin: 2rem 0;">
-                <a id="whatsapp-link" class="quote-btn whatsapp-btn" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-                <a id="email-link" class="quote-btn email-btn"><i class="fas fa-envelope"></i> Email</a>
-            </div>
-            <button onclick="closeModal()" style="background: var(--gold); color: var(--black); padding: 1rem 2rem; border: none; border-radius: 10px; cursor: pointer;">Close</button>
-        </div>
-    </div>
+      <footer>
+        &copy; <span id="year"></span> VinceVision. All rights reserved.
+      </footer>
+    </main>
+  </div>
 
-    <footer>
-        <p>&copy; <span id="year"></span> VinceVision. All rights reserved.</p>
-    </footer>
+  <script>
+    // -------------------------
+    // Setup and helpers
+    // -------------------------
+    const overlay = document.getElementById('shutdownOverlay');
+    const archive = document.getElementById('archive');
+    const viewBtn = document.getElementById('viewArchive');
+    const dismissBtn = document.getElementById('dismissOverlay');
 
-    <script>
-        // Dynamic Year
-        document.getElementById('year').textContent = new Date().getFullYear();
+    // Set the current year for the archive footer
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-        // Local Time
-        function updateTime() {
-            document.getElementById('local-time').textContent = new Date().toLocaleString('en-US', {timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone});
+    // Target shutdown datetime, use Nairobi timezone offset +03:00
+    // The shutdown is taken as 2025-10-24 00:00:00 Africa/Nairobi
+    const shutdownISO = '2025-10-24T00:00:00+03:00';
+    const shutdownDate = new Date(shutdownISO); // JS handles the offset
+
+    const daysElem = document.getElementById('downtimeDays');
+    const hrsElem = document.getElementById('downtimeHrs');
+
+    // calculate and update the downtime display
+    function updateDowntime(){
+      const now = new Date();
+      // compute difference in ms
+      let diff = now - shutdownDate;
+      if(diff < 0) diff = 0; // if before shutdown date, show zero
+
+      const msInMin = 60*1000;
+      const msInHour = 60*msInMin;
+      const msInDay = 24*msInHour;
+
+      const days = Math.floor(diff / msInDay);
+      const hours = Math.floor((diff % msInDay) / msInHour);
+      const minutes = Math.floor((diff % msInHour) / msInMin);
+
+      daysElem.textContent = `${days} days`;
+      hrsElem.textContent = `${hours} hours, ${minutes} minutes`;
+    }
+
+    // update every 30 seconds for accuracy, run immediately
+    updateDowntime();
+    setInterval(updateDowntime, 30*1000);
+
+    // Accessibility: allow keyboard users to dismiss overlay with Enter on focused button
+    viewBtn.addEventListener('keydown', (e) => { if(e.key === 'Enter') viewArchive(); });
+    dismissBtn.addEventListener('keydown', (e) => { if(e.key === 'Enter') dismissOverlay(); });
+
+    // Show archive, remove blur, hide overlay but keep a faint "memory" look
+    function viewArchive(){
+      // animate overlay fade
+      overlay.style.transition = 'opacity 450ms ease';
+      overlay.style.opacity = '0';
+      setTimeout(() => {
+        overlay.style.display = 'none';
+        archive.classList.remove('blurred');
+        archive.setAttribute('aria-hidden', 'false');
+      }, 460);
+    }
+
+    // Dismiss overlay but keep archive blurred and inaccessible, overlay will remain but minimized
+    function dismissOverlay(){
+      // shrink the overlay card slightly, keep it visible but allow the blur to reduce a bit
+      document.getElementById('shutdownCard').style.transform = 'scale(.98)';
+      setTimeout(() => {
+        // keep the overlay visible but lower its z-index for debugging, here we hide it
+        overlay.style.transition = 'opacity 460ms ease';
+        overlay.style.opacity = '0';
+        setTimeout(() => {
+          overlay.style.display = 'none';
+          // keep archive blurred to indicate offline state remains
+          archive.classList.add('blurred');
+        }, 480);
+      }, 180);
+    }
+
+    viewBtn.addEventListener('click', viewArchive);
+    dismissBtn.addEventListener('click', dismissOverlay);
+
+    // Prevent tab navigation to background while overlay is shown
+    function trapFocusInOverlay(e){
+      if(overlay.style.display !== 'none'){
+        // if focus goes to archive, move it back to overlay first control
+        if(!overlay.contains(document.activeElement)){
+          viewBtn.focus();
         }
-        setInterval(updateTime, 1000);
-        updateTime();
+      } else {
+        document.removeEventListener('focusin', trapFocusInOverlay);
+      }
+    }
+    document.addEventListener('focusin', trapFocusInOverlay);
 
-        // Light/Dark Mode
-        document.getElementById('mode-toggle').addEventListener('click', () => {
-            document.body.classList.toggle('light');
-            const icon = document.querySelector('#mode-toggle i');
-            icon.classList.toggle('fa-moon');
-            icon.classList.toggle('fa-sun');
-        });
+    // Small scene: animate the power-line sweep on load
+    window.addEventListener('load', () => {
+      // ensure overlay is visible on load
+      overlay.style.opacity = '1';
+      archive.classList.add('blurred');
+      // focus the acknowledge button for keyboard users
+      dismissBtn.focus({preventScroll:true});
+      // optional: play a subtle glitch sound, uncomment and provide a valid URL if you want sound
+      // const audio = new Audio('https://example.com/glitch-sound.mp3');
+      // audio.volume = 0.45;
+      // audio.play().catch(()=>{ /* autoplay blocked or missing file */ });
+    });
 
-        // Smooth Scroll Animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
+    // extra: on double-click on overlay, reveal archive (hidden developer shortcut)
+    overlay.addEventListener('dblclick', viewArchive);
 
-        document.querySelectorAll('.service-card').forEach(card => observer.observe(card));
+    // quick safety: if shutdownDate is in future, show friendly message
+    (function checkFuture(){
+      const now = new Date();
+      if(shutdownDate > now){
+        // modify text to show scheduled shutdown
+        const title = document.querySelector('.shutdown-title');
+        const sub = document.querySelector('.shutdown-sub');
+        title.textContent = 'VinceVision is scheduled to be closed';
+        sub.textContent = 'The official shutdown date is October 24, 2025. The site will go offline at that time.';
+        // we keep the overlay so users know
+      }
+    })();
 
-        // Slideshow Animation
-        document.querySelectorAll('.slideshow').forEach(slideshow => {
-            const slides = slideshow.querySelectorAll('.slide');
-            let current = 0;
-            setInterval(() => {
-                slides[current].classList.remove('active');
-                current = (current + 1) % slides.length;
-                slides[current].classList.add('active');
-            }, 4000);
-        });
-
-        // Advanced Search
-        const searchInput = document.getElementById('search');
-        const searchResults = document.getElementById('search-results');
-        const serviceCards = document.querySelectorAll('.service-card');
-
-        searchInput.addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            let results = [];
-
-            serviceCards.forEach((card, index) => {
-                const keywords = card.dataset.keywords.toLowerCase();
-                if (keywords.includes(term) || term === '') {
-                    results.push({ text: card.querySelector('h2').textContent, index });
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            if (term && results.length > 0) {
-                searchResults.innerHTML = results.map(r => 
-                    `<div class="search-item" onclick="scrollToService(${r.index})">${r.text}</div>`
-                ).join('');
-                searchResults.style.display = 'block';
-            } else {
-                searchResults.style.display = 'none';
-            }
-        });
-
-        function scrollToService(index) {
-            serviceCards[index].scrollIntoView({ behavior: 'smooth' });
-            searchInput.value = '';
-            searchResults.style.display = 'none';
-        }
-
-        // Quote Modal
-        document.querySelectorAll('.quote-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const item = e.target.dataset.item || 'Service'; // Fallback if undefined
-                document.getElementById('modal-item').textContent = item;
-                document.getElementById('whatsapp-link').href = `https://wa.me/+254742850266?text=${encodeURIComponent('Hi! I would like to get a quotation on ' + item)}`;
-                document.getElementById('email-link').href = `mailto:skytechplc@protonmail.com?subject=${encodeURIComponent('Quotation Request: ' + item)}&body=${encodeURIComponent('Hi! I would like to get a quotation on ' + item + '.')}`;
-                document.getElementById('modal').style.display = 'flex';
-            });
-        });
-
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-        }
-
-        // Close modal on outside click
-        document.getElementById('modal').addEventListener('click', (e) => {
-            if (e.target.id === 'modal') closeModal();
-        });
-
-        // Preloader logic
-        window.addEventListener('load', () => {
-            const preloader = document.getElementById('preloader');
-            const glitchSound = document.getElementById('glitch-sound');
-            glitchSound.play().catch(error => console.log('Autoplay prevented:', error)); // Play glitch sound
-            setTimeout(() => {
-                preloader.classList.add('hidden');
-            }, 3000); // Hide after 3 seconds (adjust as needed)
-        });
-    </script>
+  </script>
 </body>
 </html>
