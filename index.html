@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -6,9 +6,7 @@
 <title>VinceVision — Premium Tech Solutions</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-  /* -------------------------
-     Reset and variables
-     ------------------------- */
+  /* reset & vars, no m dashes used, use commas or colons */
   :root{
     --bg:#05060a;
     --muted:#9aa0a6;
@@ -17,7 +15,7 @@
     --accent-fut:#21b6ff;
     --accent-cine:#ff4d6d;
     --radius:14px;
-    --transition: cubic-bezier(.2,.9,.3,1);
+    --transition:cubic-bezier(.2,.9,.3,1);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%;font-family:Inter, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
@@ -26,9 +24,7 @@
   button{font:inherit;cursor:pointer}
   img{max-width:100%;display:block}
 
-  /* -------------------------
-     header
-     ------------------------- */
+  /* header */
   header{
     position:fixed;left:0;right:0;top:0;height:76px;padding:0 5%;
     display:flex;align-items:center;justify-content:space-between;z-index:120;
@@ -42,12 +38,11 @@
   nav a:hover{color:var(--gold)}
   .header-right{display:flex;align-items:center;gap:.75rem}
   #local-time{font-size:.88rem;padding:.45rem .75rem;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.02)}
-  #theme-toggle{padding:.45rem .65rem;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.04)}
+  .btn{padding:.45rem .65rem;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit;font-weight:600}
+  .btn.primary{background:var(--gold);color:#000;border-color:transparent}
   .audio-toggle{padding:.45rem;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.04)}
 
-  /* -------------------------
-     overlays
-     ------------------------- */
+  /* overlays */
   .overlay{
     position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
     z-index:300;backdrop-filter:blur(6px);background:linear-gradient(180deg, rgba(0,0,0,0.74), rgba(6,6,8,0.92));
@@ -60,28 +55,16 @@
   .maint-card{
     width:100%;max-width:980px;border-radius:14px;padding:1.6rem;background:linear-gradient(180deg, rgba(12,12,12,0.98), rgba(6,6,6,0.96));
     border:1px solid rgba(255,255,255,0.03);box-shadow:0 30px 90px rgba(0,0,0,0.6);text-align:center;
-    transform-origin:center center;
-    animation:maintPulse 2s ease infinite;
   }
-  @keyframes maintPulse{0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)}}
-
   .maint-title{font-size:1.5rem;font-weight:700}
   .maint-sub{color:var(--muted);margin-top:.4rem}
   .count-grid{display:flex;gap:.9rem;justify-content:center;margin-top:1rem;flex-wrap:wrap}
   .count-item{background:rgba(255,255,255,0.02);padding:.9rem 1.1rem;border-radius:10px;min-width:110px;border:1px solid rgba(255,255,255,0.02)}
   .count-big{font-weight:800;font-size:1.25rem}
   .controls{display:flex;gap:.6rem;justify-content:center;margin-top:1rem}
+  .shutdown-glitch{font-weight:800;font-size:1.6rem;color:#ff6b6b;letter-spacing:.04em}
 
-  /* shutdown visual */
-  .shutdown-glitch{font-weight:800;font-size:2rem;color:#ff6b6b;text-transform:uppercase;letter-spacing:.06em}
-  .glitch-anim{position:relative;display:inline-block}
-  .glitch-anim::before,.glitch-anim::after{content:attr(data-text);position:absolute;left:0;top:0;transform-origin:left;}
-  .glitch-anim::before{color:#fff;clip-path:inset(0 0 60% 0);opacity:0.8;transform:translate(-2px,-2px)}
-  .glitch-anim::after{color:#fff;clip-path:inset(60% 0 0 0);opacity:0.6;transform:translate(2px,2px)}
-
-  /* -------------------------
-     chooser
-     ------------------------- */
+  /* chooser */
   .chooser{
     width:100%;max-width:1100px;border-radius:18px;padding:2rem;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;align-items:stretch;
     background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008));border:1px solid rgba(255,255,255,0.04);box-shadow:0 30px 80px rgba(0,0,0,0.6)
@@ -89,7 +72,6 @@
   .intro{padding:1.25rem;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));display:flex;flex-direction:column;gap:.75rem;justify-content:center}
   .title{font-size:1.6rem;font-weight:700}
   .subtitle{color:var(--muted);font-size:.95rem}
-
   .modes{display:flex;flex-direction:column;gap:1rem;height:100%}
   .mode-card{flex:1;display:flex;flex-direction:column;gap:.8rem;padding:1rem;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:transform .25s var(--transition),box-shadow .25s var(--transition);overflow:hidden}
   .mode-card:hover{transform:translateY(-8px);box-shadow:0 20px 60px rgba(0,0,0,0.5)}
@@ -97,23 +79,16 @@
   .mode-desc{color:var(--muted);font-size:.92rem}
   .mode-preview{height:96px;border-radius:10px;overflow:hidden;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center}
   .mode-cta{margin-top:auto;display:flex;gap:.6rem;align-items:center;justify-content:space-between}
-  .btn{padding:.6rem .9rem;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:#fff;font-weight:600;cursor:pointer}
-  .btn.primary{background:var(--gold);color:#000;border-color:transparent}
 
-  /* -------------------------
-     themes: variables and layers
-     ------------------------- */
+  /* theme vars */
   body.theme-futuristic{--accent:var(--accent-fut);background:linear-gradient(180deg,#030313,#061026 45%,#02141f)}
   body.theme-futuristic .logo i{color:var(--accent)}
   body.theme-futuristic .glass-card{background:linear-gradient(135deg, rgba(33,182,255,0.05), rgba(33,182,255,0.02));border:1px solid rgba(33,182,255,0.12)}
-
   body.theme-cinematic{--accent:var(--accent-cine);background:linear-gradient(180deg,#04040a,#080813 50%,#04040b)}
   body.theme-cinematic .logo i{color:var(--accent)}
   body.theme-cinematic .glass-card{background:linear-gradient(135deg, rgba(255,77,109,0.03), rgba(255,77,109,0.01));border:1px solid rgba(255,77,109,0.06)}
 
-  /* -------------------------
-     main content
-     ------------------------- */
+  /* main content */
   main{padding-top:96px}
   #home{height:86vh;display:flex;align-items:center;justify-content:center;padding:2rem 5%;position:relative;overflow:hidden}
   .hero{max-width:1200px;width:100%;display:flex;gap:2rem;align-items:center;justify-content:space-between}
@@ -123,33 +98,50 @@
   .hero p{color:var(--muted);margin-top:.8rem;font-size:1.05rem}
   .glass-card{padding:1.1rem;border-radius:12px;background:var(--glass);border:1px solid rgba(255,255,255,0.03)}
 
-  /* hero video background */
   .hero-video{position:absolute;inset:0;z-index:0;opacity:.72;pointer-events:none}
   .hero-video video{width:100%;height:100%;object-fit:cover}
 
-  /* particles and streaks layers */
   #particles{position:fixed;right:0;bottom:0;left:0;top:0;z-index:0;pointer-events:none;opacity:0.92}
   .streak-wrap{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.9}
 
-  /* services */
   .services-wrap{padding:2rem 5%}
   .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.1rem;margin-top:1.4rem}
   .service-card{padding:1.1rem;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);transition:transform .28s var(--transition),box-shadow .28s var(--transition)}
   .service-card:hover{transform:translateY(-8px);box-shadow:0 22px 50px rgba(0,0,0,0.45)}
   .service-card h2{font-size:1.05rem;margin-bottom:.6rem;color:var(--gold)}
   .service-card p{color:var(--muted);font-size:.95rem}
+  .get-quote{display:inline-block;margin-top:.7rem;padding:.55rem .7rem;border-radius:10px;background:var(--gold);color:#000;font-weight:700;border:none}
 
-  /* page transition */
   .section{opacity:0;transform:translateY(8px);transition:all .6s var(--transition)}
   .section.in-view{opacity:1;transform:translateY(0)}
 
+  /* search dropdown */
+  .search-wrap{position:relative}
+  .search-input{padding:.5rem .75rem;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;width:260px}
+  .search-results{position:absolute;top:calc(100% + 8px);right:0;background:linear-gradient(180deg,#07070b,#0b0b10);border:1px solid rgba(255,255,255,0.04);box-shadow:0 24px 60px rgba(0,0,0,0.6);width:360px;border-radius:10px;overflow:hidden;z-index:200}
+  .search-item{padding:.65rem .9rem;border-bottom:1px solid rgba(255,255,255,0.02);cursor:pointer;display:flex;justify-content:space-between;gap:.6rem}
+  .search-item:last-child{border-bottom:none}
+  .search-item:hover{background:rgba(255,255,255,0.02)}
+  .search-hit{color:var(--gold);font-weight:700}
+  .search-quote{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:.35rem .5rem;border-radius:8px;font-weight:700;color:var(--gold);cursor:pointer}
+
   footer{padding:2rem 5%;text-align:center;color:var(--muted);border-top:1px solid rgba(255,255,255,0.02);margin-top:2rem}
 
-  /* responsive */
+  /* floating whatsapp button */
+  .wa-float{
+    position:fixed;right:18px;bottom:18px;z-index:9999;background:linear-gradient(180deg,var(--accent),#fff);border-radius:999px;padding:.5rem;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 18px 40px rgba(0,0,0,0.45);transition:transform .18s ease,box-shadow .18s ease;
+  }
+  .wa-float:hover{transform:translateY(-6px)}
+  .wa-float a{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:1.1rem;width:56px;height:56px;border-radius:999px}
+  .wa-label{display:none}
+  @media(min-width:900px){ .wa-label{display:inline-block;margin-left:.6rem;font-weight:700;color:#fff} }
+
   @media (max-width:920px){
     .chooser{grid-template-columns:1fr;padding:1rem}
     .hero{flex-direction:column;gap:1.2rem}
     header{padding:0 .6rem}
+    .search-results{right:auto;left:0;width:calc(100% - 40px)}
   }
 </style>
 </head>
@@ -168,7 +160,7 @@
       </div>
 
       <div style="margin-top:.35rem">
-        <div class="shutdown-glitch"><span class="glitch-anim" data-text="Shutdown in progress">Shutdown in progress</span></div>
+        <div class="shutdown-glitch">Shutdown in progress</div>
       </div>
 
       <div class="count-grid" style="margin-top:1rem">
@@ -188,12 +180,12 @@
     </div>
   </div>
 
-  <!-- Theme chooser overlay -->
+  <!-- chooser overlay -->
   <div id="chooserOverlay" class="overlay" role="dialog" aria-modal="true" aria-label="Choose theme" style="opacity:0;visibility:hidden">
     <div class="chooser" role="document">
       <div class="intro">
         <div class="title">Choose your VinceVision experience</div>
-        <div class="subtitle">Select Futuristic for neon, particles, AI vibes; choose Cinematic for dramatic lighting and film-grade transitions. You can change this later.</div>
+        <div class="subtitle">Select Futuristic for neon, particles, AI vibes, choose Cinematic for dramatic lighting and film grade transitions. Your choice will be remembered.</div>
         <div style="margin-top:.6rem;display:flex;gap:.6rem">
           <button id="skipChoice" class="btn">Skip, use default</button>
           <button id="toggleMuteSmall" class="btn audio-toggle" title="Toggle audio">🔈 muted</button>
@@ -238,11 +230,11 @@
     </div>
   </div>
 
-  <!-- Particles canvas and cinematic streaks -->
+  <!-- visual canvases -->
   <canvas id="particles" aria-hidden="true" style="display:none"></canvas>
   <div id="streaks" class="streak-wrap" aria-hidden="true" style="display:none"></div>
 
-  <!-- Header -->
+  <!-- header -->
   <header>
     <div class="logo"><i class="fas fa-check-circle"></i>VinceVision</div>
     <nav aria-label="Main navigation">
@@ -252,15 +244,17 @@
       <a href="#contact">Contact</a>
     </nav>
     <div class="header-right">
-      <div style="position:relative"><input id="search" type="text" placeholder="Search services..." aria-label="Search services" style="padding:.45rem .75rem;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit"></div>
+      <div class="search-wrap" style="position:relative">
+        <input id="search" class="search-input" type="text" placeholder="Search services, about, contact..." aria-label="Search services" />
+        <div id="searchResults" class="search-results" style="display:none" role="listbox" aria-label="Search results"></div>
+      </div>
       <div id="local-time" aria-live="polite">--</div>
       <button id="themeButton" class="btn" title="Change theme">Theme</button>
-      <button id="audioToggle" class="audio-toggle" title="Unmute audio">🔈 muted</button>
+      <button id="audioToggle" class="audio-toggle" title="Toggle audio">🔈 muted</button>
     </div>
   </header>
 
   <main>
-    <!-- Hero, with original video kept -->
     <section id="home" class="section" tabindex="-1" aria-label="Home hero">
       <div class="hero">
         <div class="hero-left">
@@ -283,24 +277,20 @@
           </div>
         </div>
 
-        <!-- original video background, kept -->
         <div class="hero-video" aria-hidden="true">
           <video autoplay loop muted playsinline>
             <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-streams-of-blue-light-1484-large.mp4" type="video/mp4">
-            <!-- fallback -->
           </video>
         </div>
       </div>
     </section>
 
-    <!-- Services -->
     <section id="services" class="section services-wrap" aria-label="Services">
       <h2>Services</h2>
       <p style="color:var(--muted)">We offer end-to-end tech solutions for modern businesses.</p>
       <div class="services-grid" id="servicesGrid" aria-live="polite"></div>
     </section>
 
-    <!-- CEO -->
     <section id="ceo" class="section" style="padding:2rem 5%" aria-label="CEO">
       <div style="max-width:900px;margin:0 auto;text-align:center">
         <div style="width:140px;height:140px;margin:0 auto 1rem;border-radius:50%;overflow:hidden">
@@ -311,7 +301,6 @@
       </div>
     </section>
 
-    <!-- Contact -->
     <section id="contact" class="section" style="padding:2rem 5%;text-align:center" aria-label="Contact">
       <h2>Contact</h2>
       <p style="color:var(--muted)">+254 742 850 266, skytechplc@protonmail.com</p>
@@ -322,26 +311,32 @@
     </footer>
   </main>
 
-  <!-- Ambient audio, muted by default -->
-  <audio id="audioFut" loop preload="auto" src="https://example.com/futuristic-ambient.mp3" crossorigin="anonymous"></audio>
-  <audio id="audioCine" loop preload="auto" src="https://example.com/cinematic-ambient.mp3" crossorigin="anonymous"></audio>
+  <!-- ambient audio, muted by default -->
+  <audio id="audioFut" loop preload="auto" src="https://example.com/futuristic-ambient.mp3"></audio>
+  <audio id="audioCine" loop preload="auto" src="https://example.com/cinematic-ambient.mp3"></audio>
+
+  <!-- floating WhatsApp, appears on all pages -->
+  <div class="wa-float" id="waFloat" aria-hidden="false" title="Chat on WhatsApp">
+    <a id="waFloatLink" href="#" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+      <i class="fab fa-whatsapp" style="font-size:1.35rem;"></i>
+    </a>
+  </div>
 
 <script>
-/* -------------------------
-   Utilities and DOM helpers
-   ------------------------- */
+/* helpers */
 const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
-const pad = n => String(n).padStart(2,'0');
+const pad = n => String(n).padStart(2, '0');
 
-/* -------------------------
-   Config: maintenance target
-   2025-10-25 03:00:00 Africa/Nairobi (UTC+3)
-   ------------------------- */
+/* WhatsApp config */
+const WA_NUMBER = '254742850266'; // international format without plus, for wa.me
+const WA_BASE = `https://wa.me/${WA_NUMBER}`;
+
+/* maintenance target: 2025-10-25 03:00:00 +03:00 Nairobi */
 const targetISO = '2025-10-25T03:00:00+03:00';
 const targetDate = new Date(targetISO);
 
-/* Elements */
+/* elements */
 const maintenanceOverlay = $('#maintenanceOverlay');
 const mdays = $('#mdays'), mhours = $('#mhours'), mmins = $('#mmins'), msecs = $('#msecs');
 const skipToChooserBtn = $('#skipToChooser');
@@ -352,30 +347,115 @@ const chooserOverlay = $('#chooserOverlay');
 const chooseBtns = Array.from($$('.mode-card .btn.primary'));
 const chooserCards = $$('.mode-card');
 const skipChoice = $('#skipChoice');
-const miniCount = $('#mini-countdown');
-const servicesGrid = $('#servicesGrid');
 
 const audioFut = $('#audioFut');
 const audioCine = $('#audioCine');
 const audioToggle = $('#audioToggle');
 const audioToggleSmall = $('#toggleMuteSmall');
 const themeButton = $('#themeButton');
-const themeBtnHeader = $('#themeButton');
 const localTimeEl = $('#local-time');
 
-/* Initial state */
-let isAudioMuted = true;
-let particleRAF;
-let streakInterval;
+const searchInput = $('#search');
+const searchResults = $('#searchResults');
 
-/* -------------------------
-   Maintenance countdown functions
-   ------------------------- */
+const waFloat = $('#waFloat');
+const waFloatLink = $('#waFloatLink');
+
+let isAudioMuted = true;
+let particleLoop, streakInterval;
+let particlesCanvas, pCtx;
+
+/* site data for search */
+const searchIndex = [
+  {id:'home', title:'VinceVision, Home', type:'page', excerpt:'Premium Tech Solutions, websites, mobile apps, custom software, trading courses'},
+  {id:'website-design', title:'Website Design', type:'service', excerpt:'Modern, responsive websites tailored to your brand'},
+  {id:'logo-design', title:'Logo Design', type:'service', excerpt:'Brand identity, professional logos'},
+  {id:'mobile-apps', title:'Mobile Apps', type:'service', excerpt:'iOS and Android app development'},
+  {id:'graphic-design', title:'Graphic Design', type:'service', excerpt:'Posters, banners, social assets'},
+  {id:'digital-marketing', title:'Digital Marketing', type:'service', excerpt:'SEO, ads, and social growth'},
+  {id:'custom-software', title:'Custom Software', type:'service', excerpt:'Bespoke software systems'},
+  {id:'it-consulting', title:'IT Consulting', type:'service', excerpt:'Strategic technology consulting'},
+  {id:'cybersecurity', title:'Cybersecurity', type:'service', excerpt:'Security audits and protection'},
+  {id:'cloud', title:'Cloud Computing', type:'service', excerpt:'AWS, Azure, GCP solutions'},
+  {id:'video-editing', title:'Video Editing', type:'service', excerpt:'Creative content and post production'},
+  {id:'forex', title:'Forex Trading & Courses', type:'service', excerpt:'Trading strategies and coaching'},
+  {id:'ceo', title:'About VinceVision, Mr. Vincent Omondi', type:'about', excerpt:'CEO, full-stack engineer, founder of VinceVision'},
+  {id:'contact', title:'Contact, SkyTech PLC', type:'contact', excerpt:'+254 742 850 266, skytechplc@protonmail.com'}
+];
+
+const services = [
+  {id:'website-design', title:'Website Design', desc:'Modern, responsive websites tailored to your brand.'},
+  {id:'logo-design', title:'Logo Design', desc:'Brand identity and professional logos.'},
+  {id:'mobile-apps', title:'Mobile Apps', desc:'iOS and Android app development.'},
+  {id:'graphic-design', title:'Graphic Design', desc:'Posters, banners, social assets.'},
+  {id:'digital-marketing', title:'Digital Marketing', desc:'SEO, ads, and social growth.'},
+  {id:'custom-software', title:'Custom Software', desc:'Bespoke software systems.'},
+  {id:'it-consulting', title:'IT Consulting', desc:'Strategic technology consulting.'},
+  {id:'cybersecurity', title:'Cybersecurity', desc:'Security audits and protection.'},
+  {id:'cloud', title:'Cloud Computing', desc:'AWS, Azure, GCP solutions.'},
+  {id:'video-editing', title:'Video Editing', desc:'Creative content and post production.'},
+  {id:'forex', title:'Forex Trading & Courses', desc:'Trading strategies and coaching.'}
+];
+
+/* helpers: open whatsapp with prefilled message */
+function openWhatsAppForService(serviceTitle){
+  const message = `Hello VinceVision, I am interested in getting a quote for your ${serviceTitle}.`;
+  const url = `${WA_BASE}?text=${encodeURIComponent(message)}`;
+  // open in new tab
+  window.open(url, '_blank');
+}
+
+/* render services grid with Get Quote buttons */
+function renderServicesGrid(){
+  const grid = $('#servicesGrid');
+  grid.innerHTML = '';
+  services.forEach(s=>{
+    const div = document.createElement('div');
+    div.className = 'service-card';
+    div.id = s.id;
+    div.innerHTML = `<h2>${s.title}</h2><p>${s.desc}</p>
+      <div style="display:flex;gap:.6rem;margin-top:.8rem">
+        <button class="get-quote" data-service="${s.title}">Get Quote</button>
+        <button class="btn" onclick="scrollToId('contact')">Contact</button>
+      </div>`;
+    grid.appendChild(div);
+  });
+
+  // attach listeners for Get Quote
+  Array.from(document.querySelectorAll('.get-quote')).forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      const service = e.currentTarget.dataset.service || 'service';
+      openWhatsAppForService(service);
+    });
+  });
+}
+
+/* local time display */
+function updateLocalTime(){
+  localTimeEl.textContent = new Date().toLocaleString('en-US', {timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone});
+}
+updateLocalTime();
+setInterval(updateLocalTime,1000);
+
+/* mini countdown */
+const miniCount = $('#mini-countdown');
+function updateMini(){
+  const now = new Date();
+  const diff = targetDate - now;
+  if(diff <= 0){ miniCount.textContent = 'We are live'; return; }
+  const s = Math.floor(diff/1000);
+  const days = Math.floor(s/(24*3600));
+  const hrs = Math.floor((s%(24*3600))/3600);
+  const mins = Math.floor((s%3600)/60);
+  miniCount.textContent = `Back in: ${days}d ${pad(hrs)}h ${pad(mins)}m`;
+}
+updateMini(); setInterval(updateMini,15000);
+
+/* maintenance countdown */
 function updateMaintenance(){
   const now = new Date();
   let diff = targetDate - now;
   if(diff <= 0){
-    // hide overlay, show chooser
     hideMaintenance();
     return true;
   }
@@ -390,74 +470,53 @@ function updateMaintenance(){
   msecs.textContent = pad(seconds);
   return false;
 }
+function showMaintenance(){ maintenanceOverlay.style.display = 'flex'; maintenanceOverlay.style.opacity = '1'; maintenanceOverlay.style.visibility = 'visible'; }
+function hideMaintenance(){ maintenanceOverlay.style.opacity = '0'; maintenanceOverlay.style.visibility = 'hidden'; maintenanceOverlay.style.display = 'none'; showChooserOrTheme(); }
 
-function showMaintenance(){
-  maintenanceOverlay.style.display = 'flex';
-  maintenanceOverlay.style.opacity = '1';
-  maintenanceOverlay.style.visibility = 'visible';
-}
-
-function hideMaintenance(){
-  maintenanceOverlay.style.opacity = '0';
-  maintenanceOverlay.style.visibility = 'hidden';
-  maintenanceOverlay.style.display = 'none';
-  // after maintenance hide, show chooser or apply theme
-  showChooserOrTheme();
-}
-
-/* -------------------------
-   Chooser logic
-   ------------------------- */
+/* chooser logic */
 function showChooserOrTheme(){
   const saved = localStorage.getItem('vv-theme');
   if(saved){
     applyTheme(saved);
     return;
   }
-  // show chooser
   chooserOverlay.style.opacity = '1';
   chooserOverlay.style.visibility = 'visible';
   chooserOverlay.setAttribute('aria-hidden','false');
 }
 
-/* keyboard access */
-document.addEventListener('keydown', (e)=>{
-  if(chooserOverlay.style.visibility !== 'hidden'){
-    if(e.key === '1') selectTheme('futuristic');
-    if(e.key === '2') selectTheme('cinematic');
-  }
-});
-
-/* choose button handlers */
-chooseBtns.forEach(btn=>{
+/* chooser handlers */
+const chooseButtons = Array.from($$('.mode-card .btn.primary'));
+chooseButtons.forEach(btn=>{
   btn.addEventListener('click', (ev)=>{
     const theme = ev.currentTarget.dataset.theme;
     selectTheme(theme);
   });
 });
-
-/* clickable cards */
 chooserCards.forEach(card=>{
   card.addEventListener('click', ()=>{ const btn = card.querySelector('.btn.primary'); if(btn) selectTheme(btn.dataset.theme); });
 });
-
-/* skip choices */
-skipChoice.addEventListener('click', ()=>{
-  chooserOverlay.classList.add('hidden');
-  // default to futuristic visually
-  applyTheme('futuristic');
-});
-
-/* skip maintenance to chooser */
-skipToChooserBtn.addEventListener('click', ()=>{
-  hideMaintenance();
-});
+$('#skipChoice').addEventListener('click', ()=>{ chooserOverlay.classList.add('hidden'); applyTheme('futuristic'); });
+$('#skipToChooser').addEventListener('click', ()=>{ hideMaintenance(); });
 
 /* contact and notify */
-contactBtn.addEventListener('click', ()=>{ location.href = 'mailto:skytechplc@protonmail.com?subject=VinceVision%20Maintenance%20Access'; });
-notifyBtn.addEventListener('click', ()=>{ alert('Notification saved, we will notify visitors when site is live.'); });
+$('#contactBtn').addEventListener('click', ()=>{ location.href = 'mailto:skytechplc@protonmail.com?subject=VinceVision%20Maintenance%20Access'; });
+$('#notifyBtn').addEventListener('click', ()=>{ alert('Demo: notification saved'); });
 
-/* select theme */
+/* keyboard shortcuts */
+document.addEventListener('keydown', (e)=>{
+  if(chooserOverlay.style.visibility !== 'hidden'){
+    if(e.key === '1') selectTheme('futuristic');
+    if(e.key === '2') selectTheme('cinematic');
+  }
+  if(e.key === 'Escape'){
+    if(chooserOverlay && chooserOverlay.style.visibility !== 'hidden'){
+      chooserOverlay.style.opacity = 0; chooserOverlay.style.visibility = 'hidden';
+    }
+  }
+});
+
+/* theme selection and persistence */
 function selectTheme(theme){
   if(!theme) return;
   localStorage.setItem('vv-theme', theme);
@@ -465,23 +524,17 @@ function selectTheme(theme){
   applyTheme(theme);
 }
 
-/* -------------------------
-   Theme application
-   ------------------------- */
-const themeAppliers = {
-  futuristic(){
-    document.body.classList.remove('theme-cinematic');
+/* theme apply, start/stop visuals and audio */
+function applyTheme(theme){
+  stopParticles(); stopStreaks();
+  document.body.classList.remove('theme-futuristic','theme-cinematic');
+  if(theme === 'futuristic'){
     document.body.classList.add('theme-futuristic');
-    // visuals
     $('#particles').style.display = 'block';
     $('#streaks').style.display = 'none';
     startParticles();
-    stopStreaks();
-    // audio
     resumeAudio('fut');
-  },
-  cinematic(){
-    document.body.classList.remove('theme-futuristic');
+  } else {
     document.body.classList.add('theme-cinematic');
     $('#particles').style.display = 'none';
     $('#streaks').style.display = 'block';
@@ -489,121 +542,50 @@ const themeAppliers = {
     startStreaks();
     resumeAudio('cine');
   }
-};
-
-function applyTheme(theme){
-  // stop all visual loops
-  stopParticles();
-  stopStreaks();
-  // apply
-  if(theme === 'futuristic') themeAppliers.futuristic();
-  else themeAppliers.cinematic();
 }
 
-/* -------------------------
-   Audio control
-   ------------------------- */
-function resumeAudio(which){
-  // audio muted by default, only play if unmuted
-  audioFut.pause(); audioCine.pause();
-  audioFut.currentTime = 0; audioCine.currentTime = 0;
-  if(isAudioMuted) return;
-  if(which === 'fut'){ audioFut.play().catch(()=>{}); }
-  if(which === 'cine'){ audioCine.play().catch(()=>{}); }
-}
-
-function toggleAudio(){
-  isAudioMuted = !isAudioMuted;
-  localStorage.setItem('vv-audio-muted', isAudioMuted ? '1' : '0');
-  audioToggle.textContent = isAudioMuted ? '🔈 muted' : '🔊 unmuted';
-  audioToggleSmall.textContent = isAudioMuted ? '🔈 muted' : '🔊 unmuted';
-  // apply current theme audio
-  const theme = localStorage.getItem('vv-theme') || 'futuristic';
-  if(isAudioMuted){
-    audioFut.pause(); audioCine.pause();
-  } else {
-    if(theme === 'futuristic') audioFut.play().catch(()=>{});
-    else audioCine.play().catch(()=>{});
-  }
-}
-
-/* attach audio toggle */
-audioToggle.addEventListener('click', toggleAudio);
-audioToggleSmall.addEventListener('click', toggleAudio);
-
-/* restore audio preference */
+/* audio preferences */
 (function restoreAudioPref(){
   const pref = localStorage.getItem('vv-audio-muted');
   if(pref === '0') isAudioMuted = false;
   else isAudioMuted = true;
   audioToggle.textContent = isAudioMuted ? '🔈 muted' : '🔊 unmuted';
-  audioToggleSmall.textContent = isAudioMuted ? '🔈 muted' : '🔊 unmuted';
+  if($('#toggleMuteSmall')) $('#toggleMuteSmall').textContent = isAudioMuted ? '🔈 muted' : '🔊 unmuted';
 })();
+function resumeAudio(which){
+  audioFut.pause(); audioCine.pause();
+  audioFut.currentTime = 0; audioCine.currentTime = 0;
+  if(isAudioMuted) return;
+  if(which === 'fut') audioFut.play().catch(()=>{});
+  if(which === 'cine') audioCine.play().catch(()=>{});
+}
+function toggleAudio(){
+  isAudioMuted = !isAudioMuted;
+  localStorage.setItem('vv-audio-muted', isAudioMuted ? '1' : '0');
+  audioToggle.textContent = isAudioMuted ? '🔈 muted' : '🔊 unmuted';
+  if($('#toggleMuteSmall')) $('#toggleMuteSmall').textContent = isAudioMuted ? '🔈 muted' : '🔊 unmuted';
+  const theme = localStorage.getItem('vv-theme') || 'futuristic';
+  if(isAudioMuted){ audioFut.pause(); audioCine.pause(); }
+  else { if(theme === 'futuristic') audioFut.play().catch(()=>{}); else audioCine.play().catch(()=>{}); }
+}
+audioToggle.addEventListener('click', toggleAudio);
+if($('#toggleMuteSmall')) $('#toggleMuteSmall').addEventListener('click', toggleAudio);
 
-/* header theme button to change theme later */
-themeBtnHeader.addEventListener('click', ()=>{
-  // show chooser again
+/* header theme button */
+themeButton.addEventListener('click', ()=>{
   chooserOverlay.style.opacity = '1';
   chooserOverlay.style.visibility = 'visible';
+  chooserOverlay.classList.remove('hidden');
 });
 
-/* -------------------------
-   Services render
-   ------------------------- */
-const services = [
-  {title:'Website Design', desc:'Modern, responsive websites tailored to your brand.'},
-  {title:'Logo Design', desc:'Brand identity and professional logos.'},
-  {title:'Mobile Apps', desc:'iOS and Android app development.'},
-  {title:'Graphic Design', desc:'Posters, banners, social assets.'},
-  {title:'Digital Marketing', desc:'SEO, ads, and social growth.'},
-  {title:'Custom Software', desc:'Bespoke software systems.'},
-  {title:'IT Consulting', desc:'Strategic technology consulting.'},
-  {title:'Cybersecurity', desc:'Security audits and protection.'},
-  {title:'Cloud Computing', desc:'AWS, Azure, GCP solutions.'},
-  {title:'Video Editing', desc:'Creative content and post production.'},
-  {title:'Forex Trading & Courses', desc:'Trading strategies and coaching.'}
-];
-
-function renderServices(){
-  servicesGrid.innerHTML = '';
-  services.forEach(s=>{
-    const div = document.createElement('div');
-    div.className = 'service-card';
-    div.innerHTML = `<h2>${s.title}</h2><p>${s.desc}</p>`;
-    servicesGrid.appendChild(div);
-  });
-}
-
-/* -------------------------
-   Mini countdown in hero
-   ------------------------- */
-function updateMini(){
-  const now = new Date();
-  const diff = targetDate - now;
-  if(diff <= 0){ miniCount.textContent = 'We are live'; return; }
-  const s = Math.floor(diff/1000);
-  const days = Math.floor(s/(24*3600));
-  const hrs = Math.floor((s%(24*3600))/3600);
-  const mins = Math.floor((s%3600)/60);
-  miniCount.textContent = `Back in: ${days}d ${pad(hrs)}h ${pad(mins)}m`;
-}
-
-/* -------------------------
-   PARTICLES system for Futuristic mode
-   lightweight, CPU conscious
-   ------------------------- */
-let particlesCanvas, pCtx, particleList = [], particleLoop;
+/* particles for futuristic */
 function startParticles(){
   particlesCanvas = $('#particles');
   particlesCanvas.style.display = 'block';
   pCtx = particlesCanvas.getContext('2d');
-  function resize(){
-    particlesCanvas.width = innerWidth;
-    particlesCanvas.height = innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-  particleList = [];
+  function resize(){ particlesCanvas.width = innerWidth; particlesCanvas.height = innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  let particleList = [];
   const count = Math.max(40, Math.floor((innerWidth*innerHeight)/120000));
   for(let i=0;i<count;i++){
     particleList.push({
@@ -618,12 +600,9 @@ function startParticles(){
   cancelAnimationFrame(particleLoop);
   function frame(){
     pCtx.clearRect(0,0,particlesCanvas.width,particlesCanvas.height);
-    // subtle background overlay
     const g = pCtx.createLinearGradient(0,0,particlesCanvas.width,particlesCanvas.height);
-    g.addColorStop(0, 'rgba(2,6,20,0.12)');
-    g.addColorStop(1, 'rgba(5,27,51,0.06)');
+    g.addColorStop(0,'rgba(2,6,20,0.12)'); g.addColorStop(1,'rgba(5,27,51,0.06)');
     pCtx.fillStyle = g; pCtx.fillRect(0,0,particlesCanvas.width,particlesCanvas.height);
-    // draw particles
     for(let p of particleList){
       p.x += p.vx; p.y += p.vy;
       if(p.x < -10) p.x = particlesCanvas.width + 10;
@@ -634,7 +613,6 @@ function startParticles(){
       pCtx.fillStyle = `rgba(33,182,255,${p.a})`;
       pCtx.arc(p.x,p.y,p.r,0,Math.PI*2); pCtx.fill();
     }
-    // subtle interconnect lines for nearby points, limited checks
     for(let i=0;i<particleList.length;i++){
       const a = particleList[i];
       for(let j=i+1;j<particleList.length;j++){
@@ -653,15 +631,9 @@ function startParticles(){
   }
   frame();
 }
+function stopParticles(){ if(particleLoop) cancelAnimationFrame(particleLoop); if(particlesCanvas) particlesCanvas.style.display = 'none'; }
 
-function stopParticles(){
-  if(particleLoop) cancelAnimationFrame(particleLoop);
-  if(particlesCanvas) particlesCanvas.style.display = 'none';
-}
-
-/* -------------------------
-   Cinematic streaks
-   ------------------------- */
+/* cinematic streaks */
 function startStreaks(){
   const st = $('#streaks');
   st.style.display = 'block';
@@ -689,17 +661,9 @@ function startStreaks(){
     setTimeout(()=>{ k.style.opacity = '0'; k.style.transform = `translateX(-40px) rotate(${(-30 + Math.random()*60)}deg)`; }, 1100);
   }, 700);
 }
+function stopStreaks(){ const st = $('#streaks'); if(streakInterval) clearInterval(streakInterval); st.style.display = 'none'; st.innerHTML = ''; }
 
-function stopStreaks(){
-  const st = $('#streaks');
-  if(streakInterval) clearInterval(streakInterval);
-  st.style.display = 'none';
-  st.innerHTML = '';
-}
-
-/* -------------------------
-   Preview canvas animation for chooser
-   ------------------------- */
+/* chooser preview canvas */
 (function drawPreview(){
   const c = document.getElementById('previewFut');
   if(!c) return;
@@ -722,141 +686,209 @@ function stopStreaks(){
   r();
 })();
 
-/* -------------------------
-   Small UI wiring
-   ------------------------- */
-$('#year').textContent = new Date().getFullYear();
-renderServices();
+/* section in-view observer */
+const sectionObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in-view'); });
+},{threshold:0.12});
+$$('.section').forEach(s => sectionObserver.observe(s));
 
-/* local time */
-function updateLocalTime(){
-  localTimeEl.textContent = new Date().toLocaleString('en-US', {timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone});
-}
-updateLocalTime(); setInterval(updateLocalTime,1000);
-
-/* mini countdown */
-updateMini(); setInterval(updateMini,15000);
-
-/* maintenance flow init */
-(function initFlow(){
+/* init */
+function init(){
+  renderServicesGrid();
   const now = new Date();
   if(now < targetDate){
-    // show maintenance overlay and countdown
     showMaintenance();
     updateMaintenance();
     const interval = setInterval(()=>{
       const finished = updateMaintenance();
-      if(finished){
-        clearInterval(interval);
-      }
+      if(finished) clearInterval(interval);
     }, 1000);
   } else {
-    // time passed, show chooser or apply saved theme
     const saved = localStorage.getItem('vv-theme');
-    if(saved){
-      applyTheme(saved);
-    } else {
-      chooserOverlay.style.opacity = '1';
-      chooserOverlay.style.visibility = 'visible';
-    }
+    if(saved){ applyTheme(saved); }
+    else { chooserOverlay.style.opacity = '1'; chooserOverlay.style.visibility = 'visible'; }
   }
-})();
+  // set Whatsapp float link
+  updateWAFloat();
+}
+init();
 
-/* hide chooser on load if saved */
+/* resume theme after load */
 window.addEventListener('load', ()=>{
   const saved = localStorage.getItem('vv-theme');
   if(saved && new Date() >= targetDate){
     chooserOverlay.classList.add('hidden');
     applyTheme(saved);
   }
-  // resume audio on first user gesture
-  document.addEventListener('click', function resumeOnce(){
+  function resumeOnce(){
     const t = localStorage.getItem('vv-theme') || 'futuristic';
     if(!isAudioMuted){
       if(t === 'futuristic') audioFut.play().catch(()=>{});
       else audioCine.play().catch(()=>{});
     }
     document.removeEventListener('click', resumeOnce);
-  });
+  }
+  document.addEventListener('click', resumeOnce);
 });
 
-/* Accessibility: Escape hides chooser */
-document.addEventListener('keydown', (e)=>{
-  if(e.key === 'Escape'){
-    if(chooserOverlay && chooserOverlay.style.visibility !== 'hidden'){
-      chooserOverlay.style.opacity = 0;
-      chooserOverlay.style.visibility = 'hidden';
+/* ============================
+   SEARCH: Option 2, local JSON
+   instant suggestions, scroll to same page sections
+   ============================ */
+function normalize(s){ return (s || '').toLowerCase().replace(/[^a-z0-9\s]/g,'').trim(); }
+
+function searchIndexQuery(q){
+  if(!q || q.trim().length === 0) return [];
+  const nq = normalize(q);
+  const results = [];
+  for(const item of searchIndex){
+    const title = normalize(item.title);
+    const excerpt = normalize(item.excerpt || '');
+    let score = 0;
+    if(title.includes(nq)) score += 50;
+    if(excerpt.includes(nq)) score += 20;
+    if(item.type && item.type.includes(nq)) score += 10;
+    if(title.split(' ').some(w => w.startsWith(nq))) score += 8;
+    if(score > 0) results.push({...item, score});
+  }
+  for(const s of services){
+    const title = normalize(s.title);
+    const desc = normalize(s.desc || '');
+    let score = 0;
+    if(title.includes(nq)) score += 60;
+    if(desc.includes(nq)) score += 20;
+    if(score > 0) results.push({id:s.id, title:`Service, ${s.title}`, type:'service', excerpt:s.desc, score});
+  }
+  results.sort((a,b)=>b.score - a.score);
+  const out = [];
+  const seen = new Set();
+  for(const r of results){
+    const key = r.id + '||' + r.title;
+    if(!seen.has(key)){ seen.add(key); out.push(r); }
+    if(out.length >= 8) break;
+  }
+  return out;
+}
+
+function renderSearchResults(items, query){
+  if(!items || items.length === 0){
+    searchResults.style.display = 'none';
+    searchResults.innerHTML = '';
+    return;
+  }
+  const html = items.map(it=>{
+    const titleEsc = it.title.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const nq = normalize(query);
+    const highlighted = titleEsc.replace(new RegExp('('+nq.split(' ').join('|')+')','ig'), '<span class="search-hit">$1</span>');
+    // if service, add quote button in result
+    if(it.type === 'service'){
+      const serviceName = it.title.split(',').slice(-1)[0].trim();
+      return `<div class="search-item" role="option" data-target="${it.id}" data-title="${it.title}">
+                <div style="flex:1">
+                  <div style="font-weight:700">${highlighted}</div>
+                  <div style="color:var(--muted);font-size:.9rem">${it.excerpt || ''}</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:.5rem">
+                  <button class="search-quote" data-service="${serviceName}">Quote</button>
+                </div>
+              </div>`;
+    } else {
+      return `<div class="search-item" role="option" data-target="${it.id}" data-title="${it.title}">
+                <div style="flex:1">
+                  <div style="font-weight:700">${highlighted}</div>
+                  <div style="color:var(--muted);font-size:.9rem">${it.excerpt || ''}</div>
+                </div>
+              </div>`;
     }
+  }).join('');
+  searchResults.innerHTML = html;
+  searchResults.style.display = 'block';
+}
+
+/* click on result: scroll or quote */
+searchResults.addEventListener('click', (e)=>{
+  const quoteBtn = e.target.closest('.search-quote');
+  if(quoteBtn){
+    const service = quoteBtn.dataset.service || 'service';
+    openWhatsAppForService(service);
+    return;
+  }
+  const item = e.target.closest('.search-item');
+  if(!item) return;
+  const id = item.dataset.target;
+  scrollToId(id);
+  searchResults.style.display = 'none';
+  searchInput.value = '';
+});
+
+/* keyboard control */
+let highlightedIndex = -1;
+searchInput.addEventListener('keydown', (e)=>{
+  const items = Array.from(searchResults.querySelectorAll('.search-item'));
+  if(searchResults.style.display === 'block' && items.length){
+    if(e.key === 'ArrowDown'){ e.preventDefault(); highlightedIndex = Math.min(highlightedIndex+1, items.length-1); updateHighlight(items); }
+    if(e.key === 'ArrowUp'){ e.preventDefault(); highlightedIndex = Math.max(highlightedIndex-1, 0); updateHighlight(items); }
+    if(e.key === 'Enter'){ e.preventDefault(); if(highlightedIndex >= 0) items[highlightedIndex].click(); }
+    if(e.key === 'Escape'){ searchResults.style.display = 'none'; searchInput.blur(); }
+  }
+});
+function updateHighlight(items){
+  items.forEach((it,i)=> it.style.background = i === highlightedIndex ? 'rgba(255,255,255,0.03)' : 'transparent');
+}
+
+/* input listener */
+let searchDebounce;
+searchInput.addEventListener('input', (e)=>{
+  const q = e.target.value;
+  highlightedIndex = -1;
+  clearTimeout(searchDebounce);
+  searchDebounce = setTimeout(()=>{
+    if(!q || q.trim().length === 0){ searchResults.style.display = 'none'; searchResults.innerHTML = ''; return; }
+    const results = searchIndexQuery(q);
+    renderSearchResults(results, q);
+  }, 140);
+});
+
+/* hide dropdown on outside click */
+document.addEventListener('click', (e)=>{
+  if(!e.target.closest('.search-wrap')){ searchResults.style.display = 'none'; }
+});
+
+/* scroll helper */
+function scrollToId(id){
+  const el = document.getElementById(id);
+  if(!el){
+    window.scrollTo({top:0, behavior:'smooth'});
+    return;
+  }
+  const top = el.getBoundingClientRect().top + window.scrollY - 86;
+  window.scrollTo({top, behavior:'smooth'});
+  el.animate([{boxShadow:'0 0 0 0 rgba(212,175,55,0.0)'},{boxShadow:'0 10px 40px rgba(212,175,55,0.12)'}], {duration:900, easing:'ease'});
+}
+
+/* update year */
+$('#year').textContent = new Date().getFullYear();
+
+/* update WA floating button URL based on theme or to include quick text */
+function updateWAFloat(){
+  const quickMessage = 'Hello VinceVision, I would like to inquire about your services.';
+  waFloatLink.href = `${WA_BASE}?text=${encodeURIComponent(quickMessage)}`;
+  waFloatLink.target = '_blank';
+}
+
+/* attach click handlers to service quotes after grid render (renderServicesGrid sets them) */
+document.addEventListener('click', (e)=>{
+  if(e.target.matches('.get-quote')){
+    const svc = e.target.dataset.service;
+    openWhatsAppForService(svc);
   }
 });
 
-/* -------------------------
-   Stop visual loops before switching themes
-   ------------------------- */
-function stopVisuals(){
-  stopParticles();
-  stopStreaks();
-}
-const origApplyTheme = applyTheme;
-applyTheme = function(theme){
-  stopVisuals();
-  origApplyTheme(theme);
-};
+/* responsive & resize */
+let resizeTO;
+window.addEventListener('resize', ()=>{ clearTimeout(resizeTO); resizeTO = setTimeout(()=>{ if(document.body.classList.contains('theme-futuristic')) startParticles(); }, 300); });
 
-/* -------------------------
-   Expose audio toggle in header
-   ------------------------- */
-audioToggle.addEventListener('click', ()=>{ toggleAudio(); });
-function toggleAudio(){
-  isAudioMuted = !isAudioMuted;
-  localStorage.setItem('vv-audio-muted', isAudioMuted ? '1' : '0');
-  audioToggle.textContent = isAudioMuted ? '🔈 muted' : '🔊 unmuted';
-  audioToggleSmall.textContent = isAudioMuted ? '🔈 muted' : '🔊 unmuted';
-  // play/pause according to the current theme
-  const current = localStorage.getItem('vv-theme') || 'futuristic';
-  if(isAudioMuted){
-    audioFut.pause(); audioCine.pause();
-  } else {
-    if(current === 'futuristic'){ audioFut.play().catch(()=>{}); audioCine.pause(); }
-    else { audioCine.play().catch(()=>{}); audioFut.pause(); }
-  }
-}
-
-/* small helper to render services */
-function renderServices(){
-  servicesGrid.innerHTML = '';
-  services.forEach(s=>{
-    const div = document.createElement('div');
-    div.className = 'service-card';
-    div.innerHTML = `<h2>${s.title}</h2><p>${s.desc}</p>`;
-    servicesGrid.appendChild(div);
-  });
-}
-
-/* Initialize audio pref from storage */
-(function audioPref(){
-  const pref = localStorage.getItem('vv-audio-muted');
-  if(pref === '0') isAudioMuted = false;
-  else isAudioMuted = true;
-  audioToggle.textContent = isAudioMuted ? '🔈 muted' : '🔊 unmuted';
-  audioToggleSmall.textContent = isAudioMuted ? '🔈 muted' : '🔊 unmuted';
-})();
-
-/* Small touch: animate sections into view when scrolled */
-const sectionObserver = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add('in-view');
-    }
-  });
-},{threshold:0.12});
-$$('.section').forEach(s => sectionObserver.observe(s));
-
-/* quick keyboard hints */
-document.addEventListener('keydown', (e)=>{
-  if(e.key === '1') selectTheme('futuristic');
-  if(e.key === '2') selectTheme('cinematic');
-});
+/* finished init */
 </script>
 </body>
 </html>
