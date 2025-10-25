@@ -6,7 +6,7 @@
 <title>VinceVision — Premium Tech Solutions</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-  /* reset & vars, no m dashes used, use commas or colons */
+  /* reset & vars, use commas or colons not m dashes */
   :root{
     --bg:#05060a;
     --muted:#9aa0a6;
@@ -41,6 +41,10 @@
   .btn{padding:.45rem .65rem;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit;font-weight:600}
   .btn.primary{background:var(--gold);color:#000;border-color:transparent}
   .audio-toggle{padding:.45rem;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.04)}
+
+  /* mobile hamburger */
+  .hamburger{display:none;background:transparent;border:none;color:inherit;font-size:1.15rem;padding:.5rem;border-radius:8px}
+  .hamburger:focus{outline:2px solid rgba(255,255,255,0.06)}
 
   /* overlays */
   .overlay{
@@ -137,12 +141,32 @@
   .wa-label{display:none}
   @media(min-width:900px){ .wa-label{display:inline-block;margin-left:.6rem;font-weight:700;color:#fff} }
 
+  /* mobile drawer: frosted glass left slide in */
+  .mobile-drawer{
+    position:fixed;left:0;top:0;bottom:0;width:320px;max-width:86vw;z-index:140;
+    transform:translateX(-110%);transition:transform .36s var(--transition);backdrop-filter:blur(12px);
+    background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));box-shadow:0 30px 80px rgba(0,0,0,0.6);padding:1rem;border-right:1px solid rgba(255,255,255,0.03);
+  }
+  .mobile-drawer.open{transform:translateX(0)}
+  .drawer-close{position:absolute;right:12px;top:12px;background:transparent;border:none;color:inherit;padding:.5rem}
+  .drawer-nav{display:flex;flex-direction:column;gap:.6rem;margin-top:1rem}
+  .drawer-nav a{padding:.6rem .8rem;border-radius:10px}
+  .drawer-search{margin-top:.8rem}
+  .drawer-footer{position:absolute;left:0;right:0;bottom:0;padding:1rem;border-top:1px solid rgba(255,255,255,0.02);display:flex;gap:.6rem;align-items:center;justify-content:space-between}
+
+  /* responsive */
   @media (max-width:920px){
+    nav{display:none}
+    .hamburger{display:inline-flex}
+    .search-input{display:none}
+    .header-right{gap:.4rem}
+    #local-time{display:none}
     .chooser{grid-template-columns:1fr;padding:1rem}
     .hero{flex-direction:column;gap:1.2rem}
     header{padding:0 .6rem}
     .search-results{right:auto;left:0;width:calc(100% - 40px)}
   }
+
 </style>
 </head>
 <body>
@@ -234,15 +258,46 @@
   <canvas id="particles" aria-hidden="true" style="display:none"></canvas>
   <div id="streaks" class="streak-wrap" aria-hidden="true" style="display:none"></div>
 
+  <!-- mobile drawer -->
+  <div id="mobileDrawer" class="mobile-drawer" aria-hidden="true" aria-label="Mobile menu">
+    <button id="drawerClose" class="drawer-close" aria-label="Close menu"><i class="fas fa-times"></i></button>
+    <div style="display:flex;align-items:center;gap:.6rem">
+      <div class="logo" style="font-size:1.05rem"><i class="fas fa-check-circle"></i>VinceVision</div>
+    </div>
+    <div class="drawer-search">
+      <input id="drawerSearch" class="search-input" type="text" placeholder="Search services..." aria-label="Search in menu" />
+    </div>
+    <nav class="drawer-nav" aria-label="Mobile navigation">
+      <a href="#home" data-close>Home</a>
+      <a href="#services" data-close>Services</a>
+      <a href="#ceo" data-close>About CEO</a>
+      <a href="#contact" data-close>Contact</a>
+      <button id="drawerThemeToggle" class="btn" style="margin-top:.6rem">Change theme</button>
+    </nav>
+    <div class="drawer-footer">
+      <div>
+        <button id="drawerAudioToggle" class="btn audio-toggle">🔈 muted</button>
+      </div>
+      <div>
+        <a id="drawerWa" class="btn primary" href="#" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
   <!-- header -->
   <header>
-    <div class="logo"><i class="fas fa-check-circle"></i>VinceVision</div>
+    <div style="display:flex;align-items:center;gap:.6rem">
+      <button class="hamburger" id="hamburgerBtn" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+      <div class="logo"><i class="fas fa-check-circle"></i>VinceVision</div>
+    </div>
+
     <nav aria-label="Main navigation">
       <a href="#home">Home</a>
       <a href="#services">Services</a>
       <a href="#ceo">About CEO</a>
       <a href="#contact">Contact</a>
     </nav>
+
     <div class="header-right">
       <div class="search-wrap" style="position:relative">
         <input id="search" class="search-input" type="text" placeholder="Search services, about, contact..." aria-label="Search services" />
@@ -329,7 +384,7 @@ const $$ = s => Array.from(document.querySelectorAll(s));
 const pad = n => String(n).padStart(2, '0');
 
 /* WhatsApp config */
-const WA_NUMBER = '254742850266'; // international format without plus, for wa.me
+const WA_NUMBER = '254742850266';
 const WA_BASE = `https://wa.me/${WA_NUMBER}`;
 
 /* maintenance target: 2025-10-25 03:00:00 +03:00 Nairobi */
@@ -344,7 +399,6 @@ const notifyBtn = $('#notifyBtn');
 const contactBtn = $('#contactBtn');
 
 const chooserOverlay = $('#chooserOverlay');
-const chooseBtns = Array.from($$('.mode-card .btn.primary'));
 const chooserCards = $$('.mode-card');
 const skipChoice = $('#skipChoice');
 
@@ -361,9 +415,13 @@ const searchResults = $('#searchResults');
 const waFloat = $('#waFloat');
 const waFloatLink = $('#waFloatLink');
 
-let isAudioMuted = true;
-let particleLoop, streakInterval;
-let particlesCanvas, pCtx;
+const hamburgerBtn = $('#hamburgerBtn');
+const mobileDrawer = $('#mobileDrawer');
+const drawerClose = $('#drawerClose');
+const drawerSearch = $('#drawerSearch');
+const drawerAudioToggle = $('#drawerAudioToggle');
+const drawerWa = $('#drawerWa');
+const drawerThemeToggle = $('#drawerThemeToggle');
 
 /* site data for search */
 const searchIndex = [
@@ -401,7 +459,6 @@ const services = [
 function openWhatsAppForService(serviceTitle){
   const message = `Hello VinceVision, I am interested in getting a quote for your ${serviceTitle}.`;
   const url = `${WA_BASE}?text=${encodeURIComponent(message)}`;
-  // open in new tab
   window.open(url, '_blank');
 }
 
@@ -421,7 +478,6 @@ function renderServicesGrid(){
     grid.appendChild(div);
   });
 
-  // attach listeners for Get Quote
   Array.from(document.querySelectorAll('.get-quote')).forEach(btn=>{
     btn.addEventListener('click', (e)=>{
       const service = e.currentTarget.dataset.service || 'service';
@@ -486,8 +542,7 @@ function showChooserOrTheme(){
 }
 
 /* chooser handlers */
-const chooseButtons = Array.from($$('.mode-card .btn.primary'));
-chooseButtons.forEach(btn=>{
+Array.from($$('.mode-card .btn.primary')).forEach(btn=>{
   btn.addEventListener('click', (ev)=>{
     const theme = ev.currentTarget.dataset.theme;
     selectTheme(theme);
@@ -542,6 +597,7 @@ function applyTheme(theme){
     startStreaks();
     resumeAudio('cine');
   }
+  updateWAFloat();
 }
 
 /* audio preferences */
@@ -552,6 +608,7 @@ function applyTheme(theme){
   audioToggle.textContent = isAudioMuted ? '🔈 muted' : '🔊 unmuted';
   if($('#toggleMuteSmall')) $('#toggleMuteSmall').textContent = isAudioMuted ? '🔈 muted' : '🔊 unmuted';
 })();
+let isAudioMuted = true;
 function resumeAudio(which){
   audioFut.pause(); audioCine.pause();
   audioFut.currentTime = 0; audioCine.currentTime = 0;
@@ -564,12 +621,14 @@ function toggleAudio(){
   localStorage.setItem('vv-audio-muted', isAudioMuted ? '1' : '0');
   audioToggle.textContent = isAudioMuted ? '🔈 muted' : '🔊 unmuted';
   if($('#toggleMuteSmall')) $('#toggleMuteSmall').textContent = isAudioMuted ? '🔈 muted' : '🔊 unmuted';
+  if($('#drawerAudioToggle')) $('#drawerAudioToggle').textContent = isAudioMuted ? '🔈 muted' : '🔊 unmuted';
   const theme = localStorage.getItem('vv-theme') || 'futuristic';
   if(isAudioMuted){ audioFut.pause(); audioCine.pause(); }
   else { if(theme === 'futuristic') audioFut.play().catch(()=>{}); else audioCine.play().catch(()=>{}); }
 }
 audioToggle.addEventListener('click', toggleAudio);
 if($('#toggleMuteSmall')) $('#toggleMuteSmall').addEventListener('click', toggleAudio);
+if($('#drawerAudioToggle')) $('#drawerAudioToggle').addEventListener('click', toggleAudio);
 
 /* header theme button */
 themeButton.addEventListener('click', ()=>{
@@ -579,6 +638,7 @@ themeButton.addEventListener('click', ()=>{
 });
 
 /* particles for futuristic */
+let particleLoop, streakInterval, particlesCanvas, pCtx;
 function startParticles(){
   particlesCanvas = $('#particles');
   particlesCanvas.style.display = 'block';
@@ -708,12 +768,11 @@ function init(){
     if(saved){ applyTheme(saved); }
     else { chooserOverlay.style.opacity = '1'; chooserOverlay.style.visibility = 'visible'; }
   }
-  // set Whatsapp float link
   updateWAFloat();
 }
 init();
 
-/* resume theme after load */
+/* resume theme after load, user interaction starter for audio */
 window.addEventListener('load', ()=>{
   const saved = localStorage.getItem('vv-theme');
   if(saved && new Date() >= targetDate){
@@ -780,7 +839,6 @@ function renderSearchResults(items, query){
     const titleEsc = it.title.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     const nq = normalize(query);
     const highlighted = titleEsc.replace(new RegExp('('+nq.split(' ').join('|')+')','ig'), '<span class="search-hit">$1</span>');
-    // if service, add quote button in result
     if(it.type === 'service'){
       const serviceName = it.title.split(',').slice(-1)[0].trim();
       return `<div class="search-item" role="option" data-target="${it.id}" data-title="${it.title}">
@@ -849,6 +907,54 @@ searchInput.addEventListener('input', (e)=>{
   }, 140);
 });
 
+/* drawer search, mirrors main search */
+if(drawerSearch){
+  let drawerDeb;
+  drawerSearch.addEventListener('input', (e)=>{
+    clearTimeout(drawerDeb);
+    drawerDeb = setTimeout(()=>{
+      const q = e.target.value;
+      const results = searchIndexQuery(q);
+      // show small list in drawer under input, simple, click scroll or quote
+      const containerId = 'drawerResults';
+      let container = document.getElementById(containerId);
+      if(!container){
+        container = document.createElement('div'); container.id = containerId; container.style.marginTop = '.6rem'; container.style.maxHeight = '42vh'; container.style.overflowY = 'auto';
+        document.querySelector('.mobile-drawer').insertBefore(container, document.querySelector('.drawer-footer'));
+      }
+      if(!q){ container.innerHTML = ''; return; }
+      container.innerHTML = results.map(it=>{
+        if(it.type === 'service'){
+          const serviceName = it.title.split(',').slice(-1)[0].trim();
+          return `<div style="padding:.6rem;border-radius:8px;margin:.25rem 0;background:rgba(255,255,255,0.01);display:flex;justify-content:space-between;align-items:center">
+                    <div><strong>${it.title}</strong><div style="color:var(--muted);font-size:.9rem">${it.excerpt || ''}</div></div>
+                    <div style="display:flex;flex-direction:column;gap:.4rem">
+                      <button data-service="${serviceName}" class="drawer-quote btn" style="padding:.35rem .5rem">Quote</button>
+                      <button data-target="${it.id}" class="drawer-scroll btn" style="padding:.35rem .5rem">Go</button>
+                    </div>
+                  </div>`;
+        } else {
+          return `<div style="padding:.6rem;border-radius:8px;margin:.25rem 0;background:rgba(255,255,255,0.01);display:flex;justify-content:space-between;align-items:center">
+                    <div><strong>${it.title}</strong><div style="color:var(--muted);font-size:.9rem">${it.excerpt || ''}</div></div>
+                    <div><button data-target="${it.id}" class="drawer-scroll btn" style="padding:.35rem .5rem">Go</button></div>
+                  </div>`;
+        }
+      }).join('');
+    }, 160);
+  });
+
+  // delegate drawer clicks
+  document.addEventListener('click', (e)=>{
+    if(e.target.matches('.drawer-quote')){
+      openWhatsAppForService(e.target.dataset.service || 'service');
+    }
+    if(e.target.matches('.drawer-scroll')){
+      const id = e.target.dataset.target;
+      if(id) { closeDrawer(); scrollToId(id); }
+    }
+  });
+}
+
 /* hide dropdown on outside click */
 document.addEventListener('click', (e)=>{
   if(!e.target.closest('.search-wrap')){ searchResults.style.display = 'none'; }
@@ -874,7 +980,17 @@ function updateWAFloat(){
   const quickMessage = 'Hello VinceVision, I would like to inquire about your services.';
   waFloatLink.href = `${WA_BASE}?text=${encodeURIComponent(quickMessage)}`;
   waFloatLink.target = '_blank';
+  if(drawerWa) drawerWa.href = waFloatLink.href;
 }
+
+/* drawer controls */
+function openDrawer(){ mobileDrawer.classList.add('open'); mobileDrawer.setAttribute('aria-hidden','false'); document.body.style.overflow = 'hidden'; }
+function closeDrawer(){ mobileDrawer.classList.remove('open'); mobileDrawer.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; }
+hamburgerBtn.addEventListener('click', openDrawer);
+drawerClose.addEventListener('click', closeDrawer);
+mobileDrawer.addEventListener('click', (e)=>{ if(e.target === mobileDrawer) closeDrawer(); });
+document.querySelectorAll('[data-close]').forEach(a => a.addEventListener('click', closeDrawer));
+drawerThemeToggle && drawerThemeToggle.addEventListener('click', ()=>{ chooserOverlay.style.opacity = '1'; chooserOverlay.style.visibility = 'visible'; chooserOverlay.classList.remove('hidden'); closeDrawer(); });
 
 /* attach click handlers to service quotes after grid render (renderServicesGrid sets them) */
 document.addEventListener('click', (e)=>{
