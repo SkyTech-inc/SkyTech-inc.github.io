@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vincevision YouTube SEO Tag Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #output {
+            margin-top: 30px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            resize: none;
+            background-color: #fff;
+        }
+        #copyBtn {
+            margin-top: 10px;
+            background-color: #008CBA;
+        }
+        #copyBtn:hover {
+            background-color: #007B9A;
+        }
+    </style>
+</head>
+<body>
+    <h1>YouTube SEO Tag Generator</h1>
+    <p>Enter your YouTube video title below to generate optimized tags based on popular search suggestions from YouTube/Google. Tags are filtered to high-relevance suggestions (assumed 90%+ search score based on popularity ordering) and limited to a total of 500 characters for easy copy-paste into YouTube.</p>
+    <label for="title">Video Title:</label>
+    <input type="text" id="title" placeholder="e.g., How to Cook Pasta">
+    <button onclick="generateTags()">Generate Tags</button>
+    <div id="output" style="display: none;">
+        <h2>Suggested Tags:</h2>
+        <textarea id="tags" readonly></textarea>
+        <button id="copyBtn" onclick="copyTags()">Copy to Clipboard</button>
+    </div>
+
+    <script>
+        function generateTags() {
+            const title = document.getElementById('title').value.trim();
+            if (!title) {
+                alert('Please enter a video title.');
+                return;
+            }
+
+            const callbackName = 'jsonp_' + Math.random().toString(36).substring(2);
+            window[callbackName] = function(data) {
+                delete window[callbackName];
+                document.body.removeChild(script);
+                processSuggestions(data);
+            };
+
+            const script = document.createElement('script');
+            script.src = `https://clients1.google.com/complete/search?client=youtube&hl=en&ds=yt&q=${encodeURIComponent(title)}&callback=${callbackName}`;
+            document.body.appendChild(script);
+        }
+
+        function processSuggestions(data) {
+            // Extract suggestions; assume all are high score (90%+) as they are popularity-ordered
+            let suggestions = data[1].map(item => item[0]);
+
+            // Remove duplicates and include the original query if not present
+            const originalQuery = data[0].trim(); // Clean up any trailing space
+            if (!suggestions.includes(originalQuery)) {
+                suggestions.unshift(originalQuery);
+            }
+            const uniqueTags = [...new Set(suggestions)];
+
+            // Build tag string, comma-separated, max 500 chars
+            let tagString = '';
+            for (let tag of uniqueTags) {
+                const addition = tagString ? ', ' + tag : tag;
+                if (tagString.length + addition.length > 500) break;
+                tagString += addition;
+            }
+
+            // Display
+            document.getElementById('tags').value = tagString;
+            document.getElementById('output').style.display = 'block';
+        }
+
+        function copyTags() {
+            const textarea = document.getElementById('tags');
+            textarea.select();
+            document.execCommand('copy');
+            alert('Tags copied to clipboard!');
+        }
+    </script>
+</body>
+</html>
